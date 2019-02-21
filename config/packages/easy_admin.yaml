@@ -37,6 +37,12 @@ easy_admin:
       form:
         fields:
           - title
+          - category
+          - author
+          - linkedConcept
           - { property: 'content', type: 'fos_ckeditor' }
     Categories:
       class: App\Entity\Category
+      form:
+        fields:
+          - name

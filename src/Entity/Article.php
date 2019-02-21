@@ -43,9 +43,15 @@ class Article
      */
     private $author;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Concepts", inversedBy="articles")
+     */
+    private $linkedConcept;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
+        $this->linkedConcept = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +129,32 @@ class Article
     public function setAuthor(?string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Concepts[]
+     */
+    public function getLinkedConcept(): Collection
+    {
+        return $this->linkedConcept;
+    }
+
+    public function addLinkedConcept(Concepts $linkedConcept): self
+    {
+        if (!$this->linkedConcept->contains($linkedConcept)) {
+            $this->linkedConcept[] = $linkedConcept;
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedConcept(Concepts $linkedConcept): self
+    {
+        if ($this->linkedConcept->contains($linkedConcept)) {
+            $this->linkedConcept->removeElement($linkedConcept);
+        }
 
         return $this;
     }
