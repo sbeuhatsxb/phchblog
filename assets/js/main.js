@@ -1186,14 +1186,11 @@ $j(document).ready(function () {
         $j(".sf-menu").toggleClass("hide")
     })
 });
-//]]></script>
-<!--Il est de votre ressort d\x27informer les visiteurs \xe0 propos des cookies utilis\xe9s et des donn\xe9es collect\xe9es sur votre blog. Blogger met \xe0 votre disposition une notification standard que vous pouvez personnaliser, remplacer ou afficher telle quelle sur votre blog. Rendez-vous sur http://www.blogger.com/go/cookiechoices pour obtenir de plus amples informations.-->
-<script defer='' src='/js/cookienotice.js'></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function(event) {
-      window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
-          (window.cookieOptions && cookieOptions.msg) || 'Ce site utilise des cookies provenant de Google pour fournir ses services et analyser le trafic. Votre adresse\xa0IP et votre user-agent, ainsi que des statistiques relatives aux performances et \xe0 la s\xe9curit\xe9, sont transmis \xe0 Google afin d\x27assurer un service de qualit\xe9, de g\xe9n\xe9rer des statistiques d\x27utilisation, et de d\xe9tecter et de r\xe9soudre les probl\xe8mes d\x27abus.',
-          (window.cookieOptions && cookieOptions.close) || 'OK',
-          (window.cookieOptions && cookieOptions.learn) || 'En savoir plus',
-          (window.cookieOptions && cookieOptions.link) || 'https://www.blogger.com/go/blogspot-cookies');
-    });
+
+document.addEventListener('DOMContentLoaded', function(event) {
+  window.cookieChoices && cookieChoices.showCookieConsentBar && cookieChoices.showCookieConsentBar(
+      (window.cookieOptions && cookieOptions.msg) || 'Ce site utilise des cookies provenant de Google pour fournir ses services et analyser le trafic. Votre adresse\xa0IP et votre user-agent, ainsi que des statistiques relatives aux performances et \xe0 la s\xe9curit\xe9, sont transmis \xe0 Google afin d\x27assurer un service de qualit\xe9, de g\xe9n\xe9rer des statistiques d\x27utilisation, et de d\xe9tecter et de r\xe9soudre les probl\xe8mes d\x27abus.',
+      (window.cookieOptions && cookieOptions.close) || 'OK',
+      (window.cookieOptions && cookieOptions.learn) || 'En savoir plus',
+      (window.cookieOptions && cookieOptions.link) || 'https://www.blogger.com/go/blogspot-cookies');
+});

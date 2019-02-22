@@ -1,12 +1,149 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+<html dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b'
+      xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}Welcome!{% endblock %}
+    </title>
+    <link href='https://www.blogger.com/static/v1/widgets/254310735-widget_css_bundle.css' rel='stylesheet' type='text/css'/>
+
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'/>
+    <!-- Description and Keywords (start) -->
+    <meta content='YOUR DESCRIPTION HERE' name='description'/>
+    <meta content='YOUR KEYWORDS HERE' name='keywords'/>
+    <!-- Description and Keywords (end) -->
+    <meta content='Reading' property='og:site_name'/>
+    <!-- Social Media meta tag need customer customization -->
+
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
+    <meta content='blogger' name='generator'/>
+    {#<meta content='http://reading-soratemplates.blogspot.com/' property='og:url'/>#}
+    <meta content='Reading' property='og:title'/>
+    <meta content='Responsive masonry blogger theme for everyone' property='og:description'/>
+
+
+    {% block stylesheets %}
+        <link href="//fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet" type="text/css">
+        <!-- Google Webfont -->
+        <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700' rel='stylesheet' type='text/css'/>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700,400italic,700italic' rel='stylesheet'
+              type='text/css'/>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
+        <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'
+              type='text/css'/>
+        <style type='text/css'>
+        </style>
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css">
+
+
+
+    {% endblock %}
+
+
     </head>
+
     <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+    <div class='top_wrapper'>
+        <div id='header-wrapper' itemscope='itemscope' itemtype='http://schema.org/WPHeader'>
+            <div class='ornament'>
+                <div class='container'>
+                    <div class='row'>
+                        <div class='header section' id='header'>
+                            <div class='widget Header' data-version='1' id='Header1'>
+                                <div id='header-inner'>
+                                    <div class='titlewrapper'>
+                                        <h1 class='title'>
+                                            <a href='https://reading-soratemplates.blogspot.com/' itemprop='url'><span itemprop='name'>
+                          <a href='https://reading-soratemplates.blogspot.com/'><span>
+                              Reading</span></a>
+                        </span></a>
+                                        </h1>
+                                    </div>
+                                    <div class='descriptionwrapper'>
+                                        <p class='description'><span>Responsive masonry blogger theme for everyone</span></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class='twelve'>
+                <div class='header_right'>
+                    <div class='menu-navigation-container' id='top_menu'>
+                        <ul class='sf-menu' id='mainmenu' itemscope='itemscope' itemtype='http://schema.org/SiteNavigationElement'>
+                            <li class='current-menu-item'><a href='/' itemprop='url'><span itemprop='name'>Home</span></a></li>
+                            <li><a href='#'>Drop Down</a>
+                                <ul class='sub-menu'>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                    <li><a href='#'>Submenu Example</a>
+                                        <ul>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                </ul>
+                            </li>
+                            <li><a href='http://www.sorabloggingtips.com' itemprop='url'><span itemprop='name'>Blog</span></a></li>
+                            <li><a href='http://www.sorabloggingtips.com/2016/10/how-to-setup-reading-blogger-template.html' itemprop='url'><span itemprop='name'>Documentation</span></a></li>
+                            <li><a href='http://www.soratemplates.com/p/seo-services.html' itemprop='url'><span itemprop='name'>Seo Service</span></a></li>
+                            <li><a href='http://www.soratemplates.com/2016/10/reading-blogger-templates.html' itemprop='url'><span itemprop='name'>Download This Template</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class='clear'></div>
+            </div>
+        </div>
+    </div>
+    <div class='clear'></div>
+    {% block body %}{% endblock %}
+
+    <style>
+        nav#social i {
+            padding: 15px 14px 25px;
+            font-size: 20px;
+        }
+
+        .rightf {
+            padding-top: 10px;
+        }
+    </style>
+
+    <div id='footer' itemscope='itemscope' itemtype='http://schema.org/WPFooter'>
+        <div class='container'>
+            <div class='row'>
+                <div class='twelve columns wrapper'>
+                    <nav id='social'>
+                        <a class='facebook' href='#' target='_blank'><i class='fa fa-facebook'></i></a>
+                        <a class='twitter' href='#' target='_blank'><i class='fa fa-twitter'></i></a>
+                        <a class='instagram' href='#' target='_blank'><i class='fa fa-instagram'></i></a>
+                        <a class='google-plus' href='3' target='_blank'><i class='fa fa-google-plus'></i></a>
+                    </nav>
+                    Créé par <a href='' id='mycontent' title='Free Blogger Templates'>Sébastien STELTZLEN</a>
+                    <div class='rightf'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% block javascripts %}
+    {% endblock %}
     </body>
-</html>
+
+    </html>
