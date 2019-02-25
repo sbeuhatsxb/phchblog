@@ -10,20 +10,31 @@ namespace App\Controller;
 
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\LastArticlesService;
 
 
 class HomeController extends AbstractController
 {
 
+    /**
+     * @var LastArticlesService
+     */
+    protected $lastArticlesService;
+
+    public function __construct(LastArticlesService $lastArticlesService)
+    {
+        $this->lastArticlesService = $lastArticlesService;
+    }
+
    /**
-    * @Route("/homepage")
+    * @Route("/")
     */
     public function index()
     {
-        $number = random_int(0, 100);
+        $lastArticles = $this->lastArticlesService->getLastArticles();
 
         return $this->render('home.html.twig', [
-            'number' => $number,
+            'articles' => $lastArticles,
         ]);
     }
 

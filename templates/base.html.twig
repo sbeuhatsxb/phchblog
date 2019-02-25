@@ -44,9 +44,6 @@
 
 
         <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css">
-
-
-
     {% endblock %}
 
 
@@ -54,23 +51,20 @@
 
     <body>
     <div class='top_wrapper'>
-        <div id='header-wrapper' itemscope='itemscope' itemtype='http://schema.org/WPHeader'>
+        <div id='header-wrapper'>
             <div class='ornament'>
                 <div class='container'>
-                    <div class='row'>
+                    <div class='col-xs-1 text-center'>
                         <div class='header section' id='header'>
                             <div class='widget Header' data-version='1' id='Header1'>
                                 <div id='header-inner'>
-                                    <div class='titlewrapper'>
-                                        <h1 class='title'>
-                                            <a href='https://reading-soratemplates.blogspot.com/' itemprop='url'><span itemprop='name'>
-                          <a href='https://reading-soratemplates.blogspot.com/'><span>
-                              Reading</span></a>
-                        </span></a>
-                                        </h1>
-                                    </div>
+                                    <h1 class='title'>
+                                        <span itemprop='PhCh'>
+                                                <a href='#'><span>Lire</span></a>
+                                        </span>
+                                    </h1>
                                     <div class='descriptionwrapper'>
-                                        <p class='description'><span>Responsive masonry blogger theme for everyone</span></p>
+                                        <p class='description'><span>Recueil de textes de Philipe Choulet</span></p>
                                     </div>
                                 </div>
                             </div>
@@ -82,29 +76,29 @@
                 <div class='header_right'>
                     <div class='menu-navigation-container' id='top_menu'>
                         <ul class='sf-menu' id='mainmenu' itemscope='itemscope' itemtype='http://schema.org/SiteNavigationElement'>
-                            <li class='current-menu-item'><a href='/' itemprop='url'><span itemprop='name'>Home</span></a></li>
-                            <li><a href='#'>Drop Down</a>
+                            <li class='current-menu-item'><a href='/' itemprop='url'><span itemprop='name'>Accueil</span></a></li>
+                            <li><a href='#'>Sections</a>
                                 <ul class='sub-menu'>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                    <li><a href='#'>Submenu Example</a>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 1</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 2</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 3</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 4</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 5</span></a></li>
+                                    <li><a href='#'>Dichotomie</a>
                                         <ul>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 1</span></a></li>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 2</span></a></li>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 3</span></a></li>
+                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 4</span></a></li>
                                         </ul>
                                     </li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Submenu Example</span></a></li>
+                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 7</span></a></li>
                                 </ul>
                             </li>
-                            <li><a href='http://www.sorabloggingtips.com' itemprop='url'><span itemprop='name'>Blog</span></a></li>
-                            <li><a href='http://www.sorabloggingtips.com/2016/10/how-to-setup-reading-blogger-template.html' itemprop='url'><span itemprop='name'>Documentation</span></a></li>
-                            <li><a href='http://www.soratemplates.com/p/seo-services.html' itemprop='url'><span itemprop='name'>Seo Service</span></a></li>
-                            <li><a href='http://www.soratemplates.com/2016/10/reading-blogger-templates.html' itemprop='url'><span itemprop='name'>Download This Template</span></a></li>
+                            <li><a href='#' itemprop='url'><span itemprop='name'>Journal de bord</span></a></li>
+                            <li><a href='#' itemprop='url'><span itemprop='name'>Documentation</span></a></li>
+                            <li><a href='#' itemprop='url'><span itemprop='name'>Enseignement</span></a></li>
+                            <li><a href='#' itemprop='url'><span itemprop='name'>Bibliographie</span></a></li>
                         </ul>
                     </div>
                 </div>
@@ -126,15 +120,15 @@
         }
     </style>
 
-    <div id='footer' itemscope='itemscope' itemtype='http://schema.org/WPFooter'>
+    <div id='footer'>
         <div class='container'>
             <div class='row'>
                 <div class='twelve columns wrapper'>
                     <nav id='social'>
-                        <a class='facebook' href='#' target='_blank'><i class='fa fa-facebook'></i></a>
-                        <a class='twitter' href='#' target='_blank'><i class='fa fa-twitter'></i></a>
-                        <a class='instagram' href='#' target='_blank'><i class='fa fa-instagram'></i></a>
-                        <a class='google-plus' href='3' target='_blank'><i class='fa fa-google-plus'></i></a>
+                        <a class='facebook' href='#' target='_blank'><i class='fa fa-envelope-o'></i></a>
+                        {#<a class='twitter' href='#' target='_blank'><i class='fa fa-twitter'></i></a>#}
+                        {#<a class='instagram' href='#' target='_blank'><i class='fa fa-instagram'></i></a>#}
+                        {#<a class='google-plus' href='3' target='_blank'><i class='fa fa-google-plus'></i></a>#}
                     </nav>
                     Créé par <a href='' id='mycontent' title='Free Blogger Templates'>Sébastien STELTZLEN</a>
                     <div class='rightf'></div>
@@ -144,6 +138,7 @@
     </div>
     {% block javascripts %}
     {% endblock %}
+
     </body>
 
     </html>

@@ -8,10 +8,10 @@
 // any CSS you require will output into a single css file (app.css in this case)
 require('../css/app.css');
 require('../css/page.css');
-require('../js/base.js');
-require('../js/home.js');
-require('../js/main.js');
-require('../js/page.js');
+    require('../js/matchHeight.js');
+// require('../js/home.js');
+// require('../js/main.js');
+// require('../js/page.js');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
 // const $ = require('jquery');

@@ -15,6 +15,9 @@
 
 easy_admin:
   design:
+    form_theme:
+      - 'form_div_layout.html.twig'
+      - '@EasyAdmin/form/bootstrap_4.html.twig'
     assets:
       js:
         - '/bundles/cksourceckfinder/ckfinder/ckfinder.js'
@@ -34,13 +37,34 @@ easy_admin:
           - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
     Articles:
       class: App\Entity\Article
-      form:
+      list:
+        actions: ['show']
         fields:
           - title
           - category
           - author
           - linkedConcept
+          - { property: 'image', type: 'image', base_path: '%app.path.article_images%', template: 'vich_uploader_image.html.twig' }
+          - isPublished
+      show:
+        fields:
+          - title
+          - category
+          - author
+          - linkedConcept
+          - content
+          - { property: 'image', type: 'image', base_path: '%app.path.article_images%', template: 'vich_uploader_image.html.twig' }
+          - isPublished
+      form:
+        fields:
+#          - { type: 'tab' , label: 'Basic Information' }
+          - title
+          - category
+          - author
+          - linkedConcept
           - { property: 'content', type: 'fos_ckeditor' }
+#          - { type: 'tab', label: 'Contact Information', icon: 'phone' }
+          - { property: 'imageFile', type: 'vich_image' }
     Categories:
       class: App\Entity\Category
       form:
