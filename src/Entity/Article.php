@@ -47,7 +47,7 @@ class Article
     private $author;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Concepts", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Concept", inversedBy="articles")
      */
     private $linkedConcept;
 
@@ -161,14 +161,14 @@ class Article
     }
 
     /**
-     * @return Collection|Concepts[]
+     * @return Collection|Concept[]
      */
     public function getLinkedConcept(): Collection
     {
         return $this->linkedConcept;
     }
 
-    public function addLinkedConcept(Concepts $linkedConcept): self
+    public function addLinkedConcept(Concept $linkedConcept): self
     {
         if (!$this->linkedConcept->contains($linkedConcept)) {
             $this->linkedConcept[] = $linkedConcept;
@@ -177,7 +177,7 @@ class Article
         return $this;
     }
 
-    public function removeLinkedConcept(Concepts $linkedConcept): self
+    public function removeLinkedConcept(Concept $linkedConcept): self
     {
         if ($this->linkedConcept->contains($linkedConcept)) {
             $this->linkedConcept->removeElement($linkedConcept);

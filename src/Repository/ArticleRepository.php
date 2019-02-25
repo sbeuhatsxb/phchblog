@@ -25,6 +25,7 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('a')
             ->select('a.title', 'substring(a.content, 1, 120) as subcontent', 'a.createdAt', 'a.author', 'a.image')
+            ->where('a.isPublished = true')
             ->orderBy('a.createdAt', 'ASC')
             ->setMaxResults(12)
             ->getQuery()
