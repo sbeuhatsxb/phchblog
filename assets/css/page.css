@@ -75,6 +75,7 @@
 
     .post_item {
         margin-left: 0;
+        padding: 10px;
     }
 
     .search-bar {
@@ -95,11 +96,11 @@
         height: auto
     }
 
-    .row .row {
+    .row {
         width: auto;
         max-width: none;
         min-width: 0;
-        margin: 0 -10px
+        margin: 0 -15px 0 0;
     }
 
     .container {

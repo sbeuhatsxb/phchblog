@@ -1596,7 +1596,7 @@ iframe {
     }
 
     div#topimg {
-        width: 460px;
+        width: auto;
         height: auto
     }
 

@@ -114,12 +114,17 @@ h2 {
 
 /*h1,*/
 /*h2,*/
-h3,
-h4,
-h5 {
+h3 {
     font-family: "Oswald", Georgia, "Times New Roman", Times, serif;
     font-weight: normal;
     line-height: inherit;
+}
+
+h4 {
+    font-family: "Oswald", Georgia, "Times New Roman", Times, serif;
+    font-weight: normal;
+    line-height: inherit;
+    color: #6C6C6C;
 }
 
 h5 {
@@ -161,7 +166,14 @@ h5 {
     min-height: 300px;
     margin: 1rem;
     position: relative;
-    width: 300px;
+    /*width: 300px;*/
+}
+
+.side-card {
+    background: #fff;
+    border-radius: 2px;
+    margin: 1rem;
+    position: relative;
 }
 
 .card-1 {
@@ -192,7 +204,7 @@ h5 {
 div#header-wrapper:before {
     content: "";
     position: absolute;
-    top: 0;
+        top: 0;
     left: 0;
     right: 0;
     bottom: 0;
@@ -1555,8 +1567,9 @@ div#footer a {
 
 img {
     max-width: 100%;
+    max-height: 400px;
     height: auto;
-    -ms-interpolation-mode: bicubic
+    -ms-interpolation-mode: bicubic;
 }
 
 object,
