@@ -29,49 +29,79 @@ easy_admin:
       list:
         actions: ['show']
         fields:
-          - title
-          - category
-          - author
-          - linkedConcept
+          - { property: 'title', label: 'Titre' }
+          - { property: 'category', label: 'Catégorie(s)' }
+          - { property: 'writer', label: 'Auteur de l`article' }
+          - { property: 'linkedConcept', label: 'Concept(s) en relation' }
           - { property: 'image', template: 'vich_uploader_image.html.twig' }
-          - isPublished
+          - { property: 'isPublished', label: 'Article en publication' }
       show:
         fields:
-          - title
-          - category
-          - author
-          - linkedConcept
-          - content
-          - { property: 'image', type: 'image', base_path: '%app.path.article_images%' }
-          - isPublished
+          #          - { type: 'tab' , label: 'Basic Information' }
+          - { property: 'title', label: 'Titre' }
+          - { property: 'content', label: 'Article', type: 'fos_ckeditor' }
+          - { property: 'category', label: 'Catégorie(s)' }
+          - { property: 'linkedAuthor', label: 'Auteur(s) en relation' }
+          - { property: 'linkedConcept', label: 'Concept(s) en relation' }
+          - { property: 'writer', label: 'Auteur de l`article' }
+          - { property: 'imageFile', label: 'Illustration', type: 'vich_image' }
+          - { property: 'isPublished', label: 'Article en publication' }
       form:
         fields:
 #          - { type: 'tab' , label: 'Basic Information' }
-          - title
-          - category
-          - author
-          - linkedConcept
-          - { property: 'content', type: 'fos_ckeditor' }
-#          - { type: 'tab', label: 'Contact Information', icon: 'phone' }
-          - { property: 'imageFile', type: 'vich_image' }
+          - { property: 'title', label: 'Titre' }
+          - { property: 'content', label: 'Article', type: 'fos_ckeditor' }
+          - { property: 'category', label: 'Catégorie(s)' }
+          - { property: 'linkedAuthor', label: 'Auteur(s) en relation' }
+          - { property: 'linkedConcept', label: 'Concept(s) en relation' }
+          - { property: 'writer', label: 'Auteur de l`article' }
+          - { property: 'imageFile', label: 'Illustration', type: 'vich_image' }
+          - { property: 'isPublished', label: 'Article en publication' }
     Categories:
       class: App\Entity\Category
+      list:
+        fields:
+        - { property: 'name', label: 'Catégories' }
       form:
         fields:
-          - name
+          - { property: 'name', label: 'Catégories' }
     Concepts:
       class: App\Entity\Concept
+      list:
+        fields:
+          - { property: 'name', label: 'Concepts' }
       form:
         fields:
-          - name
+          - { property: 'name', label: 'Concepts' }
+
+    Auteurs:
+      class: App\Entity\Author
+      list:
+        fields:
+          - { property: 'firstname', label: 'Prénom' }
+          - { property: 'lastname', label: 'Nom' }
+          - { property: 'nickname', label: 'dit' }
+          - { property: 'birthday', label: 'Né le' }
+      form:
+        fields:
+          - { property: 'firstname', label: 'Prénom' }
+          - { property: 'lastname', label: 'Nom' }
+          - { property: 'nickname', label: 'dit' }
+          - { property: 'birthday', label: 'Né le' }
     Utilisateurs:
       class: App\Entity\User
+      list:
+        fields:
+          - { property: 'username', label: 'Utilisateur' }
+          - { property: 'email', label: 'E-mail' }
+          - { property: 'enabled', label: 'Activé ?' }
+          - { property: 'lastLogin', label: 'Dernière connexion' }
       form:
         fields:
-          - username
-          - email
-          - enabled
-          - lastLogin
+          - { property: 'username', label: 'Utilisateur' }
+          - { property: 'email', label: 'E-mail' }
+          - { property: 'enabled', label: 'Activé ?' }
+          - { property: 'lastLogin', label: 'Dernière connexion' }
           # if administrators are allowed to edit users' passwords and roles, add this:
           - { property: 'plainPassword', type: 'text', type_options: { required: false } }
           - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }

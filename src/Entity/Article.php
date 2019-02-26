@@ -6,8 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -39,14 +37,9 @@ class Article
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Category", inversedBy="articles")
+     * @ORM\ManyToMany(targetEntity="Category", inversedBy="articles")
      */
     private $category;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $author;
 
     /**
      * @ORM\ManyToMany(targetEntity="Concept", inversedBy="articles")
@@ -76,11 +69,22 @@ class Article
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Author", inversedBy="articles")
+     */
+    private $linkedAuthor;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="articles")
+     */
+    private $writer;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->linkedConcept = new ArrayCollection();
-        $this->image = new EmbeddedFile();
+        $this->linkedAuthor = new ArrayCollection();
+//        $this->image = new EmbeddedFile();
     }
 
     public function getId(): ?int
@@ -147,18 +151,6 @@ class Article
         if ($this->category->contains($category)) {
             $this->category->removeElement($category);
         }
-
-        return $this;
-    }
-
-    public function getAuthor(): ?string
-    {
-        return $this->author;
-    }
-
-    public function setAuthor(?string $author): self
-    {
-        $this->author = $author;
 
         return $this;
     }
@@ -243,6 +235,44 @@ class Article
 
     public function __toString()
     {
-        return $this->title.': '.$this->getTitle();
+        return (string) $this->getTitle();
+    }
+
+    /**
+     * @return Collection|Author[]
+     */
+    public function getLinkedAuthor(): Collection
+    {
+        return $this->linkedAuthor;
+    }
+
+    public function addLinkedAuthor(Author $linkedAuthor): self
+    {
+        if (!$this->linkedAuthor->contains($linkedAuthor)) {
+            $this->linkedAuthor[] = $linkedAuthor;
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedAuthor(Author $linkedAuthor): self
+    {
+        if ($this->linkedAuthor->contains($linkedAuthor)) {
+            $this->linkedAuthor->removeElement($linkedAuthor);
+        }
+
+        return $this;
+    }
+
+    public function getWriter(): ?User
+    {
+        return $this->writer;
+    }
+
+    public function setWriter(?User $writer): self
+    {
+        $this->writer = $writer;
+
+        return $this;
     }
 }
