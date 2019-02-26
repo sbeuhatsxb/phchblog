@@ -38,4 +38,16 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/{class}/{id}",  name="special_list")
+     */
+    public function specialList()
+    {
+        $lastArticles = $this->lastArticlesService->getLastArticles();
+
+        return $this->render('special.html.twig', [
+            'articles' => $lastArticles,
+        ]);
+    }
+
 }

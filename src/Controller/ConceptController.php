@@ -9,12 +9,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\LastArticlesService;
 
 /**
  * @Route("/concept")
  */
 class ConceptController extends AbstractController
 {
+    /**
+     * @var LastArticlesService
+     */
+    protected $lastArticlesService;
+
+    public function __construct(LastArticlesService $lastArticlesService)
+    {
+        $this->lastArticlesService = $lastArticlesService;
+    }
+
+
     /**
      * @Route("/", name="concept_index", methods={"GET"})
      */
@@ -25,14 +37,6 @@ class ConceptController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="concept_show", methods={"GET"})
-     */
-    public function show(Concept $concept): Response
-    {
-        return $this->render('concept/show.html.twig', [
-            'concept' => $concept,
-        ]);
-    }
+
 
 }

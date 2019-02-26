@@ -22,7 +22,7 @@ class LastArticlesService
         $this->articleRepository = $articleRepository;
     }
 
-    public function getLastArticles(){
+    public function getLastArticles($filter = null){
         $articles = $this->articleRepository->findLastTwelveArticles();
 
         return $articles;
