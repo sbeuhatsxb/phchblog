@@ -33,7 +33,7 @@ easy_admin:
           - category
           - author
           - linkedConcept
-          - { property: 'image', type: 'image', base_path: '%app.path.article_images%' }
+          - { property: 'image', template: 'vich_uploader_image.html.twig' }
           - isPublished
       show:
         fields:

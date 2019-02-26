@@ -10,3 +10,6 @@ vich_uploader:
             uri_prefix:         '%app.path.article_images%'
             upload_destination: '%kernel.project_dir%/public%app.path.article_images%'
             namer: Vich\UploaderBundle\Naming\UniqidNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

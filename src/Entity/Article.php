@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Vich\UploaderBundle\Entity\File as EmbeddedFile;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
@@ -52,13 +54,12 @@ class Article
     private $linkedConcept;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true))
+     * @ORM\Column(type="string", length=255)
      * @var string
      */
     private $image;
 
     /**
-     * @ORM\Column(nullable=true))
      * @Vich\UploadableField(mapping="article_images", fileNameProperty="image")
      * @var File
      */
@@ -71,6 +72,7 @@ class Article
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
+     * @var \DateTime
      */
     private $updatedAt;
 
@@ -78,6 +80,7 @@ class Article
     {
         $this->category = new ArrayCollection();
         $this->linkedConcept = new ArrayCollection();
+        $this->image = new EmbeddedFile();
     }
 
     public function getId(): ?int
@@ -116,8 +119,8 @@ class Article
 
     public function setcreatedAt(?\DateTimeInterface $createdAt): self
     {
-//        $this->createdAt = $createdAt;
-        $this->createdAt = new \DateTime('now');
+        $createdAt = new \DateTime('now');
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -198,8 +201,6 @@ class Article
             $this->updatedAt = new \DateTime('now');
         }
     }
-
-
 
     public function getImageFile()
     {
