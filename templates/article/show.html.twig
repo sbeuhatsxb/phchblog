@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row">
+        <div class="col-8 card post_item">
+            <h1>{{ article.title }}</h1>
+            <table class="table">
+                <tbody>
+                <tr>
+                    <h5 style="font-stretch: ultra-condensed; color: #aaa; padding-bottom: 8px;">
+                        De {{ article.writer }}&nbsp;&nbsp;
+                        le {{ article.createdAt|date("d/m/Y") }}
+                    </h5>
+                </tr>
+                {% if article.image != null %}
+                <div align="center">
+                    <img class="articleimg " src="{{ asset('uploads/images/' ~ article.image ) }}" alt="{{ article.title }}">
+                </div>
+                {% endif %}
+                <div class="separator" style="clear: both; text-align: justify;">
+                    <br></div>
+                <tr>
+                    <p class="text-justify">{{ article.content }}</p>
+                </tr>
+                <tr>
+                    <th>Première publication :</th>
+                    <td>{{ article.createdAt ? article.createdAt|date('Y-m-d') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Mis à jour le :</th>
+                    <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-4">
+            <table class="table">
+                <tr>
+                    {% for author in article.getLinkedAuthor() %}
+                        <td>{{ author }}</td><br/>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for concept in article.getLinkedConcept() %}
+                        <td>{{ concept }}</td><br/>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for category in article.getCategory() %}
+                        <td>{{ category }}</td><br/>
+                    {% endfor %}
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+    <a href="{{ path('index') }}">Revenir à l'accueil</a>
+
+{% endblock %}

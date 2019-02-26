@@ -27,13 +27,13 @@ class HomeController extends AbstractController
     }
 
    /**
-    * @Route("/")
+    * @Route("/",  name="index")
     */
     public function index()
     {
         $lastArticles = $this->lastArticlesService->getLastArticles();
 
-        return $this->render('home.html.twig', [
+        return $this->render('article_list.html.twig', [
             'articles' => $lastArticles,
         ]);
     }

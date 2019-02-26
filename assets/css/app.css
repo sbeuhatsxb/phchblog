@@ -91,8 +91,29 @@ a:hover {
     color: #888888;
 }
 
-h1,
-h2,
+h1 {
+    font-size: 30px;
+    color: #111111;
+    font-weight: 700;
+    line-height: 1.4444;
+    margin: 0 0 18px;
+    letter-spacing: 0;
+    word-spacing: 1px;
+    font-family: Merriweather, Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+h2 {
+    font-family: Merriweather, Arial, "Helvetica Neue", Helvetica, sans-serif;
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: 0;
+    word-spacing: 1px;
+    font-size: 20px;
+    padding-bottom: 18px;
+}
+
+/*h1,*/
+/*h2,*/
 h3,
 h4,
 h5 {
@@ -100,6 +121,17 @@ h5 {
     font-weight: normal;
     line-height: inherit;
 }
+
+h5 {
+    font-family: "Roboto", Georgia, "Times New Roman", Times, serif;
+    font-size: 12px;
+    line-height: inherit;
+    color: #aaa;
+    margin: 0;
+}
+
+
+
 
 .top_wrapper {
     margin-bottom: 27px;
@@ -155,17 +187,6 @@ h5 {
 
 .card-5 {
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
-}
-
-
-.custom-title {
-    font-family: Merriweather, Arial, "Helvetica Neue", Helvetica, sans-serif;
-    font-weight: 700;
-    color: #111111;
-    letter-spacing: 0;
-    word-spacing: 1px;
-    font-size: 20px;
-    padding-bottom: 18px;
 }
 
 div#header-wrapper:before {

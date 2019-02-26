@@ -101,11 +101,6 @@ class Author
         return $this;
     }
 
-    public function __toString()
-    {
-        return (string) $this->getLastName();
-    }
-
     /**
      * @return Collection|Article[]
      */
@@ -133,4 +128,10 @@ class Author
 
         return $this;
     }
+
+    public function __toString()
+    {
+        return (string) $this->getLastName();
+    }
+
 }
