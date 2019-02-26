@@ -228,6 +228,7 @@ div#header-wrapper:before {
 }
 
 #header {
+    width: 100%;
     padding-top: 80px;
 }
 
