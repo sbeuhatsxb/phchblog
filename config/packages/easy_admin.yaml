@@ -30,17 +30,17 @@ easy_admin:
         actions: ['show']
         fields:
           - { property: 'title', label: 'Titre' }
-          - { property: 'category', label: 'Catégorie(s)' }
           - { property: 'writer', label: 'Auteur de l`article' }
-          - { property: 'linkedConcept', label: 'Concept(s) en relation' }
           - { property: 'image', template: 'vich_uploader_image.html.twig' }
           - { property: 'isPublished', label: 'Article en publication' }
+          - { property: 'content', label: 'Article' }
+
       show:
         fields:
           #          - { type: 'tab' , label: 'Basic Information' }
           - { property: 'title', label: 'Titre' }
           - { property: 'content', label: 'Article', type: 'fos_ckeditor' }
-          - { property: 'category', label: 'Catégorie(s)' }
+          - { property: 'linkedCategory', label: 'Catégorie(s)' }
           - { property: 'linkedAuthor', label: 'Auteur(s) en relation' }
           - { property: 'linkedConcept', label: 'Concept(s) en relation' }
           - { property: 'writer', label: 'Auteur de l`article' }
@@ -51,7 +51,7 @@ easy_admin:
 #          - { type: 'tab' , label: 'Basic Information' }
           - { property: 'title', label: 'Titre' }
           - { property: 'content', label: 'Article', type: 'fos_ckeditor' }
-          - { property: 'category', label: 'Catégorie(s)' }
+          - { property: 'linkedCategory', label: 'Catégorie(s)' }
           - { property: 'linkedAuthor', label: 'Auteur(s) en relation' }
           - { property: 'linkedConcept', label: 'Concept(s) en relation' }
           - { property: 'writer', label: 'Auteur de l`article' }
