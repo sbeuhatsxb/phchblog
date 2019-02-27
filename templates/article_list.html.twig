@@ -5,8 +5,18 @@
 {% block body %}
 
     <div class="container">
+        {% if shortname != null %}
+            <div class="row">
+                {% if shortname == 'Concept' %}
+                    <p>Liste des articles en rapport avec le concept de {{ filter }} :</p>
+                {% elseif shortname == 'Author' %}
+                    <p>Liste des articles en rapport avec {{ filter|capitalize }} :</p>
+                {% elseif shortname == 'Category' %}
+                    <p>Liste des articles en rapport avec la catégorie : {{ filter }} </p>
+                {% endif %}
+            </div>
+        {% endif %}
         <div class="row">
-
             {% for article in articles %}
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                     <a href="{{ path('article_show', {'id': article.id}) }}">

@@ -55,8 +55,10 @@ class HomeController extends AbstractController
 
         $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
 
-        return $this->render('filtered_list.html.twig', [
+        return $this->render('article_list.html.twig', [
             'articles' => $lastArticles,
+            'shortname' => $shortname,
+            'filter' => $filter
         ]);
     }
 
