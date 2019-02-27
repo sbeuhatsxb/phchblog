@@ -5,7 +5,7 @@
 {% block body %}
 
     <div class="container">
-        {% if shortname != null %}
+        {% if shortname is defined %}
             <div class="row">
                 {% if shortname == 'Concept' %}
                     <p>Liste des articles en rapport avec le concept de {{ filter }} :</p>
