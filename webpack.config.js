@@ -19,6 +19,7 @@ Encore
      */
     .addEntry('app', './assets/js/app.js')
     .addEntry('matchHeight', './assets/js/matchHeight.js')
+    .addEntry('navBar', './assets/js/navBar.js')
     // .addEntry('home', './assets/js/home.js')
     // .addEntry('main', './assets/js/main.js')
     // .addEntry('page', './assets/js/page.js')

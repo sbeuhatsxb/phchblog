@@ -1660,6 +1660,10 @@ iframe {
 }
 
 @media only screen and (max-width: 768px) {
+    .hidden {
+        display: block;
+    }
+
     .showpageArea {
         padding-top: 20px;
     }
@@ -1913,5 +1917,9 @@ iframe {
     .showpageNum a,
     .showpage a {
         padding: 4px 8px;
+    }
+
+    .hidden {
+        display: none;
     }
 }

@@ -9,6 +9,7 @@
 require('../css/app.css');
 require('../css/page.css');
     require('../js/matchHeight.js');
+    require('../js/navBar.js');
 // require('../js/home.js');
 // require('../js/main.js');
 // require('../js/page.js');
