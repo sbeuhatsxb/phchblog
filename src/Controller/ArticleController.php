@@ -31,11 +31,15 @@ class ArticleController extends AbstractController
         $conceptShortname = $concept->getShortName();
 
         $author = new \ReflectionClass(Author::class);
+        //ibid
         $authorClass = $author->getName();
+        //ibid
         $authorShortname = $author->getShortName();
 
         $category = new \ReflectionClass(Category::class);
+        //ibid
         $categoryClass = $category->getName();
+        //ibid
         $categoryShortname = $category->getShortName();
 
 
@@ -47,7 +51,6 @@ class ArticleController extends AbstractController
             'conceptShortname' => $conceptShortname,
             'authorShortname' => $authorShortname,
             'categoryShortname' => $categoryShortname,
-
         ]);
     }
 }

@@ -31,9 +31,9 @@ class HomeController extends AbstractController
         $this->lastArticlesService = $lastArticlesService;
     }
 
-   /**
-    * @Route("/",  name="index")
-    */
+    /**
+     * @Route("/",  name="index")
+     */
     public function index()
     {
         $lastArticles = $this->lastArticlesService->getLastArticles();
