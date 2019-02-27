@@ -19,6 +19,12 @@
 }
 
 .post_item {
+    padding-right: 30px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0
+}
+
+.post_item_article {
     padding: 30px 50px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0
