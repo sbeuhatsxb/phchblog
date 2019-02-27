@@ -32,4 +32,14 @@ class ArticleRepository extends ServiceEntityRepository
             ;
 
     }
+
+    public function findFilteredArticles($shortname, $filterId){
+
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.linked'.$shortname, 'c')
+            ->where('c.id = :'. $shortname . '_id')
+            ->setParameter($shortname.'_id', $filterId)
+            ->andWhere('a.isPublished = true')
+            ->getQuery()->getResult();
+    }
 }

@@ -35,12 +35,7 @@ class Article
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="Category", inversedBy="articles")
-     */
-    private $category;
-
+    
     /**
      * @ORM\ManyToMany(targetEntity="Concept", inversedBy="articles")
      */
@@ -79,11 +74,17 @@ class Article
      */
     private $writer;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Category")
+     */
+    private $linkedCategory;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->linkedConcept = new ArrayCollection();
         $this->linkedAuthor = new ArrayCollection();
+        $this->linkedCategory = new ArrayCollection();
 //        $this->image = new EmbeddedFile();
     }
 
@@ -125,23 +126,6 @@ class Article
     {
         $createdAt = new \DateTime('now');
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Category[]
-     */
-    public function getCategory(): Collection
-    {
-        return $this->category;
-    }
-
-    public function addCategory(Category $category): self
-    {
-        if (!$this->category->contains($category)) {
-            $this->category[] = $category;
-        }
 
         return $this;
     }
@@ -272,6 +256,32 @@ class Article
     public function setWriter(?User $writer): self
     {
         $this->writer = $writer;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Category[]
+     */
+    public function getLinkedCategory(): Collection
+    {
+        return $this->linkedCategory;
+    }
+
+    public function addLinkedCategory(Category $linkedCategory): self
+    {
+        if (!$this->linkedCategory->contains($linkedCategory)) {
+            $this->linkedCategory[] = $linkedCategory;
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedCategory(Category $linkedCategory): self
+    {
+        if ($this->linkedCategory->contains($linkedCategory)) {
+            $this->linkedCategory->removeElement($linkedCategory);
+        }
 
         return $this;
     }

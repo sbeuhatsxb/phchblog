@@ -47,7 +47,7 @@
                         <td style="color: #6C6C6C">
                             {% set hrHtml = 1 %}
                             {% for author in article.getLinkedAuthor() %}
-                                {{ author }}<br>
+                                <a href="{{ path('filtered_list', { 'classname' : authorClass , 'filter': author.name|lower, 'shortname': authorShortname }) }}">{{ author }}</a><br>
                                 {% if hrHtml <= (article.getLinkedAuthor()|length) - 1 and (article.getLinkedAuthor()|length) > 1 %}
                                     <hr>
                                     {% set hrHtml = hrHtml + 1 %}
@@ -65,7 +65,7 @@
                         <td style="color: #6C6C6C">
                             {% set hrHtml = 1 %}
                             {% for concept in article.getLinkedConcept() %}
-                                {{ concept }}<br>
+                                <a href="{{ path('filtered_list', { 'classname' : conceptClass , 'filter': concept.name|lower, 'shortname': conceptShortname }) }}">{{ concept }}</a><br>
                                 {% if hrHtml <= (article.getLinkedConcept()|length) - 1 %}
                                     <hr>
                                     {% set hrHtml = hrHtml + 1 %}
@@ -76,15 +76,15 @@
                 </table>
                 <table class="table side-card">
                     <tr>
-                        <th><h4>Concepts liés</h4></th>
+                        <th><h4>Catégories liées</h4></th>
                     </tr>
                     <tr>
                         <td style="color: #6C6C6C">
                             {% set hrHtml = 1 %}
 
-                            {% for category in article.getCategory() %}
-                                {{ category }}<br>
-                                {% if hrHtml <= (article.getCategory()|length) - 1 %}
+                            {% for category in article.getLinkedCategory() %}
+                                <a href="{{ path('filtered_list', { 'classname' : categoryClass , 'filter': category.name|lower, 'shortname': categoryShortname }) }}">{{ category }}</a><br>
+                                {% if hrHtml <= (article.getLinkedCategory()|length) - 1 %}
                                     <hr>
                                     {% set hrHtml = hrHtml + 1 %}
                                 {% endif %}

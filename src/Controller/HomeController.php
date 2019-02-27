@@ -8,9 +8,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\LastArticlesService;
+use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Concept;
+use App\Entity\Category;
+use App\Entity\Author;
 
 
 class HomeController extends AbstractController
@@ -39,13 +44,18 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/{class}/{id}",  name="special_list")
+     * @Route("/{classname}/{shortname}/{filter}",  name="filtered_list")
      */
-    public function specialList()
+    public function filteredList($classname, $filter, $shortname)
     {
-        $lastArticles = $this->lastArticlesService->getLastArticles();
+        $em = $this->getDoctrine()->getManager();
+        $getFilter = $em->getRepository($classname)->findBy(['name' => $filter]);
 
-        return $this->render('special.html.twig', [
+        $filterId = $getFilter[0]->getId();
+
+        $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
+
+        return $this->render('filtered_list.html.twig', [
             'articles' => $lastArticles,
         ]);
     }

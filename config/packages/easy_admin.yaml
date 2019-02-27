@@ -80,13 +80,13 @@ easy_admin:
         fields:
           - { property: 'firstname', label: 'Prénom' }
           - { property: 'lastname', label: 'Nom' }
-          - { property: 'nickname', label: 'dit' }
+          - { property: 'name', label: 'dit' }
           - { property: 'birthday', label: 'Né le' }
       form:
         fields:
           - { property: 'firstname', label: 'Prénom' }
           - { property: 'lastname', label: 'Nom' }
-          - { property: 'nickname', label: 'dit' }
+          - { property: 'name', label: 'dit' }
           - { property: 'birthday', label: 'Né le' }
     Utilisateurs:
       class: App\Entity\User

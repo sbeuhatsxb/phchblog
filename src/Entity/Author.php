@@ -36,7 +36,7 @@ class Author
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $nickname;
+    private $name;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Article", mappedBy="linkedAuthor")
@@ -89,14 +89,14 @@ class Author
         return $this;
     }
 
-    public function getNickname(): ?string
+    public function getName(): ?string
     {
-        return $this->nickname;
+        return $this->name;
     }
 
-    public function setNickname(string $nickname): self
+    public function setName(string $name): self
     {
-        $this->nickname = $nickname;
+        $this->name = $name;
 
         return $this;
     }
