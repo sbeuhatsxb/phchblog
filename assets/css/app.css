@@ -1697,7 +1697,13 @@ iframe {
         width: auto;
         max-width: 500px;
         margin: 0 auto;
-        min-width: 0
+        min-width: 0;
+        padding-right : 0;
+        padding-left : 0;
+    }
+
+    .side-card {
+        margin-left: 0;
     }
 
     #post_grids .column,
