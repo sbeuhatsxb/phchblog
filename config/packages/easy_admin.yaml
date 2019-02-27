@@ -18,6 +18,7 @@ easy_admin:
     form_theme:
       - 'form_div_layout.html.twig'
       - '@EasyAdmin/form/bootstrap_4.html.twig'
+      - '@VichUploader/Form/fields.html.twig'
     assets:
       js:
         - '/bundles/cksourceckfinder/ckfinder/ckfinder.js'
