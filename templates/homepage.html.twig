@@ -22,30 +22,24 @@
 
 
     {% block stylesheets %}
-        <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'
-              type='text/css'/>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-                crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-                integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
                 crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymous"></script>
-
-        <link href="//fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet" type="text/css">
-        <link href='https://www.blogger.com/static/v1/widgets/254310735-widget_css_bundle.css' rel='stylesheet' type='text/css'/>
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+              integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
               crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css">
         {# Google Webfont #}
+        <link href="https://fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet" type="text/css">
         <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700' rel='stylesheet' type='text/css'/>
         <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700,400italic,700italic' rel='stylesheet'
               type='text/css'/>
+
+        <link rel="stylesheet" href="{{ asset('build/global.scss') }}" type="text/css">
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css">
+
 
     {% endblock %}
 
@@ -88,38 +82,42 @@
                 <div class='header_right'></div>
 
                 {#NAVBAR BEGIN#}
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="#">Navigation</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <nav class="navbar navbar-expand-lg navbar-light custom">
+                    <a class="navbar-brand" href="{{ path('index') }}">Navigation</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse"
+                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mr-auto">
                             <li class="nav-item active">
-                                <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                                <a class="nav-link" href="{{ path('index') }}">Accueil <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Bibliographie </a>
+                                <a class="nav-link" href="{{ path('index') }}">Bibliographie </a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Sections
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Section 1</a>
-                                    <a class="dropdown-item" href="#">Section 2</a>
+                                    <a class="dropdown-item" href="{{ path('index') }}">Section 1</a>
+                                    <a class="dropdown-item" href="{{ path('index') }}">Section 2</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Autre section 1</a>
+                                    <a class="dropdown-item" href="{{ path('index') }}">Autre section 1</a>
                                 </div>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Liens externes</a>
+                                <a class="nav-link" href="{{ path('index') }}">Liens externes</a>
                             </li>
                         </ul>
                         <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Recherche d'un terme dans les articles..." aria-label="Search" style>
-                            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i class="fas fa-search"></i></button>
+                            <input class="form-control mr-sm-2" type="search"
+                                   placeholder="Recherche d'un terme dans les articles..." aria-label="Search" style>
+                            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i  class="fas fa-search"></i></button>
                         </form>
                     </div>
                 </nav>
@@ -133,6 +131,7 @@
 {#MAIN CONTAINER END#}
 
 <div class='clear'></div>
+
 
 
 {% block body %}
@@ -157,12 +156,9 @@
         <div class='row'>
             <div class='twelve columns wrapper'>
                 <nav id='social'>
-                    <a class='letter_email' href='#' target='_blank'><i class='fas fa-envelope'></i></a>
-                    {#<a class='twitter' href='#' target='_blank'><i class='fa fa-twitter'></i></a>#}
-                    {#<a class='instagram' href='#' target='_blank'><i class='fa fa-instagram'></i></a>#}
-                    {#<a class='google-plus' href='3' target='_blank'><i class='fa fa-google-plus'></i></a>#}
+                    <a class='letter_email' href='{{ path('index') }}' target='_blank'><i class='fas fa-envelope'></i></a>
                 </nav>
-                <small>Créé par <a href='#' id='' title=''>Sébastien STELTZLEN</a></small>
+                <small>Créé par <a href='{{ path('index') }}' id='' title=''>Sébastien STELTZLEN</a></small>
                 <div class='rightf'></div>
             </div>
         </div>

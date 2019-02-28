@@ -6,15 +6,17 @@
  */
 
 // any CSS you require will output into a single css file (app.css in this case)
-require('../css/app.css');
-require('../css/page.css');
-    require('../js/matchHeight.js');
-    require('../js/navBar.js');
-// require('../js/home.js');
-// require('../js/main.js');
-// require('../js/page.js');
+// require('../../intern/css_save/app.css');
+// require('../../intern/css_save/page.css');
+require('../css/global.scss');
+require('../js/matchHeight.js');
+require('../js/navBar.js');
+require('bootstrap');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-// const $ = require('jquery');
+const $ = require('jquery');
 
-console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+$(document).ready(function() {
+    $('[data-toggle="popover"]').popover();
+});
