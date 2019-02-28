@@ -4,40 +4,27 @@
       xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
 <head>
     <meta charset="UTF-8">
+
     <title>
         {% block title %}Welcome!{% endblock %}
     </title>
-    <link href='https://www.blogger.com/static/v1/widgets/254310735-widget_css_bundle.css' rel='stylesheet'
-          type='text/css'/>
 
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'/>
-    <!-- Description and Keywords (start) -->
+    {# Description and Keywords (start) #}
     <meta content='Textes de Philippe Choulet' name='description'/>
     <meta content='Philosophie, Philippe Choulet' name='keywords'/>
-    <!-- Description and Keywords (end) -->
+    {# Description and Keywords (end) #}
     <meta content='Philippe Choulet' property='og:site_name'/>
-    <!-- Social Media meta tag need customer customization -->
-
+    {# Social Media meta tag need customer customization #}
     <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
     <meta content='Philippe Choulet' property='og:title'/>
     <meta content='Site de Philippe Choulet' property='og:description'/>
 
 
     {% block stylesheets %}
-        <link href="//fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet" type="text/css">
-        <!-- Google Webfont -->
-        <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700' rel='stylesheet' type='text/css'/>
-        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700,400italic,700italic' rel='stylesheet'
-              type='text/css'/>
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
         <link href='https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css' rel='stylesheet'
               type='text/css'/>
-        <style type='text/css'>
-        </style>
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-              crossorigin="anonymous">
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" type="text/javascript"></script>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                 integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
                 crossorigin="anonymous"></script>
@@ -48,16 +35,28 @@
                 integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
                 crossorigin="anonymous"></script>
 
-
+        <link href="//fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet" type="text/css">
+        <link href='https://www.blogger.com/static/v1/widgets/254310735-widget_css_bundle.css' rel='stylesheet' type='text/css'/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+              crossorigin="anonymous">
         <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css">
+        {# Google Webfont #}
+        <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700' rel='stylesheet' type='text/css'/>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700,400italic,700italic' rel='stylesheet'
+              type='text/css'/>
+
     {% endblock %}
 
 
 </head>
 
 <body class='index'>
+{#MAIN CONTAINER BEGIN#}
 <div class="container">
     <div class='top_wrapper'>
+
+        {#HEADER BEGIN#}
         <div id='header-wrapper' itemscope='itemscope' itemtype='http://schema.org/WPHeader'>
             <div class='ornament'>
                 <div class='container'>
@@ -84,95 +83,61 @@
             </div>
 
 
-
-            {#MINI MENU#}
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container">
-                    <!-- Brand and toggle get grouped for better mobile display -->
-                    <div class="hidden navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                                data-target="#bs-slide-dropdown">
-                            <span class="icon-bar">M</span>
-                            <span class="icon-bar">E</span>
-                            <span class="icon-bar">N</span>
-                            <span class="icon-bar">U</span>
-                        </button>
-                        <a class="navbar-brand" href="#"></a>
-                    </div>
-
-                    <!-- Collect the nav links, forms, and other content for toggling -->
-                    <div class="collapse navbar-collapse" id="bs-slide-dropdown">
-
-                        <ul class="nav navbar-nav navbar-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sections <span
-                                            class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Section 1</a></li>
-                                    <li><a href="#">Section 2</a></li>
-                                    <li><a href="#">Section 3</a></li>
-                                    <li><a href="#">Section 4</a></li>
-                                </ul>
-                            </li>
-                            <li class="divider"></li>
-                            <li><a href='#'><span>Journal de bord</span></a></li>
-                            <li><a href='#'><span>Bibliographie</span></a></li>
-
-                        </ul>
-                    </div><!-- /.navbar-collapse -->
-                </div><!-- /.container-fluid -->
-            </nav>
-
-
-
-
-
-            {#BIG MENU#}
             <div class='twelve'>
+                <div class='header_right'></div>
 
-                <div class='header_right'>
-                    <div class='menu-navigation-container' id='top_menu'>
-                        <ul class='sf-menu' id='mainmenu' itemscope='itemscope'
-                            itemtype='http://schema.org/SiteNavigationElement'>
-                            <li class='current-menu-item'><a href='/' itemprop='url'><span
-                                            itemprop='name'>Accueil</span></a>
-                            </li>
-                            <li><a href='#'>Sections</a>
-                                <ul class='sub-menu'>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 1</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 2</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 3</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 4</span></a></li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 5</span></a></li>
-                                    <li><a href='#'>Dichotomie</a>
-                                        <ul>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 1</span></a>
-                                            </li>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 2</span></a>
-                                            </li>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 3</span></a>
-                                            </li>
-                                            <li><a href='#' itemprop='url'><span itemprop='name'>Section 4</span></a>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li><a href='#' itemprop='url'><span itemprop='name'>Section 7</span></a></li>
-                                </ul>
-                            </li>
-                            <li><a href='#' itemprop='url'><span itemprop='name'>Journal de bord</span></a></li>
-                            <li><a href='#' itemprop='url'><span itemprop='name'>Bibliographie</span></a></li>
+                {#NAVBAR BEGIN#}
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                    <a class="navbar-brand" href="#">Navigation</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav mr-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Accueil <span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Bibliographie </a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Sections
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Section 1</a>
+                                    <a class="dropdown-item" href="#">Section 2</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Autre section 1</a>
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Liens externes</a>
+                            </li>
                         </ul>
+                        <form class="form-inline my-2 my-lg-0">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Recherche d'un terme dans les articles..." aria-label="Search" style>
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Recherche</button>
+                        </form>
                     </div>
-                </div>
-                <div class='clear'></div>
+                </nav>
+                {#NAVBAR END#}
+
             </div>
         </div>
     </div>
+    {#HEADER END#}
 </div>
-<div class='clear'></div>
-{% block body %}{% endblock %}
+{#MAIN CONTAINER END#}
 
+<div class='clear'></div>
+
+
+{% block body %}
+{% endblock %}
+
+{#STYLE FOR FOOTER#}
 <style>
     nav#social i {
         padding: 15px 14px 25px;
@@ -183,7 +148,9 @@
         padding-top: 10px;
     }
 </style>
+{#END STYLE FOR FOOTER#}
 
+{#FOOTER BEGIN#}
 <div id='footer'>
     <div class='container'>
         <div class='row'>
@@ -207,6 +174,7 @@
         </div>
     </div>
 </div>
+{#FOOTER END#}
 
 {% block javascripts %}
     {{ encore_entry_script_tags('navBar') }}

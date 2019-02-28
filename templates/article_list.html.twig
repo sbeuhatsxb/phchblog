@@ -5,8 +5,10 @@
 {% block body %}
 
     <div class="container">
+        {#SUMMARY OF FILTERS SELECTED BEGIN#}
         {% if shortname is defined %}
             <div class="row">
+
                 {% if shortname == 'Concept' %}
                     <p>Liste des articles en rapport avec le concept de {{ filter }} :</p>
                 {% elseif shortname == 'Author' %}
@@ -14,14 +16,20 @@
                 {% elseif shortname == 'Category' %}
                     <p>Liste des articles en rapport avec la catégorie : {{ filter }} </p>
                 {% endif %}
+
             </div>
         {% endif %}
+        {#SUMMARY OF FILTERS SELECTED END#}
+
+
+        {#MAIN ARTICLE BEGIN#}
         <div class="row">
             {% for article in articles %}
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 post_item" style="padding-left: 0;">
                     <a href="{{ path('article_show', {'id': article.id}) }}">
                         {# -> data-mh -> js -> same size boxes#}
                         <div data-mh="my-group" class="card">
+
                             {% if article.image != null %}
                                 <img class="card-img-top" src="{{ asset('uploads/images/' ~ article.image ) }}"
                                      alt="{{ article.title }}">
@@ -37,16 +45,19 @@
                             </div>
                         </div>
                     </a>
-
                 </div>
             {% endfor %}
-
         </div>
+        {#MAIN ARTICLE BEGIN#}
+
     </div>
+    {#SECOND CONTAINER END#}
 
     {% block javascripts %}
-        {#Permet l'ajustement des DIV entre elles#}
+        {#FITS DIVs IN A ROW ACCORDING TO THE BIGGER#}
         {{ encore_entry_script_tags('matchHeight') }}
     {% endblock %}
+
+    {#END BLOCK BODY#}
 {% endblock %}
 
