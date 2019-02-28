@@ -35,12 +35,25 @@ class HomeController extends Controller
     /**
      * @Route("/",  name="index")
      */
-    public function index()
+    public function index(Request $request)
     {
         $lastArticles = $this->lastArticlesService->getLastArticles();
 
+        /* @var $paginator \Knp\Component\Pager\Paginator */
+        $paginator  = $this->get('knp_paginator');
+
+        // Paginate the results of the query
+        $articles = $paginator->paginate(
+        // Doctrine Query, not results
+            $lastArticles,
+            // Define the page parameter
+            $request->query->getInt('page', 1),
+            // Items per page
+            12
+        );
+
         return $this->render('article_list.html.twig', [
-            'articles' => $lastArticles,
+            'articles' => $articles,
         ]);
     }
 
@@ -72,7 +85,7 @@ class HomeController extends Controller
             // Define the page parameter
             $request->query->getInt('page', 1),
             // Items per page
-            1
+            12
         );
 
         return $this->render('article_list.html.twig', [
