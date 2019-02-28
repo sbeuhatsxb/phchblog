@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\LastArticlesService;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Entity\Concept;
 use App\Entity\Category;
 use App\Entity\Author;
@@ -68,6 +69,11 @@ class HomeController extends Controller
     public function filteredList($classname, $filter, $shortname, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
+
+        if(!is_object($classname)){
+            throw new NotFoundHttpException('Désolé, ce filtre n\'existe pas...');
+        }
+
         $getFilter = $em->getRepository($classname)->findBy(['name' => $filter]);
 
         $filterId = $getFilter[0]->getId();
