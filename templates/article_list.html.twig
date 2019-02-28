@@ -43,7 +43,7 @@
                                     <small>De {{ article.writer }}</small>&nbsp;&nbsp;&nbsp;
                                     <small>le {{ article.createdAt|date("d/m/Y") }} </small>
                                 </h6>
-                                <p class="card-text">{{ article.content|slice(0, 240) }} ...</p>
+                                <p class="card-text">{{ article.content|slice(0, 240)| raw }} ...</p>
                             </div>
                         </div>
                     </a>
