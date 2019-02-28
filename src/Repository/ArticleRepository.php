@@ -40,6 +40,6 @@ class ArticleRepository extends ServiceEntityRepository
             ->where('c.id = :'. $shortname . '_id')
             ->setParameter($shortname.'_id', $filterId)
             ->andWhere('a.isPublished = true')
-            ->getQuery()->getResult();
+            ->getQuery();
     }
 }
