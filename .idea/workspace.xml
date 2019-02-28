@@ -7,8 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="54101ff1-22f7-4f0f-829a-8979f7567ed0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/assets/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/css/page.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/page.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/homepage.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage.html.twig" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,11 +20,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/templates/homepage.html.twig">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="556">
-              <caret line="119" column="159" selection-start-line="119" selection-start-column="159" selection-end-line="119" selection-end-column="159" />
+            <state relative-caret-position="409">
+              <caret line="159" column="84" selection-start-line="159" selection-start-column="84" selection-end-line="159" selection-end-column="84" />
             </state>
           </provider>
         </entry>
@@ -42,17 +41,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/css/page.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="404">
+            <state relative-caret-position="4275">
               <caret line="225" column="5" selection-start-line="225" selection-start-column="5" selection-end-line="225" selection-end-column="5" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/assets/css/app.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="510" column="31" selection-start-line="510" selection-start-column="31" selection-end-line="510" selection-end-column="31" />
+            <state relative-caret-position="380">
+              <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
             </state>
           </provider>
         </entry>
@@ -157,8 +156,8 @@
         <option value="$PROJECT_DIR$/webpack.config.js" />
         <option value="$PROJECT_DIR$/templates/article_list.html.twig" />
         <option value="$PROJECT_DIR$/assets/js/navBar.js" />
-        <option value="$PROJECT_DIR$/templates/homepage.html.twig" />
         <option value="$PROJECT_DIR$/assets/css/app.css" />
+        <option value="$PROJECT_DIR$/templates/homepage.html.twig" />
       </list>
     </option>
   </component>
@@ -405,12 +404,12 @@
       <workItem from="1550822846658" duration="13986000" />
       <workItem from="1551081951429" duration="27054000" />
       <workItem from="1551254057695" duration="27931000" />
-      <workItem from="1551340597734" duration="8372000" />
+      <workItem from="1551340597734" duration="8769000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="106101000" />
+    <option name="totallyTimeSpent" value="106498000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1919" y="0" width="1922" height="1081" extended-state="6" />
@@ -700,13 +699,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/homepage.html.twig">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="119" column="159" selection-start-line="119" selection-start-column="159" selection-end-line="119" selection-end-column="159" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/article_list.html.twig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="803">
@@ -714,17 +706,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/assets/css/app.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="380">
+          <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/assets/css/page.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="404">
+        <state relative-caret-position="4275">
           <caret line="225" column="5" selection-start-line="225" selection-start-column="5" selection-end-line="225" selection-end-column="5" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/assets/css/app.css">
+    <entry file="file://$PROJECT_DIR$/templates/homepage.html.twig">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="510" column="31" selection-start-line="510" selection-start-column="31" selection-end-line="510" selection-end-column="31" />
+        <state relative-caret-position="409">
+          <caret line="159" column="84" selection-start-line="159" selection-start-column="84" selection-end-line="159" selection-end-column="84" />
         </state>
       </provider>
     </entry>
