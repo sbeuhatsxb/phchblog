@@ -72,7 +72,7 @@ class HomeController extends Controller
             // Define the page parameter
             $request->query->getInt('page', 1),
             // Items per page
-            12
+            1
         );
 
         return $this->render('article_list.html.twig', [

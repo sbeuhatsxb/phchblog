@@ -40,6 +40,9 @@
   background-color: black;
 }
 
+//BS OVERRIDE BEGIN
+
+//navbar
 .navbar {
   border-radius: 2px;
   font-weight: normal;
@@ -50,6 +53,38 @@
   text-transform: uppercase;
   font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
+
+
+//pagination
+.page-item.active .page-link{
+  z-index: 1;
+  color: #111111;
+  background-color: #ECECEC;
+  border-color: #dee2e6;
+}
+
+.page-item.disabled .page-link {
+  display: none;
+  color: #a9a9a9;
+  background-color: #ECECEC;
+  border: 1px solid #ECECEC;
+}
+
+.page-link {
+  color: #666666;
+  background-color: #ECECEC;
+  border: 1px solid #ECECEC;
+}
+
+.page-link:hover {
+  z-index: 2;
+  color: #666666;
+  text-decoration: none;
+  background-color: #e9ecef;
+  border-color: #dee2e6;
+}
+
+//BS OVERRIDE END
 
 
 body#layout #header-wrapper {
@@ -266,7 +301,7 @@ div#header-wrapper:before {
 
 #header {
   width: 100%;
-  padding-top: 80px;
+  padding-top: 120px;
 }
 
 #header h1 {
