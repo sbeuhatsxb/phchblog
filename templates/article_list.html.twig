@@ -8,15 +8,17 @@
         {#SUMMARY OF FILTERS SELECTED BEGIN#}
         {% if shortname is defined %}
             <div class="row">
+                <div style="padding: 0 15px 0 15px">
 
-                {% if shortname == 'Concept' %}
-                    <p>Liste des articles en rapport avec le concept de {{ filter }} :</p>
-                {% elseif shortname == 'Author' %}
-                    <p>Liste des articles en rapport avec {{ filter|capitalize }} :</p>
-                {% elseif shortname == 'Category' %}
-                    <p>Liste des articles en rapport avec la catégorie : {{ filter }} </p>
-                {% endif %}
+                    {% if shortname == 'Concept' %}
+                        <p>Liste des articles en rapport avec le concept de {{ filter }} :</p>
+                    {% elseif shortname == 'Author' %}
+                        <p>Liste des articles en rapport avec {{ filter|capitalize }} :</p>
+                    {% elseif shortname == 'Category' %}
+                        <p>Liste des articles en rapport avec la catégorie : {{ filter }} </p>
+                    {% endif %}
 
+                </div>
             </div>
         {% endif %}
         {#SUMMARY OF FILTERS SELECTED END#}
@@ -48,11 +50,13 @@
                 </div>
             {% endfor %}
         </div>
-        {#MAIN ARTICLE BEGIN#}
+        {#MAIN ARTICLE END#}
 
+        {#KNP PAGINATOR BEGIN#}
         <div class="navigation">
             {{ knp_pagination_render(articles) }}
         </div>
+        {#KNP PAGINATOR END#}
 
     </div>
     {#SECOND CONTAINER END#}
@@ -62,6 +66,6 @@
         {{ encore_entry_script_tags('matchHeight') }}
     {% endblock %}
 
-    {#END BLOCK BODY#}
+{#END BLOCK BODY#}
 {% endblock %}
 

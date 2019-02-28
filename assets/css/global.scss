@@ -36,6 +36,11 @@
 @import "~bootstrap/scss/utilities";
 //@import "~bootstrap/scss/print";
 
+::placeholder {
+  font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 14px;
+}
+
 a {
   color: #666;
 }
@@ -58,6 +63,9 @@ a {
   font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
+navbar-dark .navbar-toggler {
+  color: rgba(255, 255, 255, 0.9);
+}
 
 //pagination
 .page-item.active .page-link{
