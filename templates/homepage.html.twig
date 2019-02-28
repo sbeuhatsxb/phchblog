@@ -39,10 +39,7 @@
 
         <link rel="stylesheet" href="{{ asset('build/global.scss') }}" type="text/css">
         <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css">
-
-
     {% endblock %}
-
 
 </head>
 
@@ -115,11 +112,17 @@
                             </li>
                         </ul>
                         {#Barre de recherche (search bar) DEBUT#}
-                        <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="search"
-                                   placeholder="Recherche d'un terme dans les articles..." aria-label="Search" style>
-                            <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i  class="fas fa-search"></i></button>
+                        <div class="row justify-content-xs-between">
+                            <form class="form-inline my-2 my-lg-0 align-self-end">
+                                <div class="col-xs-8">
+                                    <input class="form-control mr-sm-2" type="search" placeholder="Recherche d'un terme dans les articles..." aria-label="Search" style>
+                                </div>
+                                <div class="col-xs-3">
+                                    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i  class="fas fa-search"></i></button>
+                                </div>
                         </form>
+                        </div>
+
                         {#Barre de recherche (search bar) DEBUT#}
                     </div>
                 </nav>
