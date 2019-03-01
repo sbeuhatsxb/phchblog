@@ -44,14 +44,18 @@ class ArticleRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    public function findFilteredArticlesByForm($filter){
+    public function findFilteredArticlesByForm($filterArray){
 
-        return $this->createQueryBuilder('a')
-            ->where('a.isPublished = true')
-            ->andWhere('a.content LIKE :filter')
-            ->orderBy('a.createdAt', 'DESC')
-            ->setParameter('filter', '%'.$filter.'%')
-            ->getQuery();
+                    $qb = $this->createQueryBuilder('a')
+                ->where('a.isPublished = true')
+                ->orderBy('a.createdAt', 'DESC');
 
-    }
+            foreach($filterArray as $filter) {
+                $qb->andWhere('a.content LIKE :filter')
+                ->setParameter('filter', '%'.$filter.'%');
+            }
+
+            $qb->getQuery()->getResult();
+            return $qb;
+        }
 }

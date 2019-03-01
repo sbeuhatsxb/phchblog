@@ -45,7 +45,10 @@ class SearchBarController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $filter = $form->getData();
-            $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filter['search']);
+
+            $filterArray = explode(" ", $filter['search']);
+
+            $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
             /* @var $paginator \Knp\Component\Pager\Paginator */
             $paginator = $this->get('knp_paginator');
 
@@ -60,7 +63,27 @@ class SearchBarController extends Controller
             );
 
             if ($articles->getTotalItemCount() == 0) {
+                while(count($filterArray) != 1){
+                    array_pop($filterArray);
+
+                    $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
+                    /* @var $paginator \Knp\Component\Pager\Paginator */
+                    $paginator = $this->get('knp_paginator');
+                    $articles = $paginator->paginate(
+                        $lastArticles,
+                        $request->query->getInt('page', 1),
+                        12
+                    );
+
+                    if($articles->getTotalItemCount() != 0){
+                        return $this->render('article_list.html.twig', [
+                            'articles' => $articles,
+                        ]);
+                    }
+                }
+
                 throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
+
             };
 
             return $this->render('article_list.html.twig', [
