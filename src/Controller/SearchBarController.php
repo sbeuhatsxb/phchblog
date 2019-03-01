@@ -63,7 +63,7 @@ class SearchBarController extends Controller
             );
 
             if ($articles->getTotalItemCount() == 0) {
-                while(count($filterArray) != 1){
+                while (count($filterArray) != 1) {
                     array_pop($filterArray);
 
                     $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
@@ -75,7 +75,7 @@ class SearchBarController extends Controller
                         12
                     );
 
-                    if($articles->getTotalItemCount() != 0){
+                    if ($articles->getTotalItemCount() != 0) {
                         return $this->render('article_list.html.twig', [
                             'articles' => $articles,
                         ]);
@@ -92,4 +92,5 @@ class SearchBarController extends Controller
 
         }
     }
+
 }

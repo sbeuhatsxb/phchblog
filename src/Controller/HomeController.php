@@ -44,7 +44,7 @@ class HomeController extends Controller
         $lastArticles = $this->lastArticlesService->getLastArticles();
 
         /* @var $paginator \Knp\Component\Pager\Paginator */
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
 
         // Paginate the results of the query
         $articles = $paginator->paginate(
@@ -56,8 +56,8 @@ class HomeController extends Controller
             12
         );
 
-        if($articles->getTotalItemCount() == 0){
-                throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
+        if ($articles->getTotalItemCount() == 0) {
+            throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
         };
 
         return $this->render('article_list.html.twig', [
@@ -80,10 +80,10 @@ class HomeController extends Controller
 
         $getFilter = $em->getRepository($classname)->findBy(['name' => $filter]);
 
-        if(!class_exists($classname)
+        if (!class_exists($classname)
             || !in_array($shortname, ['Concept', 'Category', "Author"])
             || empty($getFilter)
-            ){
+        ) {
             throw new NotFoundHttpException('Désolé, ce filtre n\'existe pas...');
         }
 
@@ -92,7 +92,7 @@ class HomeController extends Controller
         $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
 
         /* @var $paginator \Knp\Component\Pager\Paginator */
-        $paginator  = $this->get('knp_paginator');
+        $paginator = $this->get('knp_paginator');
 
         $articles = $paginator->paginate(
             $lastArticles,
@@ -101,7 +101,7 @@ class HomeController extends Controller
             12
         );
 
-        if($articles->getTotalItemCount() == 0){
+        if ($articles->getTotalItemCount() == 0) {
             throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
         };
 

@@ -22,8 +22,9 @@ class LastArticlesService
         $this->articleRepository = $articleRepository;
     }
 
-    public function getLastArticles($shortname = null, $filterId = null){
-        if(!$shortname || !$filterId){
+    public function getLastArticles($shortname = null, $filterId = null)
+    {
+        if (!$shortname || !$filterId) {
             $articles = $this->articleRepository->findLastTwelveArticles();
         } else {
             $articles = $this->articleRepository->findFilteredArticles($shortname, $filterId);
@@ -32,8 +33,9 @@ class LastArticlesService
         return $articles;
     }
 
-    public function getArticlesFromSubmit($filter){
-            $articles = $this->articleRepository->findFilteredArticlesByForm($filter);
+    public function getArticlesFromSubmit($filter)
+    {
+        $articles = $this->articleRepository->findFilteredArticlesByForm($filter);
 
         return $articles;
     }

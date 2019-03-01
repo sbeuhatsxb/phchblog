@@ -21,41 +21,43 @@ class ArticleRepository extends ServiceEntityRepository
         parent::__construct($registry, Article::class);
     }
 
-    public function findLastTwelveArticles(){
+    public function findLastTwelveArticles()
+    {
 
         return $this->createQueryBuilder('a')
             ->where('a.isPublished = true')
             ->orderBy('a.createdAt', 'DESC')
             ->setMaxResults(12)
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
 
     }
 
-    public function findFilteredArticles($shortname, $filterId){
+    public function findFilteredArticles($shortname, $filterId)
+    {
 
         return $this->createQueryBuilder('a')
-            ->leftJoin('a.linked'.$shortname, 'c')
-            ->where('c.id = :'. $shortname . '_id')
+            ->leftJoin('a.linked' . $shortname, 'c')
+            ->where('c.id = :' . $shortname . '_id')
             ->orderBy('a.createdAt', 'DESC')
-            ->setParameter($shortname.'_id', $filterId)
+            ->setParameter($shortname . '_id', $filterId)
             ->andWhere('a.isPublished = true')
             ->getQuery();
     }
 
-    public function findFilteredArticlesByForm($filterArray){
+    public function findFilteredArticlesByForm($filterArray)
+    {
 
-                    $qb = $this->createQueryBuilder('a')
-                ->where('a.isPublished = true')
-                ->orderBy('a.createdAt', 'DESC');
+        $qb = $this->createQueryBuilder('a')
+            ->where('a.isPublished = true')
+            ->orderBy('a.createdAt', 'DESC');
 
-            foreach($filterArray as $filter) {
-                $qb->andWhere('a.content LIKE :filter')
-                ->setParameter('filter', '%'.$filter.'%');
-            }
-
-            $qb->getQuery()->getResult();
-            return $qb;
+        foreach ($filterArray as $filter) {
+            $qb->andWhere('a.content LIKE :filter')
+                ->setParameter('filter', '%' . $filter . '%');
         }
+
+        $qb->getQuery()->getResult();
+        return $qb;
+    }
 }

@@ -21,21 +21,21 @@ class SearchBarFormService
 
     private $formFactory;
 
-    public function __construct(UrlGeneratorInterface $router, FormFactoryInterface $formFactory) {
+    public function __construct(UrlGeneratorInterface $router, FormFactoryInterface $formFactory)
+    {
 
         $this->router = $router;
 
         $this->formFactory = $formFactory;
 
         $this->form = $this->formFactory->create(
-            SearchFormType::class,null, [ 'attr' => [
-                'action' => $this->router->generate('searchbar')
-            ]])
-
-        ;
+            SearchFormType::class, null, ['attr' => [
+            'action' => $this->router->generate('searchbar')
+        ]]);
     }
 
-    public function getForm() {
+    public function getForm()
+    {
         return $this->form;
     }
 }
