@@ -10,8 +10,6 @@ namespace App\Service;
 
 
 use App\Form\SearchFormType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 

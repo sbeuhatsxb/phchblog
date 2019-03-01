@@ -8,8 +8,6 @@
 
 namespace App\Controller;
 
-use App\Form\SearchFormType;
-use App\Service\SearchBarFormService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\LastArticlesService;

@@ -6,12 +6,10 @@ use App\Entity\Article;
 use App\Entity\Author;
 use App\Entity\Category;
 use App\Entity\Concept;
-use App\Form\SearchFormType;
 use App\Service\LastArticlesService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
