@@ -76,7 +76,7 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/{classname}/{shortname}/{filter}",  name="filtered_list")
+     * @Route("/resultats/{classname}/{shortname}/{filter}",  name="filtered_list")
      * @param $classname
      * @param $filter
      * @param $shortname
@@ -92,11 +92,16 @@ class HomeController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        if(!is_object($classname)){
+        $getFilter = $em->getRepository($classname)->findBy(['name' => $filter]);
+
+
+        if(!class_exists($classname)
+            || !in_array($shortname, ['Concept', 'Category', "Author"])
+            || empty($getFilter)
+            ){
             throw new NotFoundHttpException('Désolé, ce filtre n\'existe pas...');
         }
 
-        $getFilter = $em->getRepository($classname)->findBy(['name' => $filter]);
 
         $filterId = $getFilter[0]->getId();
 
@@ -122,7 +127,7 @@ class HomeController extends Controller
         if($articles->getTotalItemCount() == 0){
             throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
         };
-        
+
         return $this->render('article_list.html.twig', [
             'articles' => $articles,
             'shortname' => $shortname,
