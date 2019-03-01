@@ -6,23 +6,28 @@ use App\Entity\Article;
 use App\Entity\Author;
 use App\Entity\Category;
 use App\Entity\Concept;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Form\SearchFormType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\FormView;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/article")
  */
-class ArticleController extends AbstractController
+class ArticleController extends Controller
 {
 
     /**
      * @Route("/{id}", name="article_show", methods={"GET"})
      * @param Article $article
+     * @param Request $request
      * @return Response
      * @throws \ReflectionException
      */
-    public function show(Article $article): Response
+    public function show(Article $article, Request $request): Response
     {
         $concept = new \ReflectionClass(Concept::class);
         //required for class name
@@ -42,6 +47,9 @@ class ArticleController extends AbstractController
         //ibid
         $categoryShortname = $category->getShortName();
 
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($request);
+
 
         return $this->render('article/show.html.twig', [
             'article' => $article,
@@ -51,6 +59,7 @@ class ArticleController extends AbstractController
             'conceptShortname' => $conceptShortname,
             'authorShortname' => $authorShortname,
             'categoryShortname' => $categoryShortname,
+            'form'=> $form->createView()
         ]);
     }
 }

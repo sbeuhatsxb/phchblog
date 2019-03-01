@@ -9,12 +9,15 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Form\SearchFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\LastArticlesService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\Concept;
 use App\Entity\Category;
 use App\Entity\Author;
@@ -38,7 +41,17 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $lastArticles = $this->lastArticlesService->getLastArticles();
+        $form = $this->createForm(SearchFormType::class);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $filter = $form->getData();
+            $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filter['search']);
+        } else {
+            $lastArticles = $this->lastArticlesService->getLastArticles();
+        }
+
 
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
@@ -53,8 +66,13 @@ class HomeController extends Controller
             12
         );
 
+        if($articles->getTotalItemCount() == 0){
+                throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
+        };
+
         return $this->render('article_list.html.twig', [
             'articles' => $articles,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -66,8 +84,13 @@ class HomeController extends Controller
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function filteredList($classname, $filter, $shortname, Request $request)
+    public function filteredList($classname = null, $filter = null, $shortname = null, Request $request)
     {
+
+
+        $form = $this->createForm(SearchFormType::class);
+        $form->handleRequest($request);
+
         $em = $this->getDoctrine()->getManager();
 
         if(!is_object($classname)){
@@ -78,8 +101,14 @@ class HomeController extends Controller
 
         $filterId = $getFilter[0]->getId();
 
-        $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
+        if ($form->isSubmitted() && $form->isValid()) {
 
+            $filter = $form->getData();
+            $lastArticles = $this->lastArticlesService->findFilteredArticlesByForm($filter['search']);
+
+        } else {
+            $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
+        }
 
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
@@ -94,11 +123,14 @@ class HomeController extends Controller
             12
         );
 
+
         return $this->render('article_list.html.twig', [
             'articles' => $articles,
             'shortname' => $shortname,
-            'filter' => $filter
+            'filter' => $filter,
+            'form' => $form->createView(),
         ]);
     }
+
 
 }

@@ -31,4 +31,10 @@ class LastArticlesService
 
         return $articles;
     }
+
+    public function getArticlesFromSubmit($filter){
+            $articles = $this->articleRepository->findFilteredArticlesByForm($filter);
+
+        return $articles;
+    }
 }

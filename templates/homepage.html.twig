@@ -110,20 +110,25 @@
                                 <a class="nav-link" href="{{ path('index') }}">Liens externes</a>
                             </li>
                         </ul>
-                        {#Barre de recherche (search bar) DEBUT#}
-                        <div class="row justify-content-xs-between">
-                            <form class="form-inline my-2 my-lg-0 align-self-end">
-                                <div class="col-xs-8">
-                                    <input class="form-control mr-sm-2" type="search" placeholder="Recherche d'un terme dans les articles..." aria-label="Search" style>
-                                </div>
-                                <div class="col-xs-3">
-                                    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit"><i  class="fas fa-search"></i></button>
-                                </div>
-                        </form>
-                        </div>
 
-                        {#Barre de recherche (search bar) DEBUT#}
-                    </div>
+                        {#Barre de recherche (searchbar) DEBUT#}
+                        <div class="row justify-content-xs-between">
+                            <div class="form-inline my-2 my-lg-0 align-self-end">
+                                {{ form_start(form) }}
+                                <div class="row">
+                                    <div class="col-xs-8 mr-sm-2">
+                                        {{ form_row(form.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
+                                        </div>
+                                        <div class="col-xs-3">
+                                            <button class="btn btn-outline-secondary my-2 my-sm-0" style="font-size: 13px;" type="submit"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                        {#Barre de recherche (search bar) fin#}
+
                 </nav>
                 {#NAVBAR END#}
 
