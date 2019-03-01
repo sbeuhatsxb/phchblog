@@ -8,16 +8,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Article;
 use App\Form\SearchFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Service\LastArticlesService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Entity\Article;
 use App\Entity\Concept;
 use App\Entity\Category;
 use App\Entity\Author;
@@ -38,6 +35,8 @@ class HomeController extends Controller
 
     /**
      * @Route("/",  name="index")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request)
     {
@@ -113,17 +112,17 @@ class HomeController extends Controller
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
 
-        // Paginate the results of the query
         $articles = $paginator->paginate(
-            // Doctrine Query, not results
             $lastArticles,
-            // Define the page parameter
             $request->query->getInt('page', 1),
             // Items per page
             12
         );
 
-
+        if($articles->getTotalItemCount() == 0){
+            throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
+        };
+        
         return $this->render('article_list.html.twig', [
             'articles' => $articles,
             'shortname' => $shortname,
