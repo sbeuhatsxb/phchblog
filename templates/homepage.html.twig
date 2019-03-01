@@ -110,21 +110,21 @@
                                 <a class="nav-link" href="{{ path('index') }}">Liens externes</a>
                             </li>
                         </ul>
-
                         {#Barre de recherche (searchbar) DEBUT#}
+                        {% set searchbar = search_bar.getForm().createView() %}
                         <div class="row justify-content-xs-between">
                             <div class="form-inline my-2 my-lg-0 align-self-end">
-                                {{ form_start(form) }}
+                                {{ form_start(searchbar) }}
                                 <div class="row">
                                     <div class="col-xs-8 mr-sm-2">
-                                        {{ form_row(form.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
+                                        {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
                                         </div>
                                         <div class="col-xs-3">
-                                            <button class="btn btn-outline-secondary my-2 my-sm-0" style="font-size: 13px;" type="submit"><i class="fas fa-search"></i></button>
+                                            <button class="btn btn-outline-secondary my-2 my-sm-0" style="font-size: 13px;" type="save"><i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
                                 </div>
-                                {{ form_end(form) }}
+                                {{ form_end(searchbar) }}
                             </div>
                         </div>
                         {#Barre de recherche (search bar) fin#}

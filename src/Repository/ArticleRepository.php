@@ -25,7 +25,7 @@ class ArticleRepository extends ServiceEntityRepository
 
         return $this->createQueryBuilder('a')
             ->where('a.isPublished = true')
-            ->orderBy('a.createdAt', 'ASC')
+            ->orderBy('a.createdAt', 'DESC')
             ->setMaxResults(12)
             ->getQuery()
             ->getResult()
@@ -38,6 +38,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->leftJoin('a.linked'.$shortname, 'c')
             ->where('c.id = :'. $shortname . '_id')
+            ->orderBy('a.createdAt', 'DESC')
             ->setParameter($shortname.'_id', $filterId)
             ->andWhere('a.isPublished = true')
             ->getQuery();
@@ -48,6 +49,7 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('a')
             ->where('a.isPublished = true')
             ->andWhere('a.content LIKE :filter')
+            ->orderBy('a.createdAt', 'DESC')
             ->setParameter('filter', '%'.$filter.'%')
             ->getQuery();
 

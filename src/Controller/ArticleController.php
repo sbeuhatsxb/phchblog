@@ -7,9 +7,11 @@ use App\Entity\Author;
 use App\Entity\Category;
 use App\Entity\Concept;
 use App\Form\SearchFormType;
+use App\Service\LastArticlesService;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -19,7 +21,17 @@ class ArticleController extends Controller
 {
 
     /**
-     * @Route("/{id}", name="article_show", methods={"GET"})
+     * @var LastArticlesService
+     */
+    protected $lastArticlesService;
+
+    public function __construct(LastArticlesService $lastArticlesService)
+    {
+        $this->lastArticlesService = $lastArticlesService;
+    }
+
+    /**
+     * @Route("/{id}", name="article_show", methods={"GET", "POST"})
      * @param Article $article
      * @param Request $request
      * @return Response
@@ -45,10 +57,6 @@ class ArticleController extends Controller
         //ibid
         $categoryShortname = $category->getShortName();
 
-        $form = $this->createForm(SearchFormType::class);
-        $form->handleRequest($request);
-
-
         return $this->render('article/show.html.twig', [
             'article' => $article,
             'conceptClass' => $conceptClass,
@@ -57,7 +65,6 @@ class ArticleController extends Controller
             'conceptShortname' => $conceptShortname,
             'authorShortname' => $authorShortname,
             'categoryShortname' => $categoryShortname,
-            'form'=> $form->createView()
         ]);
     }
 }

@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Form\SearchFormType;
+use App\Service\SearchBarFormService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\LastArticlesService;
@@ -28,6 +29,7 @@ class HomeController extends Controller
      */
     protected $lastArticlesService;
 
+
     public function __construct(LastArticlesService $lastArticlesService)
     {
         $this->lastArticlesService = $lastArticlesService;
@@ -40,17 +42,8 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $form = $this->createForm(SearchFormType::class);
 
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $filter = $form->getData();
-            $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filter['search']);
-        } else {
-            $lastArticles = $this->lastArticlesService->getLastArticles();
-        }
-
+        $lastArticles = $this->lastArticlesService->getLastArticles();
 
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
@@ -71,12 +64,11 @@ class HomeController extends Controller
 
         return $this->render('article_list.html.twig', [
             'articles' => $articles,
-            'form' => $form->createView(),
         ]);
     }
 
     /**
-     * @Route("/resultats/{classname}/{shortname}/{filter}",  name="filtered_list")
+     * @Route("/filtres/{classname}/{shortname}/{filter}",  name="filtered_list")
      * @param $classname
      * @param $filter
      * @param $shortname
@@ -86,14 +78,9 @@ class HomeController extends Controller
     public function filteredList($classname = null, $filter = null, $shortname = null, Request $request)
     {
 
-
-        $form = $this->createForm(SearchFormType::class);
-        $form->handleRequest($request);
-
         $em = $this->getDoctrine()->getManager();
 
         $getFilter = $em->getRepository($classname)->findBy(['name' => $filter]);
-
 
         if(!class_exists($classname)
             || !in_array($shortname, ['Concept', 'Category', "Author"])
@@ -102,17 +89,9 @@ class HomeController extends Controller
             throw new NotFoundHttpException('Désolé, ce filtre n\'existe pas...');
         }
 
-
         $filterId = $getFilter[0]->getId();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $filter = $form->getData();
-            $lastArticles = $this->lastArticlesService->findFilteredArticlesByForm($filter['search']);
-
-        } else {
-            $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
-        }
+        $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
 
         /* @var $paginator \Knp\Component\Pager\Paginator */
         $paginator  = $this->get('knp_paginator');
@@ -132,7 +111,7 @@ class HomeController extends Controller
             'articles' => $articles,
             'shortname' => $shortname,
             'filter' => $filter,
-            'form' => $form->createView(),
+
         ]);
     }
 
