@@ -112,6 +112,7 @@
                         </ul>
                         {#Barre de recherche (searchbar) DEBUT#}
                         {% set searchbar = search_bar.getForm().createView() %}
+                        {#{{ dump() }}#}
                         <div class="row justify-content-xs-between">
                             <div class="form-inline my-2 my-lg-0 align-self-end">
                                 {{ form_start(searchbar) }}
@@ -120,6 +121,7 @@
                                         {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
                                         </div>
                                         <div class="col-xs-3">
+                                            {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
                                             <button class="btn btn-outline-secondary my-2 my-sm-0" style="font-size: 13px;" type="save"><i class="fas fa-search"></i></button>
                                         </div>
                                     </div>
