@@ -49,10 +49,11 @@ class PaginationService extends Controller
      * @param $pageLimit
      * @return \Knp\Component\Pager\Pagination\PaginationInterface
      */
-    public function paginate($qbQueryArticles, $pageNumber, $pageLimit) {
+    public function paginate($qbQueryArticles, $pageNumber, $pageLimit)
+    {
 
         $request = $this->requestStack->getCurrentRequest();
-        
+
         $articles = $this->paginator->paginate(
             $qbQueryArticles,
             $request->query->getInt('page', $pageNumber),

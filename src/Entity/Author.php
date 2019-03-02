@@ -131,7 +131,7 @@ class Author
 
     public function __toString()
     {
-        return (string) $this->getLastName();
+        return (string)$this->getLastName();
     }
 
 }

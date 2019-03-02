@@ -36,7 +36,7 @@ class Article
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $createdAt;
-    
+
     /**
      * @ORM\ManyToMany(targetEntity="Concept", inversedBy="articles")
      */
@@ -91,7 +91,7 @@ class Article
         $this->linkedConcept = new ArrayCollection();
         $this->linkedAuthor = new ArrayCollection();
         $this->linkedCategory = new ArrayCollection();
-//        $this->image = new EmbeddedFile();
+        //        $this->image = new EmbeddedFile();
     }
 
     public function getId(): ?int
@@ -225,7 +225,7 @@ class Article
 
     public function __toString()
     {
-        return (string) $this->getTitle();
+        return (string)$this->getTitle();
     }
 
     /**

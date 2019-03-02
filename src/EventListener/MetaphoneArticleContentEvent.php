@@ -15,10 +15,11 @@ use App\Entity\Article;
 class MetaphoneArticleContentEvent
 {
 
-    public function postPersist(LifecycleEventArgs $args){
+    public function postPersist(LifecycleEventArgs $args)
+    {
         $entity = $args->getObject();
 
-        if (!$entity instanceof Article){
+        if (!$entity instanceof Article) {
             return;
         }
 
@@ -31,7 +32,6 @@ class MetaphoneArticleContentEvent
         $entityManager->flush();
 
     }
-
 
 
 }
