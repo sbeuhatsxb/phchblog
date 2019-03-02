@@ -43,7 +43,7 @@ class Article
     private $linkedConcept;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */
     private $image;
@@ -79,6 +79,11 @@ class Article
      * @ORM\ManyToMany(targetEntity="App\Entity\Category")
      */
     private $linkedCategory;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\ArticleMetaphone", mappedBy="linkedArticle", cascade={"persist", "remove"})
+     */
+    private $articleMetaphone;
 
     public function __construct()
     {
@@ -287,6 +292,24 @@ class Article
         return $this;
     }
 
+    public function getArticleMetaphone(): ?ArticleMetaphone
+    {
+        return $this->articleMetaphone;
+    }
+
+    public function setArticleMetaphone(?ArticleMetaphone $articleMetaphone): self
+    {
+        $this->articleMetaphone = $articleMetaphone;
+
+        // set (or unset) the owning side of the relation if necessary
+        $newLinkedArticle = $articleMetaphone === null ? null : $this;
+        if ($newLinkedArticle !== $articleMetaphone->getLinkedArticle()) {
+            $articleMetaphone->setLinkedArticle($newLinkedArticle);
+        }
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -298,4 +321,5 @@ class Article
             $this->setCreatedAt(new \DateTime('now'));
         }
     }
+
 }
