@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Service\PaginationService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\LastArticlesService;
@@ -27,10 +28,16 @@ class HomeController extends Controller
      */
     protected $lastArticlesService;
 
+    /**
+     * @var PaginationService
+     */
+    protected $paginationService;
 
-    public function __construct(LastArticlesService $lastArticlesService)
+
+    public function __construct(LastArticlesService $lastArticlesService, PaginationService $paginationService)
     {
         $this->lastArticlesService = $lastArticlesService;
+        $this->paginationService = $paginationService;
     }
 
     /**
@@ -43,18 +50,7 @@ class HomeController extends Controller
 
         $lastArticles = $this->lastArticlesService->getLastArticles();
 
-        /* @var $paginator \Knp\Component\Pager\Paginator */
-        $paginator = $this->get('knp_paginator');
-
-        // Paginate the results of the query
-        $articles = $paginator->paginate(
-        // Doctrine Query, not results
-            $lastArticles,
-            // Define the page parameter
-            $request->query->getInt('page', 1),
-            // Items per page
-            12
-        );
+        $articles = $this->paginationService->paginate($lastArticles, 1, 12);
 
         if ($articles->getTotalItemCount() == 0) {
             throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
@@ -91,15 +87,7 @@ class HomeController extends Controller
 
         $lastArticles = $this->lastArticlesService->getLastArticles($shortname, $filterId);
 
-        /* @var $paginator \Knp\Component\Pager\Paginator */
-        $paginator = $this->get('knp_paginator');
-
-        $articles = $paginator->paginate(
-            $lastArticles,
-            $request->query->getInt('page', 1),
-            // Items per page
-            12
-        );
+        $articles = $this->paginationService->paginate($lastArticles, 1, 12);
 
         if ($articles->getTotalItemCount() == 0) {
             throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');

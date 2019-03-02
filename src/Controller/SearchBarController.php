@@ -9,6 +9,7 @@
 namespace App\Controller;
 
 use App\Service\LastArticlesService;
+use App\Service\PaginationService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,13 +22,19 @@ use Symfony\Component\HttpFoundation\Response;
 class SearchBarController extends Controller
 {
     /**
+     * @var PaginationService
+     */
+    protected $paginationService;
+
+    /**
      * @var LastArticlesService
      */
     protected $lastArticlesService;
 
-    public function __construct(LastArticlesService $lastArticlesService)
+    public function __construct(LastArticlesService $lastArticlesService, PaginationService $paginationService)
     {
         $this->lastArticlesService = $lastArticlesService;
+        $this->paginationService = $paginationService;
     }
 
     /**
@@ -48,32 +55,16 @@ class SearchBarController extends Controller
 
             $filterArray = explode(" ", $filter['search']);
 
-            $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
-            /* @var $paginator \Knp\Component\Pager\Paginator */
-            $paginator = $this->get('knp_paginator');
+            $queriedArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
 
-            // Paginate the results of the query
-            $articles = $paginator->paginate(
-            // Doctrine Query, not results
-                $lastArticles,
-                // Define the page parameter
-                $request->query->getInt('page', 1),
-                // Items per page
-                12
-            );
+            $articles = $this->paginationService->paginate($queriedArticles, 1, 12);
 
             if ($articles->getTotalItemCount() == 0) {
                 while (count($filterArray) != 1) {
                     array_pop($filterArray);
 
-                    $lastArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
-                    /* @var $paginator \Knp\Component\Pager\Paginator */
-                    $paginator = $this->get('knp_paginator');
-                    $articles = $paginator->paginate(
-                        $lastArticles,
-                        $request->query->getInt('page', 1),
-                        12
-                    );
+                    $queriedArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
+                    $articles = $this->paginationService->paginate($queriedArticles, 1, 12);
 
                     if ($articles->getTotalItemCount() != 0) {
                         return $this->render('article_list.html.twig', [
