@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\ArticleMetaphone;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -19,32 +20,19 @@ class ArticleMetaphoneRepository extends ServiceEntityRepository
         parent::__construct($registry, ArticleMetaphone::class);
     }
 
-    // /**
-    //  * @return ArticleMetaphone[] Returns an array of ArticleMetaphone objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findFilteredArticlesByForm($filterArray)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('a')
+            ->join(Article::class, 'la')
+            ->where('la.isPublished = true')
+            ->orderBy('la.createdAt', 'DESC');
 
-    /*
-    public function findOneBySomeField($value): ?ArticleMetaphone
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        foreach ($filterArray as $filter) {
+            $qb->andWhere('a.metaphoneArticle LIKE :filter')
+                ->setParameter('filter', '%' . metaphone($filter) . '%');
+        }
+
+        $qb->getQuery()->getResult();
+        return $qb;
     }
-    */
 }

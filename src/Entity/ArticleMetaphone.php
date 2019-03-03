@@ -4,6 +4,11 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+// * @ORM\Table(indexes={
+// *  @ORM\Index(name="metaphone_article_idx", columns={"metaphone_article"})
+// * })
+
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleMetaphoneRepository")
  */

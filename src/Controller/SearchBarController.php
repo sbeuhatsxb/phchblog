@@ -10,6 +10,7 @@ namespace App\Controller;
 
 use App\Service\LastArticlesService;
 use App\Service\PaginationService;
+use App\Service\SearchIndexedArticleService;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -27,13 +28,13 @@ class SearchBarController extends Controller
     protected $paginationService;
 
     /**
-     * @var LastArticlesService
+     * @var SearchIndexedArticleService
      */
-    protected $lastArticlesService;
+    protected $searchIndexedArticles;
 
-    public function __construct(LastArticlesService $lastArticlesService, PaginationService $paginationService)
+    public function __construct(SearchIndexedArticleService $searchIndexedArticles, PaginationService $paginationService)
     {
-        $this->lastArticlesService = $lastArticlesService;
+        $this->searchIndexedArticles = $searchIndexedArticles;
         $this->paginationService = $paginationService;
     }
 
@@ -55,23 +56,30 @@ class SearchBarController extends Controller
 
             $filterArray = explode(" ", $filter['search']);
 
-            $queriedArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
 
-            $articles = $this->paginationService->paginate($queriedArticles, 1, 12);
+            $queriedArticles = $this->searchIndexedArticles->getArticlesFromSubmit($filterArray)->getQuery()->getResult();
+
+            $articlesArray = [];
+            
+            foreach ($queriedArticles as $queriedArticle){
+                $articlesArray[] = $queriedArticle->getLinkedArticle();
+            }
+
+            $articles = $this->paginationService->paginate($articlesArray, 1, 12);
 
             if ($articles->getTotalItemCount() == 0) {
-                while (count($filterArray) != 1) {
-                    array_pop($filterArray);
-
-                    $queriedArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
-                    $articles = $this->paginationService->paginate($queriedArticles, 1, 12);
-
-                    if ($articles->getTotalItemCount() != 0) {
-                        return $this->render('article_list.html.twig', [
-                            'articles' => $articles,
-                        ]);
-                    }
-                }
+//                while (count($filterArray) != 1) {
+//                    array_pop($filterArray);
+//
+//                    $queriedArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
+//                    $articles = $this->paginationService->paginate($queriedArticles, 1, 12);
+//
+//                    if ($articles->getTotalItemCount() != 0) {
+//                        return $this->render('article_list.html.twig', [
+//                            'articles' => $articles,
+//                        ]);
+//                    }
+//                }
 
                 throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
 

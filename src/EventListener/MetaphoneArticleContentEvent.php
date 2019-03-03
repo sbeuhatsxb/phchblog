@@ -27,7 +27,8 @@ class MetaphoneArticleContentEvent
 
         $metaphoneArticle = new ArticleMetaphone();
         $metaphoneArticle->setLinkedArticle($entity);
-        $metaphoneArticle->setMetaphoneArticle(metaphone($entity->getContent()));
+        $splitedContent = substr($entity->getContent(), 0, 16383);
+        $metaphoneArticle->setMetaphoneArticle(metaphone($splitedContent));
         $entityManager->persist($metaphoneArticle);
         $entityManager->flush();
 

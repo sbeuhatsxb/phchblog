@@ -34,3 +34,21 @@ services:
     App\EventListener\MetaphoneArticleContentEvent:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+
+#    jms_job_queue.scheduler_registry:
+#        class: '%jms_job_queue.scheduler_registry.class%'
+#        public: true
+#
+#    # JMS\JobRepository is injected using JMS\DIExtra which is not symfony4 compatible
+#    App\Repository\JobRepository:
+#        calls:
+#            - method: setDispatcher
+#              arguments:
+#                  - '@event_dispatcher'
+#            - method: setRegistry
+#              arguments:
+#                  - '@doctrine'
+
+    App\Service\JobService:
+        arguments:
+            $cronDisabledFlagPath: '%kernel.project_dir%/var/data/cron_disabled'
