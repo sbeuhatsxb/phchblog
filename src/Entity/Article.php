@@ -85,13 +85,17 @@ class Article
      */
     private $articleMetaphone;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\LexicalIndex", inversedBy="linkedArticles")
+     */
+    private $lexicalIndex;
+
     public function __construct()
     {
         $this->category = new ArrayCollection();
         $this->linkedConcept = new ArrayCollection();
         $this->linkedAuthor = new ArrayCollection();
         $this->linkedCategory = new ArrayCollection();
-        //        $this->image = new EmbeddedFile();
     }
 
     public function getId(): ?int
@@ -320,6 +324,18 @@ class Article
         if ($this->getCreatedAt() === null) {
             $this->setCreatedAt(new \DateTime('now'));
         }
+    }
+
+    public function getLexicalIndex(): ?LexicalIndex
+    {
+        return $this->lexicalIndex;
+    }
+
+    public function setLexicalIndex(?LexicalIndex $lexicalIndex): self
+    {
+        $this->lexicalIndex = $lexicalIndex;
+
+        return $this;
     }
 
 }

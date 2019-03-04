@@ -60,7 +60,7 @@ class SearchBarController extends Controller
             $queriedArticles = $this->searchIndexedArticles->getArticlesFromSubmit($filterArray)->getQuery()->getResult();
 
             $articlesArray = [];
-            
+
             foreach ($queriedArticles as $queriedArticle){
                 $articlesArray[] = $queriedArticle->getLinkedArticle();
             }

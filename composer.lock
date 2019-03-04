@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "8246f7299f2c1a580716069d21adc9f6",
+    "content-hash": "21f24d632571ade09eac01fee3080c93",
     "packages": [
         {
             "name": "behat/transliterator",
@@ -1635,80 +1635,6 @@
             "time": "2014-01-12T16:20:24+00:00"
         },
         {
-            "name": "jms/job-queue-bundle",
-            "version": "2.0.1",
-            "target-dir": "JMS/JobQueueBundle",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/schmittjoh/JMSJobQueueBundle.git",
-                "reference": "7cbb84c5c3ea830c9b69ed1ef4807191cbc2f95f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSJobQueueBundle/zipball/7cbb84c5c3ea830c9b69ed1ef4807191cbc2f95f",
-                "reference": "7cbb84c5c3ea830c9b69ed1ef4807191cbc2f95f",
-                "shasum": ""
-            },
-            "require": {
-                "doctrine/common": "^2.3",
-                "php": "^7.1",
-                "symfony/debug": "^3.4 || ^4.0",
-                "symfony/framework-bundle": "^3.4 || ^4.0",
-                "symfony/process": "^3.4 || ^4.0"
-            },
-            "require-dev": {
-                "doctrine/doctrine-bundle": "*",
-                "doctrine/doctrine-fixtures-bundle": "*",
-                "doctrine/orm": "*",
-                "phpunit/phpunit": "^6.0",
-                "sensio/framework-extra-bundle": "*",
-                "symfony/browser-kit": "*",
-                "symfony/class-loader": "*",
-                "symfony/css-selector": "*",
-                "symfony/finder": "*",
-                "symfony/form": "*",
-                "symfony/intl": "*",
-                "symfony/twig-bundle": "*",
-                "symfony/validator": "*",
-                "symfony/yaml": "*"
-            },
-            "suggest": {
-                "sensio/framework-extra-bundle": "Required when using the webinterface.",
-                "symfony/twig-bundle": "Required when using the webinterface."
-            },
-            "type": "symfony-bundle",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "JMS\\JobQueueBundle": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache-2.0"
-            ],
-            "authors": [
-                {
-                    "name": "Johannes M. Schmitt",
-                    "email": "schmittjoh@gmail.com"
-                }
-            ],
-            "description": "Allows to run and schedule Symfony console commands as background jobs.",
-            "homepage": "http://jmsyst.com/bundles/JMSJobQueueBundle",
-            "keywords": [
-                "background",
-                "cron",
-                "job",
-                "queue",
-                "scheduled"
-            ],
-            "time": "2018-11-01T12:59:22+00:00"
-        },
-        {
             "name": "jms/metadata",
             "version": "2.0.0",
             "source": {
@@ -3019,16 +2945,16 @@
         },
         {
             "name": "symfony/debug",
-            "version": "v4.2.3",
+            "version": "v4.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
-                "reference": "cf9b2e33f757deb884ce474e06d2647c1c769b65"
+                "reference": "de73f48977b8eaf7ce22814d66e43a1662cc864f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/debug/zipball/cf9b2e33f757deb884ce474e06d2647c1c769b65",
-                "reference": "cf9b2e33f757deb884ce474e06d2647c1c769b65",
+                "url": "https://api.github.com/repos/symfony/debug/zipball/de73f48977b8eaf7ce22814d66e43a1662cc864f",
+                "reference": "de73f48977b8eaf7ce22814d66e43a1662cc864f",
                 "shasum": ""
             },
             "require": {
@@ -3071,7 +2997,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2019-01-25T14:35:16+00:00"
+            "time": "2019-03-03T18:11:24+00:00"
         },
         {
             "name": "symfony/dependency-injection",

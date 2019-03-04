@@ -133,9 +133,6 @@
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
-    "jms/job-queue-bundle": {
-        "version": "2.0.1"
-    },
     "jms/metadata": {
         "version": "2.0.0"
     },
