@@ -32,16 +32,17 @@ class LexicalIndex
      */
     private $metaphone;
 
-
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="lexicalIndex")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Article")
      */
-    private $linkedArticles;
+    private $linkedArticle;
 
     public function __construct()
     {
-        $this->linkedArticles = new ArrayCollection();
+        $this->linkedArticle = new ArrayCollection();
     }
+
+    
 
     public function getId(): ?int
     {
@@ -60,37 +61,6 @@ class LexicalIndex
         return $this;
     }
 
-    /**
-     * @return Collection|Article[]
-     */
-    public function getLinkedArticles(): Collection
-    {
-        return $this->linkedArticles;
-    }
-
-    public function addLinkedArticle(Article $linkedArticle): self
-    {
-        if (!$this->linkedArticles->contains($linkedArticle)) {
-            $this->linkedArticles[] = $linkedArticle;
-            $linkedArticle->setLexicalIndex($this);
-        }
-
-        return $this;
-    }
-
-    public function removeLinkedArticle(Article $linkedArticle): self
-    {
-        if ($this->linkedArticles->contains($linkedArticle)) {
-            $this->linkedArticles->removeElement($linkedArticle);
-            // set the owning side to null (unless already changed)
-            if ($linkedArticle->getLexicalIndex() === $this) {
-                $linkedArticle->setLexicalIndex(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getMetaphone(): ?string
     {
         return $this->metaphone;
@@ -99,6 +69,32 @@ class LexicalIndex
     public function setMetaphone(?string $metaphone): self
     {
         $this->metaphone = $metaphone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Article[]
+     */
+    public function getLinkedArticle(): Collection
+    {
+        return $this->linkedArticle;
+    }
+
+    public function addLinkedArticle(Article $linkedArticle): self
+    {
+        if (!$this->linkedArticle->contains($linkedArticle)) {
+            $this->linkedArticle[] = $linkedArticle;
+        }
+
+        return $this;
+    }
+
+    public function removeLinkedArticle(Article $linkedArticle): self
+    {
+        if ($this->linkedArticle->contains($linkedArticle)) {
+            $this->linkedArticle->removeElement($linkedArticle);
+        }
 
         return $this;
     }

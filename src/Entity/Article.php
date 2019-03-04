@@ -80,14 +80,8 @@ class Article
      */
     private $linkedCategory;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\LexicalIndex", inversedBy="linkedArticles")
-     */
-    private $lexicalIndex;
-
     public function __construct()
     {
-        $this->category = new ArrayCollection();
         $this->linkedConcept = new ArrayCollection();
         $this->linkedAuthor = new ArrayCollection();
         $this->linkedCategory = new ArrayCollection();
@@ -222,11 +216,6 @@ class Article
         return $this;
     }
 
-    public function __toString()
-    {
-        return (string)$this->getTitle();
-    }
-
     /**
      * @return Collection|Author[]
      */
@@ -302,17 +291,10 @@ class Article
             $this->setCreatedAt(new \DateTime('now'));
         }
     }
-
-    public function getLexicalIndex(): ?LexicalIndex
+    
+    public function __toString()
     {
-        return $this->lexicalIndex;
-    }
-
-    public function setLexicalIndex(?LexicalIndex $lexicalIndex): self
-    {
-        $this->lexicalIndex = $lexicalIndex;
-
-        return $this;
+        return (string)$this->getTitle();
     }
 
 }

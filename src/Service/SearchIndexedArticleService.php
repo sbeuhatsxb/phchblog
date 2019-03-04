@@ -8,25 +8,31 @@
 
 namespace App\Service;
 
-use App\Repository\ArticleMetaphoneRepository;
+use App\Repository\LexicalIndexRepository;
 
 
 class SearchIndexedArticleService
 {
     /**
-     * @var ArticleMetaphoneRepository
+     * @var LexicalIndexRepository $lexicalIndexRepository
      */
-    protected $metaphoneRepo;
+    protected $lexicalIndexRepository;
 
-    public function __construct(ArticleMetaphoneRepository $metaphoneRepo)
+    public function __construct(LexicalIndexRepository $lexicalIndexRepository)
     {
-        $this->metaphoneRepo = $metaphoneRepo;
+        $this->lexicalIndexRepository = $lexicalIndexRepository;
     }
 
-    public function getArticlesFromSubmit($filterArray)
+    public function getArticlesFromExactSubmit($filterArray)
     {
+        $articles = $this->lexicalIndexRepository->findFilteredArticlesByExactForm($filterArray);
 
-        $articles = $this->metaphoneRepo->findFilteredArticlesByForm($filterArray);
+        return $articles;
+    }
+
+    public function getArticlesFromApproximalSubmit($filterArray)
+    {
+        $articles = $this->lexicalIndexRepository->findFilteredArticlesByApproximalForm($filterArray);
 
         return $articles;
     }

@@ -8,7 +8,6 @@
 
 namespace App\Service;
 
-use App\Entity\ArticleMetaphone;
 use App\Entity\LexicalIndex;
 use App\Repository\ArticleRepository;
 use App\Repository\LexicalIndexRepository;
@@ -73,9 +72,9 @@ class IndexArticleActionService
         $articles = $this->articleRepo->findAll();
         $i = 0;
 
-        $dictionnary = [];
 
         foreach ($articles as $article){
+            $dictionnary = [];
             $articleStr = $article->getContent();
             $articleArray = explode(" ", $articleStr);
             foreach ($articleArray as $word){
@@ -125,13 +124,15 @@ class IndexArticleActionService
                     $this->entityManager->persist($wordExist);
                 }
 
+                $i++;
                 if($i >= 50){
                     $this->entityManager->flush();
+                    $i = 0;
                 }
-                $i++;
+
             }
+            $this->entityManager->flush();
         }
 
-        $this->entityManager->flush();
     }
 }

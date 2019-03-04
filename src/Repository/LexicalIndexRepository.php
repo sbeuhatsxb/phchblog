@@ -20,48 +20,37 @@ class LexicalIndexRepository extends ServiceEntityRepository
         parent::__construct($registry, LexicalIndex::class);
     }
 
-    public function findFilteredArticlesByForm($filterArray)
-    {
-        $qb = $this->createQueryBuilder('a')
-            ->join(Article::class, 'la')
-            ->where('la.isPublished = true')
-            ->orderBy('la.createdAt', 'DESC');
+    private function linkedPublishedArticleQuery(){
+        $qb = $this->createQueryBuilder('l')
+            ->join(Article::class, 'a')
+            ->where('a.isPublished = true')
+            ->orderBy('a.createdAt', 'DESC');
 
-        foreach ($filterArray as $filter) {
-            $qb->andWhere('a.metaphoneArticle LIKE :filter')
-                ->setParameter('filter', '%' . metaphone($filter) . '%');
-        }
-
-        $qb->getQuery()->getResult();
         return $qb;
     }
 
-    // /**
-    //  * @return LexicalIndex[] Returns an array of LexicalIndex objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function findFilteredArticlesByExactForm($filterArray)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->linkedPublishedArticleQuery();
 
-    /*
-    public function findOneBySomeField($value): ?LexicalIndex
-    {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        foreach ($filterArray as $filter) {
+            $qb->andWhere('l.word LIKE :filter')
+                ->setParameter('filter', '%' . $filter . '%');
+        }
+
+        return $qb;
     }
-    */
+
+    public function findFilteredArticlesByApproximalForm($filterArray)
+    {
+        $qb = $this->linkedPublishedArticleQuery();
+
+        foreach ($filterArray as $filter) {
+            $qb->andWhere('l.metaphone LIKE :filter')
+                ->setParameter('filter', '%' . metaphone($filter) . '%');
+        }
+
+        return $qb;
+    }
+
 }

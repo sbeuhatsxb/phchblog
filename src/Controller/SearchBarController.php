@@ -8,6 +8,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Article;
+use App\Entity\LexicalIndex;
+use App\Service\IndexArticleActionService;
 use App\Service\LastArticlesService;
 use App\Service\PaginationService;
 use App\Service\SearchIndexedArticleService;
@@ -56,30 +59,48 @@ class SearchBarController extends Controller
 
             $filterArray = explode(" ", $filter['search']);
 
-
-            $queriedArticles = $this->searchIndexedArticles->getArticlesFromSubmit($filterArray)->getQuery()->getResult();
-
             $articlesArray = [];
 
-            foreach ($queriedArticles as $queriedArticle){
-                $articlesArray[] = $queriedArticle->getLinkedArticle();
+            //Comparing query to database index #word
+            $exactLexicalIndexesReturned = $this->searchIndexedArticles->getArticlesFromExactSubmit($filterArray)->getQuery()->getResult();
+            if(count($exactLexicalIndexesReturned) > 0 ){
+                /**
+                 * @var LexicalIndex $lexicalIndex
+                 */
+                foreach ($exactLexicalIndexesReturned as $lexicalIndex){
+                    dd($lexicalIndex->getLinkedArticle()->count());
+                    foreach($lexicalIndex->getLinkedArticle() as $article){
+                        dump($article);
+                        if(!in_array($article, $articlesArray)){
+                            $articlesArray[] = $article;
+                        }
+                    };
+                    dd($articlesArray);
+                }
+            } else {
+                //Comparing query to database index #metaphone
+                $approximateLexicalIndexesReturned = $this->searchIndexedArticles->getArticlesFromApproximalSubmit($filterArray)->getQuery()->getResult();
+
+                /**
+                 * @var LexicalIndex $lexicalIndex
+                 */
+                foreach ($approximateLexicalIndexesReturned as $lexicalIndex){
+                    foreach($lexicalIndex->getLinkedArticle() as $article){
+                        if(!in_array($article, $articlesArray)){
+                            $articlesArray[] = $article;
+                        }
+                    };
+                }
+
             }
+
+
+
+
 
             $articles = $this->paginationService->paginate($articlesArray, 1, 12);
 
             if ($articles->getTotalItemCount() == 0) {
-//                while (count($filterArray) != 1) {
-//                    array_pop($filterArray);
-//
-//                    $queriedArticles = $this->lastArticlesService->getArticlesFromSubmit($filterArray);
-//                    $articles = $this->paginationService->paginate($queriedArticles, 1, 12);
-//
-//                    if ($articles->getTotalItemCount() != 0) {
-//                        return $this->render('article_list.html.twig', [
-//                            'articles' => $articles,
-//                        ]);
-//                    }
-//                }
 
                 throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
 
