@@ -81,11 +81,6 @@ class Article
     private $linkedCategory;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\ArticleMetaphone", mappedBy="linkedArticle", cascade={"persist", "remove"})
-     */
-    private $articleMetaphone;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\LexicalIndex", inversedBy="linkedArticles")
      */
     private $lexicalIndex;
@@ -291,24 +286,6 @@ class Article
     {
         if ($this->linkedCategory->contains($linkedCategory)) {
             $this->linkedCategory->removeElement($linkedCategory);
-        }
-
-        return $this;
-    }
-
-    public function getArticleMetaphone(): ?ArticleMetaphone
-    {
-        return $this->articleMetaphone;
-    }
-
-    public function setArticleMetaphone(?ArticleMetaphone $articleMetaphone): self
-    {
-        $this->articleMetaphone = $articleMetaphone;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newLinkedArticle = $articleMetaphone === null ? null : $this;
-        if ($newLinkedArticle !== $articleMetaphone->getLinkedArticle()) {
-            $articleMetaphone->setLinkedArticle($newLinkedArticle);
         }
 
         return $this;
