@@ -291,7 +291,7 @@ class Article
             $this->setCreatedAt(new \DateTime('now'));
         }
     }
-    
+
     public function __toString()
     {
         return (string)$this->getTitle();

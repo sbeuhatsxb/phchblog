@@ -59,6 +59,10 @@ class SearchBarController extends Controller
 
             $filterArray = explode(" ", $filter['search']);
 
+
+            /**
+             *[[[[[ EXTRACTING ARTICLES FROM DB ]]]]]
+             */
             $articlesArray = [];
 
             //Comparing query to database index #word
@@ -68,43 +72,54 @@ class SearchBarController extends Controller
                  * @var LexicalIndex $lexicalIndex
                  */
                 foreach ($exactLexicalIndexesReturned as $lexicalIndex){
-                    dd($lexicalIndex->getLinkedArticle()->count());
                     foreach($lexicalIndex->getLinkedArticle() as $article){
-                        dump($article);
                         if(!in_array($article, $articlesArray)){
                             $articlesArray[] = $article;
                         }
                     };
-                    dd($articlesArray);
                 }
             } else {
                 //Comparing query to database index #metaphone
                 $approximateLexicalIndexesReturned = $this->searchIndexedArticles->getArticlesFromApproximalSubmit($filterArray)->getQuery()->getResult();
-
-                /**
-                 * @var LexicalIndex $lexicalIndex
-                 */
-                foreach ($approximateLexicalIndexesReturned as $lexicalIndex){
-                    foreach($lexicalIndex->getLinkedArticle() as $article){
-                        if(!in_array($article, $articlesArray)){
-                            $articlesArray[] = $article;
-                        }
-                    };
+                if(count($approximateLexicalIndexesReturned) > 0){
+                    $approx = true;
+                    /**
+                     * @var LexicalIndex $lexicalIndex
+                     */
+                    foreach ($approximateLexicalIndexesReturned as $lexicalIndex){
+                        foreach($lexicalIndex->getLinkedArticle() as $article){
+                            if(!in_array($article, $articlesArray)){
+                                $articlesArray[] = $article;
+                            }
+                        };
+                    }
+                } else {
+//                    throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
                 }
 
             }
 
+            /**
+             *[[[[[ SCORING ARTICLES ]]]]]
+             * @var Article $article
+             */
+            $unreasonnedValue = 100;
+            $unreasonnedValuePerArticle = intval($unreasonnedValue / count($filterArray));
+            foreach ($articlesArray as $article){
+                foreach ($filterArray as $filter){
+                    $occurrenceNb = substr_count($article->getContent(), $filter);
+                    $score = $occurrenceNb * $unreasonnedValuePerArticle;
+                }
+                $orderArticles[] = [$score => $article];
+            }
 
+
+//            $order = array_multisort($scoreArray, $articlesArray);
+//            dd($articlesArray);
 
 
 
             $articles = $this->paginationService->paginate($articlesArray, 1, 12);
-
-            if ($articles->getTotalItemCount() == 0) {
-
-                throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
-
-            };
 
             return $this->render('article_list.html.twig', [
                 'articles' => $articles,
