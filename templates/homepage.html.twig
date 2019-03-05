@@ -44,7 +44,7 @@
 
 <body class='index'>
 {#MAIN CONTAINER BEGIN#}
-<div class="container">
+<div class="header-wrapper">
     <div class='top_wrapper'>
 
         {#HEADER BEGIN#}
@@ -78,60 +78,62 @@
                 <div class='header_right'></div>
 
                 {#NAVBAR BEGIN#}
-                <nav class="navbar navbar-expand-lg navbar-dark custom">
-                    <a class="navbar-brand" href="{{ path('index') }}">Navigation</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse"
-                            data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                            aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+                <div class="container">{#<- centers the navbar #}
+                    <nav class="navbar navbar-expand-lg navbar-dark custom">
+                        <a class="navbar-brand" href="{{ path('index') }}">Navigation</a>
+                        <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
 
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{ path('index') }}">Accueil <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('index') }}">Bibliographie </a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Sections
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ path('index') }}">Section 1</a>
-                                    <a class="dropdown-item" href="{{ path('index') }}">Section 2</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{{ path('index') }}">Autre section 1</a>
-                                </div>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('index') }}">Liens externes</a>
-                            </li>
-                        </ul>
-                        {#Barre de recherche (searchbar) DEBUT#}
-                        {% set searchbar = search_bar.getForm().createView() %}
-                        {#{{ dump() }}#}
-                        <div class="row justify-content-xs-between">
-                            <div class="form-inline my-2 my-lg-0 align-self-end">
-                                {{ form_start(searchbar) }}
-                                <div class="row">
-                                    <div class="col-xs-8 mr-sm-2">
-                                        {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
-                                        </div>
-                                        <div class="col-xs-3">
-                                            {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
-                                            <button class="btn btn-outline-secondary my-2 my-sm-0" style="font-size: 13px;" type="save"><i class="fas fa-search"></i></button>
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav mr-auto">
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('index') }}">Accueil <span class="sr-only">(current)</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('index') }}">Bibliographie </a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Sections
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="{{ path('index') }}">Section 1</a>
+                                        <a class="dropdown-item" href="{{ path('index') }}">Section 2</a>
+                                        <div class="dropdown-divider"></div>
+                                        <a class="dropdown-item" href="{{ path('index') }}">Autre section 1</a>
+                                    </div>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('index') }}">Liens externes</a>
+                                </li>
+                            </ul>
+                            {#Barre de recherche (searchbar) DEBUT#}
+                            {% set searchbar = search_bar.getForm().createView() %}
+                            {#{{ dump() }}#}
+                            <div class="row justify-content-xs-between">
+                                <div class="form-inline my-2 my-lg-0 align-self-end">
+                                    {{ form_start(searchbar) }}
+                                    <div class="row">
+                                        <div class="col-xs-8 mr-sm-2">
+                                            {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
+                                            </div>
+                                            <div class="col-xs-3">
+                                                {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
+                                                <button class="btn btn-outline-secondary my-2 my-sm-0" style="font-size: 13px;" type="save"><i class="fas fa-search"></i></button>
+                                            </div>
                                         </div>
                                     </div>
+                                    {{ form_end(searchbar) }}
                                 </div>
-                                {{ form_end(searchbar) }}
                             </div>
-                        </div>
-                        {#Barre de recherche (search bar) fin#}
+                            {#Barre de recherche (search bar) fin#}
 
-                </nav>
+                    </nav>
+                </div>
                 {#NAVBAR END#}
 
             </div>

@@ -131,16 +131,7 @@ class Article
 
         return $this;
     }
-
-    public function removeCategory(Category $category): self
-    {
-        if ($this->category->contains($category)) {
-            $this->category->removeElement($category);
-        }
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection|Concept[]
      */

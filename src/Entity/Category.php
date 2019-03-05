@@ -62,7 +62,7 @@ class Category
     {
         if (!$this->articles->contains($article)) {
             $this->articles[] = $article;
-            $article->addCategory($this);
+            $article->addLinkedCategory($this);
         }
 
         return $this;
@@ -72,7 +72,7 @@ class Category
     {
         if ($this->articles->contains($article)) {
             $this->articles->removeElement($article);
-            $article->removeCategory($this);
+            $article->removeLinkedCategory($this);
         }
 
         return $this;

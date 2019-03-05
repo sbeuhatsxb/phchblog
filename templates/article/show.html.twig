@@ -15,6 +15,12 @@
                             le {{ article.createdAt|date("d/m/Y") }}
                         </h5>
                     </tr>
+                    <tr>
+                        <h5 style="font-stretch: ultra-condensed; color: #aaa; padding-bottom: 8px;">
+                            Première publication : {{ article.createdAt ? article.createdAt|date('Y-m-d') : '' }}&nbsp;&nbsp;
+                            Mis à jour le : {{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}
+                        </h5>
+                    </tr>
                     {% if article.image != null %}
                         <div align="center">
                             <img class="articleimg " src="{{ asset('uploads/images/' ~ article.image ) }}"
@@ -26,14 +32,7 @@
                     <tr>
                         <p class="text-justify">{{ article.content| raw }}</p>
                     </tr>
-                    <tr>
-                        <th>Première publication :</th>
-                        <td>{{ article.createdAt ? article.createdAt|date('Y-m-d') : '' }}</td>
-                    </tr>
-                    <tr>
-                        <th>Mis à jour le :</th>
-                        <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}</td>
-                    </tr>
+                    <div class="post-footer"></div>
                     </tbody>
                 </table>
             </div>
