@@ -43,18 +43,6 @@ class Article
     private $linkedConcept;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     * @var string
-     */
-    private $image;
-
-    /**
-     * @Vich\UploadableField(mapping="article_images", fileNameProperty="image")
-     * @var File
-     */
-    private $imageFile;
-
-    /**
      * @ORM\Column(type="boolean")
      */
     private $isPublished = false;
@@ -79,6 +67,11 @@ class Article
      * @ORM\ManyToMany(targetEntity="App\Entity\Category")
      */
     private $linkedCategory;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Image")
+     */
+    private $linkedImage;
 
     //not mapped property - needs to be public
     public $score;
@@ -156,34 +149,6 @@ class Article
         }
 
         return $this;
-    }
-
-    public function setImageFile(File $image = null)
-    {
-        $this->imageFile = $image;
-
-        // VERY IMPORTANT:
-        // It is required that at least one field changes if you are using Doctrine,
-        // otherwise the event listeners won't be called and the file is lost
-        if ($image) {
-            // if 'updatedAt' is not defined in your entity, use another property
-            $this->updatedAt = new \DateTime('now');
-        }
-    }
-
-    public function getImageFile()
-    {
-        return $this->imageFile;
-    }
-
-    public function setImage($image)
-    {
-        $this->image = $image;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
     }
 
     public function getIsPublished(): ?bool
@@ -274,6 +239,30 @@ class Article
         return $this;
     }
 
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(?int $score): self
+    {
+        $this->score = $score;
+
+        return $this;
+    }
+
+    public function getLinkedImage(): ?Image
+    {
+        return $this->linkedImage;
+    }
+
+    public function setLinkedImage(?Image $linkedImage): self
+    {
+        $this->linkedImage = $linkedImage;
+
+        return $this;
+    }
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate
@@ -290,17 +279,4 @@ class Article
     {
         return (string)$this->getTitle();
     }
-
-    public function getScore(): ?int
-    {
-        return $this->score;
-    }
-
-    public function setScore(?int $score): self
-    {
-        $this->score = $score;
-
-        return $this;
-    }
-
 }

@@ -21,9 +21,9 @@
                             Mis à jour le : {{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}
                         </h5>
                     </tr>
-                    {% if article.image != null %}
+                    {% if article.linkedImage != null %}
                         <div align="center">
-                            <img class="articleimg " src="{{ asset('uploads/images/' ~ article.image ) }}"
+                            <img class="articleimg " src="{{ asset('uploads/images/' ~ article.linkedImage ) }}"
                                  alt="{{ article.title }}">
                         </div>
                     {% endif %}

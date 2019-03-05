@@ -32,8 +32,8 @@
                         {# -> data-mh -> js -> same size boxes#}
                         <div data-mh="my-group" class="card">
 
-                            {% if article.image != null %}
-                                <img class="card-img-top" src="{{ asset('uploads/images/' ~ article.image ) }}"
+                            {% if article.linkedImage != null %}
+                                <img class="card-img-top" src="{{ asset('uploads/images/' ~ article.linkedImage ) }}"
                                      alt="{{ article.title }}">
                             {% endif %}
 
@@ -43,7 +43,7 @@
                                     <small>De {{ article.writer }}</small>&nbsp;&nbsp;&nbsp;
                                     <small>le {{ article.createdAt|date("d/m/Y") }} </small>
                                 </h6>
-                                {% if article.image != null %}
+                                {% if article.linkedImage != null %}
                                     <p class="card-text">{{ article.content|slice(0, 240)| raw }} ...</p>
                                 {% else %}
                                     <p class="card-text">{{ article.content|slice(0, 480)| raw }} ...</p>
