@@ -79,8 +79,8 @@
 
                 {#NAVBAR BEGIN#}
                 <div class="container">{#<- centers the navbar #}
-                    <nav class="navbar navbar-expand-lg navbar-dark custom">
-                        <a class="navbar-brand" href="{{ path('index') }}">Navigation</a>
+                    <nav class="navbar navbar-expand-lg navbar-dark">
+                        <a class="navbar-brand" href="{{ path('index') }}">Accueil</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
@@ -88,10 +88,7 @@
                         </button>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav mr-auto">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="{{ path('index') }}">Accueil <span class="sr-only">(current)</span></a>
-                                </li>
+                            <ul class="navbar-nav">
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('index') }}">Bibliographie </a>
                                 </li>
@@ -108,32 +105,32 @@
                                     </div>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('index') }}">Liens externes</a>
+                                    <a class="nav-link" href="{{ path('index') }}">Liens&nbsp;externes</a>
                                 </li>
                             </ul>
                             {#Barre de recherche (searchbar) DEBUT#}
                             {% set searchbar = search_bar.getForm().createView() %}
-                            {#{{ dump() }}#}
-                            <div class="row justify-content-xs-between">
-                                <div class="form-inline my-2 my-lg-0 align-self-end">
-                                    {{ form_start(searchbar) }}
-                                    <div class="row">
-                                        <div class="col-xs-8 mr-sm-2">
-                                            {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
-                                            </div>
-                                            <div class="col-xs-3">
-                                                {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
-                                                <button class="btn btn-outline-secondary my-2 my-sm-0" style="font-size: 13px;" type="save"><i class="fas fa-search"></i></button>
+                                <div class="container">
+                                    <div class="form-inline my-2">
+                                        <div class="row col-lg-5 offset-lg-3">
+                                        {{ form_start(searchbar) }}
+                                            <div class="row">
+                                                <div class="col-xs-8">
+                                                    {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
+                                                </div>
+                                                <div class="col-xs-2">
+                                                    <button class="btn btn-outline-secondary" style="font-size: 13px;" type="save"><i class="fas fa-search"></i></button>
+                                                    {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
+                                                </div>
                                             </div>
                                         </div>
+                                        {{ form_end(searchbar) }}
                                     </div>
-                                    {{ form_end(searchbar) }}
                                 </div>
                             </div>
                             {#Barre de recherche (search bar) fin#}
-
-                    </nav>
-                </div>
+                        </nav>
+                    </div>
                 {#NAVBAR END#}
 
             </div>

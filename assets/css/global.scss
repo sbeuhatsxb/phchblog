@@ -46,6 +46,16 @@
   font-size: 14px;
 }
 
+.form-group {
+  margin-left: 1rem;
+}
+
+@media only screen and (min-width: 576px) {
+  .truc {
+    margin-right: 5rem;
+  }
+}
+
 a {
   color: #666;
 }
@@ -243,7 +253,7 @@ h5 {
   z-index: 100;
   min-height: 300px;
   background: url("../../public/pictures/Strossburi1024.jpg") no-repeat;
-  background-color: #111111;
+  background-color: #434343;
   background-size: cover;
   background-position: center center;
 }
@@ -261,7 +271,7 @@ h5 {
 .side-card {
   background: #fff;
   border-radius: 2px;
-  margin: 1rem;
+  margin-left: 1rem;
   position: relative;
 }
 
@@ -1019,89 +1029,6 @@ html[xmlns] .slides {
 
 .FollowByEmail p {
   margin-bottom: 30px;
-}
-
-.widget_socials p {
-  margin-bottom: 30px;
-}
-
-.widget_socials a {
-  background-color: #888888;
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  border-radius: 2px;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-  float: left;
-  height: 35px;
-  margin-bottom: 10px;
-  margin-right: 10px;
-  overflow: hidden;
-  text-indent: 9999em;
-  width: 35px;
-}
-
-.widget_socials a:hover {
-  background-color: #666666 !important;
-}
-
-.widget_socials a.facebook {
-  background-color: #6F85AE;
-  background-image: url("https://lh3.googleusercontent.com/-ifDeD3iKioY/UcPx90L45OI/AAAAAAAAB6A/ObECkCist50/s24/facebook.png");
-}
-
-.widget_socials a.twitter {
-  background-color: #23B6C6;
-  background-image: url("https://lh5.googleusercontent.com/-ORgZZWh5n_I/UcPyEBWt1tI/AAAAAAAAB9E/YCY8K1egwSs/s24/twitter.png");
-}
-
-.widget_socials a.flickr {
-  background-color: #FF0084;
-  background-image: url("https://lh3.googleusercontent.com/-H4N0uYEwjBk/UcPx95Y8SII/AAAAAAAAB6E/ciYk7tJP6K0/s24/flickr.png");
-}
-
-.widget_socials a.dribbble {
-  background-color: #C6376D;
-  background-image: url("https://lh6.googleusercontent.com/-DHQ25c_6w_E/UcPx9kiYk7I/AAAAAAAAB54/6-4jSV0gsFY/s24/dribbble.png");
-}
-
-.widget_socials a.vimeo {
-  background-color: #20B9EB;
-  background-image: url("https://lh5.googleusercontent.com/-kI8F8zOCSSA/UcPyEbKEGcI/AAAAAAAAB9U/8Ancbp9MIMM/s24/vimeo.png");
-}
-
-.widget_socials a.tumblr {
-  background-color: #2E4B68;
-  background-image: url("https://lh3.googleusercontent.com/-Dtw42nPOLhY/UcPyDjtZmgI/AAAAAAAAB84/djpN4lQZdPE/s24/tumblr.png");
-}
-
-.widget_socials a.rss {
-  background-color: #FA7204;
-  background-image: url("https://lh4.googleusercontent.com/-EbEXnpN-RIs/UcPyCZPXClI/AAAAAAAAB8Q/IDEpJmzqkuU/s24/rss.png");
-}
-
-.widget_socials a.linkedin {
-  background-color: #006699;
-  background-image: url("https://lh5.googleusercontent.com/-gAsnBv-K_hk/UcPx_FpxF2I/AAAAAAAAB6o/l07Bq86UHSE/s24/linkedin.png");
-}
-
-.widget_socials a.youtube {
-  background-color: #DD3D3D;
-  background-image: url("https://lh6.googleusercontent.com/-aVPy7jN4T7Q/UcPyEV_ljFI/AAAAAAAAB9Q/cVUbI1P1FTg/s24/youtube.png");
-}
-
-.widget_socials a.google_plus {
-  background-color: #DD3D3D;
-  background-image: url("https://lh3.googleusercontent.com/-H8fbtEHl9yw/UcPx-RGuARI/AAAAAAAAB6Q/7j9H_Ry5_m4/s24/google%252B.png");
-}
-
-.widget_socials a.pinterest {
-  background-color: #C9242D;
-  background-image: url("https://lh5.googleusercontent.com/-pGslChgpGfU/UcPyB_-yhgI/AAAAAAAAB8A/H8IyIF4IDG8/s24/pinterest.png");
-}
-
-.widget_socials a.instagram {
-  background-color: #1B577D;
-  background-image: url("https://lh6.googleusercontent.com/-eIdoWi7bEVc/UcPx-5tP-cI/AAAAAAAAB6g/OLK97uwHujA/s24/instagram.png");
 }
 
 div.post_item:hover {

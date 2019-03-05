@@ -131,7 +131,7 @@ class Article
 
         return $this;
     }
-    
+
     /**
      * @return Collection|Concept[]
      */
