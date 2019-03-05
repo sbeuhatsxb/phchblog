@@ -43,13 +43,13 @@ class SearchIndexedArticleService
 
         //Comparing query to database index #word
         $exactLexicalIndexesReturned = $this->lexicalIndexRepository->findFilteredArticlesByExactForm($filterArray)->getQuery()->getResult();
-        if(count($exactLexicalIndexesReturned) > 0 ){
+        if (count($exactLexicalIndexesReturned) > 0) {
             /**
              * @var LexicalIndex $lexicalIndex
              */
-            foreach ($exactLexicalIndexesReturned as $lexicalIndex){
-                foreach($lexicalIndex->getLinkedArticle() as $article){
-                    if(!in_array($article, $articlesArray)){
+            foreach ($exactLexicalIndexesReturned as $lexicalIndex) {
+                foreach ($lexicalIndex->getLinkedArticle() as $article) {
+                    if (!in_array($article, $articlesArray)) {
                         $articlesArray[] = $article;
                     }
                 };
@@ -57,13 +57,13 @@ class SearchIndexedArticleService
         } else {
             //Comparing query to database index #metaphone
             $approximateLexicalIndexesReturned = $this->lexicalIndexRepository->findFilteredArticlesByApproximalForm($filterArray)->getQuery()->getResult();
-            if(count($approximateLexicalIndexesReturned) > 0){
+            if (count($approximateLexicalIndexesReturned) > 0) {
                 /**
                  * @var LexicalIndex $lexicalIndex
                  */
-                foreach ($approximateLexicalIndexesReturned as $lexicalIndex){
-                    foreach($lexicalIndex->getLinkedArticle() as $article){
-                        if(!in_array($article, $articlesArray)){
+                foreach ($approximateLexicalIndexesReturned as $lexicalIndex) {
+                    foreach ($lexicalIndex->getLinkedArticle() as $article) {
+                        if (!in_array($article, $articlesArray)) {
                             $articlesArray[] = $article;
                         }
                     };
@@ -81,8 +81,8 @@ class SearchIndexedArticleService
          */
         $unreasonnedValue = 100;
         $unreasonnedValuePerArticle = intval($unreasonnedValue / count($filterArray));
-        foreach ($articlesArray as $article){
-            foreach ($filterArray as $filter){
+        foreach ($articlesArray as $article) {
+            foreach ($filterArray as $filter) {
                 //Count the occurrences of a term in the article
                 $occurrenceNb = substr_count($article->getContent(), $filter);
                 //score the article according to its occurrences
