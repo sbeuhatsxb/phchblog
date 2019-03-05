@@ -31,6 +31,6 @@ services:
         class: App/Service/PaginationService
         arguments: ["@doctrine.orm.entity_manager", "knp_paginator","@request_stack"]
 
-    App\EventListener\MetaphoneArticleContentEvent:
+    App\EventListener\IndexLastSubmitedArticleEvent:
         tags:
             - { name: doctrine.event_listener, event: postPersist }

@@ -279,4 +279,9 @@ class Article
     {
         return (string)$this->getTitle();
     }
+
+    public function getImageFile()
+    {
+        return '/uploads/images/'.$this->getLinkedImage()->getImageFile();
+    }
 }

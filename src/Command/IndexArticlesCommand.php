@@ -36,6 +36,6 @@ class IndexArticlesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->indexArticleActionService->lexicalIndexArticle();
+        $this->indexArticleActionService->indexAllArticle();
     }
 }

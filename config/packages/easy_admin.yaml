@@ -34,6 +34,7 @@ easy_admin:
           - { property: 'writer', label: 'Auteur de l`article' }
           - { property: 'isPublished', label: 'Article en publication' }
           - { property: 'content', label: 'Article' }
+          - { property: 'linkedImage', label: 'Image associée', type: 'image', base_path: '/uploads/images/' }
 
       show:
         fields:
@@ -44,8 +45,8 @@ easy_admin:
           - { property: 'linkedAuthor', label: 'Auteur(s) en relation' }
           - { property: 'linkedConcept', label: 'Concept(s) en relation' }
           - { property: 'writer', label: 'Auteur de l`article' }
-#          - { property: 'linkedImage', label: 'Illustration', type: 'vich_image' }
           - { property: 'isPublished', label: 'Article en publication' }
+          - { property: 'linkedImage', label: 'Image associée', type: 'image', base_path: '/uploads/images/' }
       form:
         fields:
 #          - { type: 'tab' , label: 'Basic Information' }
@@ -56,7 +57,6 @@ easy_admin:
           - { property: 'linkedConcept', label: 'Concept(s) en relation' }
           - { property: 'writer', label: 'Auteur de l`article' }
           - { property: 'linkedImage', label: 'Image associée' }
-#          - { property: 'linkedImage', label: 'Illustration', type: 'vich_image' }
           - { property: 'isPublished', label: 'Article en publication' }
     Categories:
       class: App\Entity\Category

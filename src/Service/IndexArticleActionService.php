@@ -46,14 +46,30 @@ class IndexArticleActionService
         $this->lexicalIndexRepo = $lexicalIndexRepo;
     }
 
-    public function lexicalIndexArticle()
+    /**
+     * @param array $article
+     */
+    public function indexArticle(array $article)
     {
+        $this->lexicalIndexArticle($article);
+    }
 
+    public function indexAllArticle()
+    {
         //Clean the index
         $this->cleaningIndex();
 
-        //Creating the index
         $articles = $this->articleRepo->findAll();
+        $this->lexicalIndexArticle($articles);
+    }
+
+
+    /**
+     * @param array $articles
+     */
+    public function lexicalIndexArticle(array $articles)
+    {
+        //Creating the index
         $i = 0;
 
         foreach ($articles as $article) {
@@ -89,8 +105,7 @@ class IndexArticleActionService
                 if (!in_array($word, $dictionnary) &&
                     !in_array($word, self::DETERMINANTS) &&
                     !in_array($word, self::PREPOSITIONS) &&
-                    !in_array($word, self::CONJONCTIONS))
-                {
+                    !in_array($word, self::CONJONCTIONS)) {
                     $dictionnary[] = $word;
                 }
             }
@@ -127,7 +142,8 @@ class IndexArticleActionService
         }
     }
 
-    private function cleaningIndex(){
+    private function cleaningIndex()
+    {
         //Removing the index
         $LIrepo = $this->entityManager->getRepository(LexicalIndex::class);
         $indexes = $LIrepo->findAll();
