@@ -59,65 +59,12 @@ class SearchBarController extends Controller
 
             $filterArray = explode(" ", $filter['search']);
 
+            $articlesArray = $this->searchIndexedArticles->getArticlesFromSubmit($filterArray);
 
-            /**
-             *[[[[[ EXTRACTING ARTICLES FROM DB ]]]]]
-             */
-            $articlesArray = [];
-
-            //Comparing query to database index #word
-            $exactLexicalIndexesReturned = $this->searchIndexedArticles->getArticlesFromExactSubmit($filterArray)->getQuery()->getResult();
-            if(count($exactLexicalIndexesReturned) > 0 ){
-                /**
-                 * @var LexicalIndex $lexicalIndex
-                 */
-                foreach ($exactLexicalIndexesReturned as $lexicalIndex){
-                    foreach($lexicalIndex->getLinkedArticle() as $article){
-                        if(!in_array($article, $articlesArray)){
-                            $articlesArray[] = $article;
-                        }
-                    };
-                }
-            } else {
-                //Comparing query to database index #metaphone
-                $approximateLexicalIndexesReturned = $this->searchIndexedArticles->getArticlesFromApproximalSubmit($filterArray)->getQuery()->getResult();
-                if(count($approximateLexicalIndexesReturned) > 0){
-                    $approx = true;
-                    /**
-                     * @var LexicalIndex $lexicalIndex
-                     */
-                    foreach ($approximateLexicalIndexesReturned as $lexicalIndex){
-                        foreach($lexicalIndex->getLinkedArticle() as $article){
-                            if(!in_array($article, $articlesArray)){
-                                $articlesArray[] = $article;
-                            }
-                        };
-                    }
-                } else {
-//                    throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
-                }
+            if(is_null($articlesArray)){
+                throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
 
             }
-
-            /**
-             *[[[[[ SCORING ARTICLES ]]]]]
-             * @var Article $article
-             */
-            $unreasonnedValue = 100;
-            $unreasonnedValuePerArticle = intval($unreasonnedValue / count($filterArray));
-            foreach ($articlesArray as $article){
-                foreach ($filterArray as $filter){
-                    $occurrenceNb = substr_count($article->getContent(), $filter);
-                    $score = $occurrenceNb * $unreasonnedValuePerArticle;
-                }
-                $orderArticles[] = [$score => $article];
-            }
-
-
-//            $order = array_multisort($scoreArray, $articlesArray);
-//            dd($articlesArray);
-
-
 
             $articles = $this->paginationService->paginate($articlesArray, 1, 12);
 

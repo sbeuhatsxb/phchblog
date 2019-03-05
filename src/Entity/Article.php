@@ -80,6 +80,9 @@ class Article
      */
     private $linkedCategory;
 
+    //not mapped property - needs to be public
+    public $score;
+
     public function __construct()
     {
         $this->linkedConcept = new ArrayCollection();
@@ -295,6 +298,18 @@ class Article
     public function __toString()
     {
         return (string)$this->getTitle();
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(?int $score): self
+    {
+        $this->score = $score;
+
+        return $this;
     }
 
 }

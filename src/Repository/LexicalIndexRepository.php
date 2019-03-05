@@ -37,7 +37,7 @@ class LexicalIndexRepository extends ServiceEntityRepository
             $qb->andWhere('l.word LIKE :filter')
                 ->setParameter('filter', '%' . $filter . '%');
         }
-
+        
         return $qb;
     }
 
