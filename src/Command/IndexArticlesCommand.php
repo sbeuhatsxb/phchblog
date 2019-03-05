@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class IndexArticlesCommand extends Command
 {
-    protected static $defaultName = 'app:index';
+    protected static $defaultName = 'app:index:article';
 
     /**
      * @var IndexArticleActionService $indexArticleActionService
