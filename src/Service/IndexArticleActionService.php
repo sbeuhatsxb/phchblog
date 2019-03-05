@@ -21,6 +21,7 @@ class IndexArticleActionService
     const CONJONCTIONS = ["et"];
     const DETERMINANTS = ["le", "la", "les", "l'", "un", "une", "des", "du", "au", "aux", "son", "sa", "ses", "ce", "cet", "cette"];
     const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&"];
+    const SYMBOLE_APPERTURES = ["<", "&", "/"];
 
     /**
      * @var EntityManagerInterface $entityManager
@@ -45,76 +46,62 @@ class IndexArticleActionService
         $this->lexicalIndexRepo = $lexicalIndexRepo;
     }
 
-    public function indexArticle()
-    {
-
-        $articles = $this->articleRepo->findAll();
-        $i = 0;
-
-        foreach ($articles as $article) {
-            $metaphoneArticle = new ArticleMetaphone();
-
-            $metaphoneArticle->setLinkedArticle($article);
-            $splitedContent = substr($article->getContent(), 0, 16383);
-            $metaphoneArticle->setMetaphoneArticle(metaphone($splitedContent));
-            $this->entityManager->persist($metaphoneArticle);
-            if ($i >= 20) {
-                $this->entityManager->flush();
-            }
-            $i++;
-        }
-
-        $this->entityManager->flush();
-    }
-
     public function lexicalIndexArticle()
     {
 
+        //Clean the index
+        $this->cleaningIndex();
+
+        //Creating the index
         $articles = $this->articleRepo->findAll();
         $i = 0;
 
-
         foreach ($articles as $article) {
+            //Each article sets its own dictionnary
             $dictionnary = [];
             $articleStr = $article->getContent();
             $articleArray = explode(" ", $articleStr);
+
+            //Clean the index as much as possible :
             foreach ($articleArray as $word) {
                 $word = strtolower($word);
 
                 //excluding words begining with /
-                if (substr($word, 0, 1) === "/") {
-                    continue;
-                    //excluding words begining with <
-                } elseif (substr($word, 0, 1) === "<") {
-                    continue;
-                } elseif (substr($word, 0, 1) === "&") {
-                    continue;
-                } else {
-                    //triming words with symbols
-                    foreach (self::SYMBOLES as $symbol) {
-                        if (strpos($word, $symbol)) {
-                            //extract the string until you find the first position of the symbol you're looking for
-                            $word = substr($word, 0, strpos($word, $symbol));
-                            //removing words in which length is inferior or equal to one
-                            if (strlen($word) < 2) {
-                                continue;
-                            }
+                foreach (self::SYMBOLE_APPERTURES as $sign) {
+                    if (substr($word, 0, 1) === $sign) {
+                        continue;
+                    }
+                }
+
+                //triming words with symbols
+                foreach (self::SYMBOLES as $symbol) {
+                    if (strpos($word, $symbol)) {
+                        //extract the string until you find the first position of the symbol you're looking for
+                        $word = substr($word, 0, strpos($word, $symbol));
+                        //removing words in which length is inferior or equal to one
+                        if (strlen($word) < 2) {
+                            continue;
                         }
                     }
+                }
 
-                    //Here we exclude all words which are already belonging to our array or to our CONSTs
-                    if (!in_array($word, $dictionnary) &&
-                        !in_array($word, self::DETERMINANTS) &&
-                        !in_array($word, self::PREPOSITIONS) &&
-                        !in_array($word, self::CONJONCTIONS)) {
-                        $dictionnary[] = $word;
-                    }
+                //Here we exclude all words which are already belonging to our array or to our CONSTs
+                if (!in_array($word, $dictionnary) &&
+                    !in_array($word, self::DETERMINANTS) &&
+                    !in_array($word, self::PREPOSITIONS) &&
+                    !in_array($word, self::CONJONCTIONS))
+                {
+                    $dictionnary[] = $word;
                 }
             }
 
+            //Each article sets its own dictionnary
             foreach ($dictionnary as $entry) {
 
+                //Here we check if each word has its entry already in the DB
                 $wordExist = $this->lexicalIndexRepo->findOneBy(['word' => $entry]);
+
+                //If not we generate this entry
                 if (!isset($wordExist)) {
                     $lexicalIndex = new LexicalIndex();
 
@@ -123,19 +110,31 @@ class IndexArticleActionService
                     $lexicalIndex->setMetaphone(metaphone($entry));
                     $this->entityManager->persist($lexicalIndex);
                 } else {
+                    //Else we simply add a new article linked to this entry
                     $wordExist->addLinkedArticle($article);
                     $this->entityManager->persist($wordExist);
                 }
 
-                $i++;
-                if ($i >= 50) {
+                //Flushing DB every $i element :
+                if ($i >= 100) {
                     $this->entityManager->flush();
                     $i = 0;
                 }
+                $i++;
 
             }
             $this->entityManager->flush();
         }
+    }
 
+    private function cleaningIndex(){
+        //Removing the index
+        $LIrepo = $this->entityManager->getRepository(LexicalIndex::class);
+        $indexes = $LIrepo->findAll();
+
+        foreach ($indexes as $index) {
+            $this->entityManager->remove($index);
+        }
+        $this->entityManager->flush();
     }
 }
