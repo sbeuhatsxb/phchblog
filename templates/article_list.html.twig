@@ -30,7 +30,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 post_item" style="padding-left: 0;">
                     <a href="{{ path('article_show', {'id': article.id}) }}">
                         {# -> data-mh -> js -> same size boxes#}
-                        <div data-mh="my-group" class="card">
+                        <div data-mh="my-group" class="card card-small">
 
                             {% if article.linkedImage != null %}
                                 <img class="card-img-top" src="{{ asset('uploads/images/' ~ article.linkedImage ) }}"

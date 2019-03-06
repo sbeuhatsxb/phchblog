@@ -75,11 +75,11 @@
 
 
             <div class='twelve'>
-                <div class='header_right'></div>
+                {#<div class='header_right'></div>#}
 
                 {#NAVBAR BEGIN#}
                 <div class="container">{#<- centers the navbar #}
-                    <nav class="navbar navbar-expand-lg navbar-dark">
+                    <nav class="navbar navbar-expand-lg navbar-dark custom">
                         <a class="navbar-brand" href="{{ path('index') }}">Accueil</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse"
                                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -88,7 +88,10 @@
                         </button>
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                            <ul class="navbar-nav">
+                            <ul class="navbar-nav mr-auto">
+                                    <li class="nav-item active">
+                                        <a class="nav-link" href="{{ path('index') }}">Accueil <span class="sr-only">(current)</span></a>
+                                    </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('index') }}">Bibliographie </a>
                                 </li>
@@ -110,25 +113,25 @@
                             </ul>
                             {#Barre de recherche (searchbar) DEBUT#}
                             {% set searchbar = search_bar.getForm().createView() %}
-                                <div class="container">
-                                    <div class="form-inline my-2">
-                                        <div class="row col-lg-4 offset-lg-3">
+                            <div class="sb-container">
+                                <div class="form-inline my-2 sb-container-inner float-md-right">
+                                    <div class="row col-lg-5 offset-lg-3 sb-container-inner">
                                         {{ form_start(searchbar) }}
-                                            <div class="row">
-                                                <div class="col-xs-8">
-                                                    {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
-                                                </div>
-                                                <div class="col-xs-2">
-                                                    <button class="btn btn-outline-secondary" style="font-size: 13px;" type="save"><i class="fas fa-search"></i></button>
-                                                    {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
-                                                </div>
+                                        <div class="row sb-container-inner">
+                                            <div class="col-xs-8 sb-container-inner">
+                                                {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
                                             </div>
+                                            <div class="col-xs-2 sb-container-inner">
+                                                <button class="btn btn-outline-secondary sb-container-inner" style="font-size: 16px;" type="save"><i class="fas fa-search"></i></button>
+                                            </div>
+                                            {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
                                         </div>
-                                        {{ form_end(searchbar) }}
                                     </div>
+                                    {{ form_end(searchbar) }}
                                 </div>
                             </div>
-                            {#Barre de recherche (search bar) fin#}
+                        </div>
+                        {#Barre de recherche (search bar) fin#}
                         </nav>
                     </div>
                 {#NAVBAR END#}
