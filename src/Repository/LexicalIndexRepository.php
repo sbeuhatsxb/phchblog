@@ -35,7 +35,7 @@ class LexicalIndexRepository extends ServiceEntityRepository
 
         foreach ($filterArray as $filter) {
             $qb->andWhere('l.word LIKE :filter')
-                ->setParameter('filter', '%' . $filter . '%');
+                ->setParameter('filter', '%' . strtolower($filter) . '%');
         }
 
         return $qb;

@@ -41,6 +41,7 @@ class SearchIndexedArticleService
          */
         $articlesArray = [];
 
+
         //Comparing query to database index #word
         $exactLexicalIndexesReturned = $this->lexicalIndexRepository->findFilteredArticlesByExactForm($filterArray)->getQuery()->getResult();
         if (count($exactLexicalIndexesReturned) > 0) {

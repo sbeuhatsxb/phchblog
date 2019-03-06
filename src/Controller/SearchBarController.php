@@ -74,7 +74,7 @@ class SearchBarController extends Controller
 
         }
 
-        throw new NotFoundHttpException('Le reqûete n\'est pas valide : la soumission du formulaire ou sa validation ont échoué');
+        throw new NotFoundHttpException('Le requête n\'est pas valide : la soumission du formulaire ou sa validation ont échoué');
     }
 
 }

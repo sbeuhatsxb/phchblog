@@ -90,9 +90,20 @@ class IndexArticleService
             //Clean the index as much as possible :
             foreach ($articleArray as $word) {
 
+                $word = mb_convert_encoding($word, 'UTF-8');
+                $word = html_entity_decode($word);
+
+                if(strlen($word) == 0){
+                    continue;
+                } elseif(strlen($word) > 30){
+                    //Word column limited to 30 char
+                    $word = $this->tokenTruncate($word,30);
+                }
+
                 $word = strtolower($word);
                 //excluding words begining with /
                 foreach (self::SYMBOLE_APPERTURES as $sign) {
+//                    dump($sign, $word);
                     if (substr($word, 0, 1) === $sign) {
                         continue;
                     }
@@ -120,6 +131,10 @@ class IndexArticleService
                     !in_array($word, self::DETERMINANTS) &&
                     !in_array($word, self::PREPOSITIONS) &&
                     !in_array($word, self::CONJONCTIONS)) {
+                    if(mb_substr($word, 1, 1) === "’"){
+                        $word = mb_substr($word, 2);
+                    }
+                    dump($word);
                     $dictionnary[] = $word;
                 }
             }
@@ -154,6 +169,20 @@ class IndexArticleService
             }
             $this->entityManager->flush();
         }
+    }
+
+    function tokenTruncate($word, $limit) {
+        $parts = preg_split('/([\s\n\r]+)/', $word, null, PREG_SPLIT_DELIM_CAPTURE);
+        $parts_count = count($parts);
+
+        $length = 0;
+        $last_part = 0;
+        for (; $last_part < $parts_count; ++$last_part) {
+            $length += strlen($parts[$last_part]);
+            if ($length > $limit) { break; }
+        }
+
+        return implode(array_slice($parts, 0, $last_part));
     }
 
     private function cleaningIndex()
