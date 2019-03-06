@@ -8,22 +8,22 @@
 
 namespace App\EventListener;
 
-use App\Service\IndexArticleActionService;
+use App\Service\IndexArticleService;
 use Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use App\Entity\Article;
 
 class IndexLastSubmitedArticleEvent
 {
     /**
-     * @var IndexArticleActionService $indexArticleActionService
+     * @var IndexArticleService $indexArticleActionService
      */
     protected $indexArticleActionService;
 
     /**
      * IndexArticlesCommand constructor.
-     * @param IndexArticleActionService $indexArticleActionService
+     * @param IndexArticleService $indexArticleActionService
      */
-    public function __construct(IndexArticleActionService $indexArticleActionService) {
+    public function __construct(IndexArticleService $indexArticleActionService) {
         $this->indexArticleActionService = $indexArticleActionService;
     }
 

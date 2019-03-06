@@ -25,10 +25,13 @@ easy_admin:
         - '/js/setup-ckfinder.js'
         # ...
   entities:
+    ####################################################################################################
     Articles:
       class: App\Entity\Article
+      controller: App\Controller\AdminController
       list:
-        actions: ['show']
+        actions:
+          - { name: 'show' }
         fields:
           - { property: 'title', label: 'Titre' }
           - { property: 'writer', label: 'Auteur de l`article' }
@@ -37,6 +40,8 @@ easy_admin:
           - { property: 'linkedImage', label: 'Image associée', type: 'image', base_path: '/uploads/images/' }
 
       show:
+        actions:
+          - { name: 'indexArticles', label: 'Indexation de TOUS les articles', icon: 'list' }
         fields:
           #          - { type: 'tab' , label: 'Basic Information' }
           - { property: 'title', label: 'Titre' }
@@ -58,6 +63,7 @@ easy_admin:
           - { property: 'writer', label: 'Auteur de l`article' }
           - { property: 'linkedImage', label: 'Image associée' }
           - { property: 'isPublished', label: 'Article en publication' }
+    ####################################################################################################
     Categories:
       class: App\Entity\Category
       list:
@@ -74,7 +80,7 @@ easy_admin:
       form:
         fields:
           - { property: 'name', label: 'Concepts' }
-
+    ####################################################################################################
     Auteurs:
       class: App\Entity\Author
       list:
@@ -89,6 +95,7 @@ easy_admin:
           - { property: 'lastname', label: 'Nom' }
           - { property: 'name', label: 'dit' }
           - { property: 'birthday', label: 'Né le' }
+    ####################################################################################################
     Utilisateurs:
       class: App\Entity\User
       list:
@@ -106,6 +113,7 @@ easy_admin:
           # if administrators are allowed to edit users' passwords and roles, add this:
           - { property: 'plainPassword', type: 'text', type_options: { required: false } }
           - { property: 'roles', type: 'choice', type_options: { multiple: true, choices: { 'ROLE_USER': 'ROLE_USER', 'ROLE_ADMIN': 'ROLE_ADMIN' } } }
+    ####################################################################################################
     Images:
       class: App\Entity\Image
       list:
@@ -118,3 +126,4 @@ easy_admin:
           - { property: 'text', label: 'Mémo' }
           - { property: 'imageFile', label: 'Illustration', type: 'vich_image' }
           - { property: 'image', template: 'vich_uploader_image.html.twig' }
+    ####################################################################################################

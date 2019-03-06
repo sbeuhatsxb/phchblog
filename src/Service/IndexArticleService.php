@@ -14,7 +14,7 @@ use App\Repository\LexicalIndexRepository;
 use Doctrine\ORM\EntityManagerInterface;
 
 
-class IndexArticleActionService
+class IndexArticleService
 {
 
     const PREPOSITIONS = ["dans", "de", "en", "jusque", "jusqu'", "par", "sur"];

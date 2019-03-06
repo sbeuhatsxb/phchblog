@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Service\IndexArticleActionService;
+use App\Service\IndexArticleService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,15 +12,15 @@ class IndexArticlesCommand extends Command
     protected static $defaultName = 'app:index:article';
 
     /**
-     * @var IndexArticleActionService $indexArticleActionService
+     * @var IndexArticleService $indexArticleActionService
      */
     protected $indexArticleActionService;
 
     /**
      * IndexArticlesCommand constructor.
-     * @param IndexArticleActionService $indexArticleActionService
+     * @param IndexArticleService $indexArticleActionService
      */
-    public function __construct(IndexArticleActionService $indexArticleActionService) {
+    public function __construct(IndexArticleService $indexArticleActionService) {
         $this->indexArticleActionService = $indexArticleActionService;
         parent::__construct();
     }

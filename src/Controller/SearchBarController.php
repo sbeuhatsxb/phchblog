@@ -10,7 +10,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\LexicalIndex;
-use App\Service\IndexArticleActionService;
+use App\Service\IndexArticleService;
 use App\Service\LastArticlesService;
 use App\Service\PaginationService;
 use App\Service\SearchIndexedArticleService;
