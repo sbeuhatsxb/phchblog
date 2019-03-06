@@ -43,6 +43,7 @@ class IndexImageManualyUploadedService
 
             $image = new Image();
             $image->setImage($newFilename);
+            $image->setImageFile($image);
             $this->entityManager->persist($image);
 
             $fileSystem->remove(['public/uploads/images/manual/'.$filename]);

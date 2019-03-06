@@ -17,11 +17,12 @@ use Doctrine\ORM\EntityManagerInterface;
 class IndexArticleService
 {
 
+    const CODES = [ "&amp;", "&nbsp;", "/p&gt;", "/&gt;"];
     const PREPOSITIONS = ["dans", "de", "en", "jusque", "jusqu'", "par", "sur"];
     const CONJONCTIONS = ["et"];
     const DETERMINANTS = ["le", "la", "les", "l'", "un", "une", "des", "du", "au", "aux", "son", "sa", "ses", "ce", "cet", "cette"];
-    const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&"];
-    const SYMBOLE_APPERTURES = ["<", "&", "/"];
+    const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p"];
+    const SYMBOLE_APPERTURES = ["<", "<", "&", "/"];
 
     /**
      * @var EntityManagerInterface $entityManager
@@ -73,15 +74,23 @@ class IndexArticleService
         $i = 0;
 
         foreach ($articles as $article) {
+
             //Each article sets its own dictionnary
             $dictionnary = [];
+
             $articleStr = $article->getContent();
-            $articleArray = explode(" ", $articleStr);
+
+            $pattern = '/nbsp;|&amp;|&gt;|&lt;|p&gt;|&nbsp;|<p>|<p>|<br \/>|br \/|\/|\\r|\\n|<\/p>/';
+            $replacement = ' ';
+            $cleanedArticle = preg_replace($pattern, $replacement, $articleStr);
+
+            $articleArray = explode(" ", $cleanedArticle);
+
 
             //Clean the index as much as possible :
             foreach ($articleArray as $word) {
-                $word = strtolower($word);
 
+                $word = strtolower($word);
                 //excluding words begining with /
                 foreach (self::SYMBOLE_APPERTURES as $sign) {
                     if (substr($word, 0, 1) === $sign) {
@@ -99,6 +108,11 @@ class IndexArticleService
                             continue;
                         }
                     }
+                }
+
+                //we keep only word >= 3 chars
+                if (strlen($word) <= 2) {
+                    continue;
                 }
 
                 //Here we exclude all words which are already belonging to our array or to our CONSTs

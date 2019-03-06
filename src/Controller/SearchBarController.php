@@ -73,6 +73,8 @@ class SearchBarController extends Controller
             ]);
 
         }
+
+        throw new NotFoundHttpException('Le reqûete n\'est pas valide : la soumission du formulaire ou sa validation ont échoué');
     }
 
 }
