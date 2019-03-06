@@ -24,3 +24,7 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 /.idea/
+/public/uploads/images/*.jpg
+/public/uploads/images/*.gif
+/public/uploads/images/*.png
+
