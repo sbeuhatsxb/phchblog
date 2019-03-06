@@ -11,7 +11,6 @@ use App\Entity\Image;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Filesystem\Filesystem;
-use Vich\UploaderBundle\VichUploaderBundle;
 
 
 class IndexImageManualyUploadedService
@@ -43,7 +42,6 @@ class IndexImageManualyUploadedService
 
             $image = new Image();
             $image->setImage($newFilename);
-            $image->setImageFile($image);
             $this->entityManager->persist($image);
 
             $fileSystem->remove(['public/uploads/images/manual/'.$filename]);

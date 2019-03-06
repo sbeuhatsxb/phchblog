@@ -125,7 +125,7 @@ easy_admin:
         fields:
           - { property: 'text', label: 'Mémo' }
           - { property: 'imageFile', label: 'Illustration', type: 'vich_image' }
-          - { property: 'image', template: 'vich_uploader_image.html.twig' }
+#          - { property: 'image', template: 'vich_uploader_image.html.twig' }
     ####################################################################################################
     Index:
       class: App\Entity\LexicalIndex
