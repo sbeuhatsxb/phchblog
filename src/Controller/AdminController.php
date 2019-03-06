@@ -43,7 +43,7 @@ class AdminController extends EasyAdminController
     public function indexArticlesAction()
     {
 
-        dd($this->indexArticleService);
+        $this->indexArticleService->indexAllArticle();
 
     }
 }
