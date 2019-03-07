@@ -9,25 +9,20 @@
 namespace App\Tests\Service;
 
 
-use App\Repository\ArticleRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Service\IndexArticleService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\Console\Tester\CommandTester;
-use PHPUnit\Framework\TestCase;
 
 
 class IndexArticleServiceTest extends WebTestCase
 {
 
-    public function testDictionnary()
+    public function testOneWord()
     {
 
         $indexArticleService = $this->getIndexArticleService();
 
         $articleArrays = [
             ['Test'],
-            ['test'],
             ['test!'],
             ['test!azoieuazouezao'],
             ['l\'test'],
@@ -43,6 +38,30 @@ class IndexArticleServiceTest extends WebTestCase
             $result = $indexArticleService->createDictonnary($articleArray);
 
             $this->assertEquals(["test"], $result);
+            $this->assertNotEquals($articleArray, $result);
+        }
+
+    }
+
+    public function testOneWordWithExcludindSigns()
+    {
+
+        $indexArticleService = $this->getIndexArticleService();
+
+        $articleArrays = [
+            ['\\test'],
+            ['href="https:'],
+            ['www'],
+            ['{test']
+        ];
+
+        foreach ($articleArrays as $articleArray) {
+            /**
+             * @var IndexArticleService $indexArticleService
+             */
+            $result = $indexArticleService->createDictonnary($articleArray);
+            $this->assertEmpty($result);
+
         }
 
     }

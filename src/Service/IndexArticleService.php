@@ -22,9 +22,9 @@ class IndexArticleService
     const PREPOSITIONS = ["dans", "de", "en", "jusque", "jusqu'", "par", "sur"];
     const CONJONCTIONS = ["et"];
     const DETERMINANTS = ["le", "la", "les", "l'", "un", "une", "des", "du", "au", "aux", "son", "sa", "ses", "ce", "cet", "cette"];
-    const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p", "_", '"'];
-    const SYMBOLE_APPERTURES = ["<", "<", "&", "/"];
-    const EXCLUDED_STRING = ["href=\"https:", "www"];
+    const SIGNES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p", "_", '"'];
+    const SYMBOLE_APPERTURES = ["<", "<", "&", "/", "\\", "{"];
+    const EXCLUDED_STRINGS = ['href="https:', "www"];
 
     /**
      * @var EntityManagerInterface $entityManager
@@ -66,7 +66,7 @@ class IndexArticleService
 
             $articleStr = $article->getContent();
 
-            $pattern = '/nbsp;|&amp;|&gt;|&lt;|p&gt;|&nbsp;|<p>|<p>|<br \/>|br \/|\/|\\r|\\n|<\/p>/';
+            $pattern = '/nbsp;|&amp;|&gt;|&lt;|p&gt;|&nbsp;|<p>|<p>|<br \/>|br \/|\/|\\r|\\n|<\/p>|<em>/';
             $replacement = ' ';
             $cleanedArticle = preg_replace($pattern, $replacement, $articleStr);
 
@@ -100,6 +100,13 @@ class IndexArticleService
         //Clean the index as much as possible :
         foreach ($wordArray as $word) {
 
+            if(in_array($word, self::EXCLUDED_STRINGS) ||
+                in_array($word, self::DETERMINANTS) ||
+                in_array($word, self::PREPOSITIONS) ||
+                in_array($word, self::CONJONCTIONS)){
+               continue;
+            }
+
             //UTF-8 Conversion
             $word = $this->utf8Conv($word);
 
@@ -108,17 +115,27 @@ class IndexArticleService
                 $word = mb_substr($word, 2);
             }
 
-            //Isolate reflecting verbs or articles with vowel ("l'ensemble", "s'affairer"...)
-            if (mb_substr($word, 0, 1) === '"') {
+            foreach (self::SIGNES as $sign) {
+                //Remove the potential signs at the beginning of a string
+                if (mb_substr($word, 0, 1) === $sign) {
                 $word = mb_substr($word, 1);
+                }
+                //triming words with symbols
+                if (mb_strpos($word, $sign)) {
+                    //extract the string until you find the first position of the symbol you're looking for
+                    $word = $this->wordTrim($word, $sign);
+                }
             }
 
             //Word column limited to 30 char in the index
             $word = $this->wordTruncate($word,29);
 
-            //Excluding numbers
-            if(is_numeric($word)){
-                continue;
+            //excluding words begining with /
+            foreach (self::SYMBOLE_APPERTURES as $sign) {
+                if (strpos($word, $sign) === 0) {
+                    $word = "";
+                    continue;
+                }
             }
 
             //Excluding words equal to 0
@@ -126,33 +143,19 @@ class IndexArticleService
                 continue;
             }
 
-            //excluding words begining with /
-            foreach (self::SYMBOLE_APPERTURES as $sign) {
-                if (mb_strpos($word, 0, 1) === $sign) {
-                    continue;
-                }
-            }
-
-            //triming words with symbols
-            foreach (self::SYMBOLES as $symbol) {
-                if (mb_strpos($word, $symbol)) {
-                    //extract the string until you find the first position of the symbol you're looking for
-                    $word = $this->wordTrim($word, $symbol);
-                }
-            }
-
             //we keep only word >= 3 chars
             if (mb_strlen($word) <= 2) {
                 continue;
             }
 
+            $word = $this->remove_accents($word);
             //Here we exclude all words which are already belonging to our array or to our CONSTs
-            if (!in_array($word, $dictionnary) &&
-                !in_array($word, self::DETERMINANTS) &&
-                !in_array($word, self::PREPOSITIONS) &&
-                !in_array($word, self::EXCLUDED_STRING) &&
-                !in_array($word, self::CONJONCTIONS)) {
-
+            if ((!in_array($word, $dictionnary) &&
+                (!in_array($word, self::DETERMINANTS) ||
+                !in_array($word, self::PREPOSITIONS) ||
+                !in_array($word, self::CONJONCTIONS))))
+            {
+                //Last step : adding word to our dictionnary
                 $dictionnary[] = $word;
             }
         }
@@ -183,23 +186,46 @@ class IndexArticleService
         return mb_substr($word, 0, mb_strpos($word, $symbol));
     }
 
+    private function remove_accents($str, $encoding='utf-8')
+    {
+        // transformer les caractères accentués en entités HTML
+        $str = htmlentities($str, ENT_NOQUOTES, $encoding);
+
+        // remplacer les entités HTML pour avoir juste le premier caractères non accentués
+        // Exemple : "&ecute;" => "e", "&Ecute;" => "E", "à" => "a" ...
+        $str = preg_replace('#&([A-za-z])(?:acute|grave|cedil|circ|orn|ring|slash|th|tilde|uml);#', '\1', $str);
+
+        // Remplacer les ligatures tel que : , Æ ...
+        // Exemple "œ" => "oe"
+        $str = preg_replace('#&([A-za-z]{2})(?:lig);#', '\1', $str);
+        // Supprimer tout le reste
+        $str = preg_replace('#&[^;]+;#', '', $str);
+
+        return $str;
+    }
+
     private function flushEntry($dictionnary, $article)
     {
         $i = 0;
 
         foreach ($dictionnary as $entry) {
 
-
             //Here we check if each word has its entry already in the DB
             $lexicalIndexRepo = $this->entityManager->getRepository(LexicalIndex::class);
+//            dump($lexicalIndexRepo->findOneBy(['word' => $entry]));
             $wordExist = $lexicalIndexRepo->findOneBy(['word' => $entry]);
+            if($entry == "demandé"){
+
+                dd($dictionnary, $lexicalIndexRepo->findOneBy(['word' => $entry]));
+
+            }
 
             //If not we generate this entry
             if (!isset($wordExist)) {
                 $lexicalIndex = new LexicalIndex();
 
                 $lexicalIndex->addLinkedArticle($article);
-                $lexicalIndex->setWord($entry);
+                $lexicalIndex->setWord($this->utf8Conv($entry));
                 $lexicalIndex->setMetaphone(metaphone($entry));
                 $this->entityManager->persist($lexicalIndex);
             } else {
@@ -209,7 +235,7 @@ class IndexArticleService
             }
 
             //Flushing DB every $i element :
-            if ($i >= 50) {
+            if ($i >= 100) {
                 $this->entityManager->flush();
                 $i = 0;
             }
@@ -218,4 +244,5 @@ class IndexArticleService
         }
         $this->entityManager->flush();
     }
+
 }
