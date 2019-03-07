@@ -21,8 +21,9 @@ class IndexArticleService
     const PREPOSITIONS = ["dans", "de", "en", "jusque", "jusqu'", "par", "sur"];
     const CONJONCTIONS = ["et"];
     const DETERMINANTS = ["le", "la", "les", "l'", "un", "une", "des", "du", "au", "aux", "son", "sa", "ses", "ce", "cet", "cette"];
-    const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p"];
+    const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p", "_"];
     const SYMBOLE_APPERTURES = ["<", "<", "&", "/"];
+    const EXCLUDED_STRING = ["href=\"https:", "www"];
 
     /**
      * @var EntityManagerInterface $entityManager
@@ -30,9 +31,9 @@ class IndexArticleService
     protected $entityManager;
 
     /**
-     * @var ArticleRepository $articleRepo
+     * @var ArticleRepository $articleRepository
      */
-    protected $articleRepo;
+    protected $articleRepository;
 
     /**
      * @var LexicalIndexRepository $lexicalIndexRepo
@@ -40,11 +41,11 @@ class IndexArticleService
     protected $lexicalIndexRepo;
 
 
-    public function __construct(EntityManagerInterface $entityManager, ArticleRepository $articleRepo, LexicalIndexRepository $lexicalIndexRepo)
+    public function __construct(EntityManagerInterface $entityManager, ArticleRepository $articleRepository, LexicalIndexRepository $lexicalIndexRepository)
     {
         $this->entityManager = $entityManager;
-        $this->articleRepo = $articleRepo;
-        $this->lexicalIndexRepo = $lexicalIndexRepo;
+        $this->articleRepository = $articleRepository;
+        $this->lexicalIndexRepo = $lexicalIndexRepository;
     }
 
     /**
@@ -60,7 +61,8 @@ class IndexArticleService
         //Clean the index
         $this->cleaningIndex();
 
-        $articles = $this->articleRepo->findAll();
+        $articles = $this->articleRepository->findAll();
+
         $this->lexicalIndexArticle($articles);
     }
 
@@ -70,13 +72,8 @@ class IndexArticleService
      */
     public function lexicalIndexArticle(array $articles)
     {
-        //Creating the index
-        $i = 0;
 
         foreach ($articles as $article) {
-
-            //Each article sets its own dictionnary
-            $dictionnary = [];
 
             $articleStr = $article->getContent();
 
@@ -86,103 +83,12 @@ class IndexArticleService
 
             $articleArray = explode(" ", $cleanedArticle);
 
+            //Isolate words in the article and add them to an array
+            $dictionnary = $this->createDictonnary($articleArray);
 
-            //Clean the index as much as possible :
-            foreach ($articleArray as $word) {
+            $this->flushEntry($dictionnary, $article);
 
-                $word = mb_convert_encoding($word, 'UTF-8');
-                $word = html_entity_decode($word);
-
-                if(strlen($word) == 0){
-                    continue;
-                } elseif(strlen($word) > 30){
-                    //Word column limited to 30 char
-                    $word = $this->tokenTruncate($word,30);
-                }
-
-                $word = strtolower($word);
-                //excluding words begining with /
-                foreach (self::SYMBOLE_APPERTURES as $sign) {
-//                    dump($sign, $word);
-                    if (substr($word, 0, 1) === $sign) {
-                        continue;
-                    }
-                }
-
-                //triming words with symbols
-                foreach (self::SYMBOLES as $symbol) {
-                    if (strpos($word, $symbol)) {
-                        //extract the string until you find the first position of the symbol you're looking for
-                        $word = substr($word, 0, strpos($word, $symbol));
-                        //removing words in which length is inferior or equal to one
-                        if (strlen($word) < 2) {
-                            continue;
-                        }
-                    }
-                }
-
-                //we keep only word >= 3 chars
-                if (strlen($word) <= 2) {
-                    continue;
-                }
-
-                //Here we exclude all words which are already belonging to our array or to our CONSTs
-                if (!in_array($word, $dictionnary) &&
-                    !in_array($word, self::DETERMINANTS) &&
-                    !in_array($word, self::PREPOSITIONS) &&
-                    !in_array($word, self::CONJONCTIONS)) {
-                    if(mb_substr($word, 1, 1) === "’"){
-                        $word = mb_substr($word, 2);
-                    }
-                    dump($word);
-                    $dictionnary[] = $word;
-                }
-            }
-
-            //Each article sets its own dictionnary
-            foreach ($dictionnary as $entry) {
-
-                //Here we check if each word has its entry already in the DB
-                $wordExist = $this->lexicalIndexRepo->findOneBy(['word' => $entry]);
-
-                //If not we generate this entry
-                if (!isset($wordExist)) {
-                    $lexicalIndex = new LexicalIndex();
-
-                    $lexicalIndex->addLinkedArticle($article);
-                    $lexicalIndex->setWord($entry);
-                    $lexicalIndex->setMetaphone(metaphone($entry));
-                    $this->entityManager->persist($lexicalIndex);
-                } else {
-                    //Else we simply add a new article linked to this entry
-                    $wordExist->addLinkedArticle($article);
-                    $this->entityManager->persist($wordExist);
-                }
-
-                //Flushing DB every $i element :
-                if ($i >= 100) {
-                    $this->entityManager->flush();
-                    $i = 0;
-                }
-                $i++;
-
-            }
-            $this->entityManager->flush();
         }
-    }
-
-    function tokenTruncate($word, $limit) {
-        $parts = preg_split('/([\s\n\r]+)/', $word, null, PREG_SPLIT_DELIM_CAPTURE);
-        $parts_count = count($parts);
-
-        $length = 0;
-        $last_part = 0;
-        for (; $last_part < $parts_count; ++$last_part) {
-            $length += strlen($parts[$last_part]);
-            if ($length > $limit) { break; }
-        }
-
-        return implode(array_slice($parts, 0, $last_part));
     }
 
     private function cleaningIndex()
@@ -193,6 +99,128 @@ class IndexArticleService
 
         foreach ($indexes as $index) {
             $this->entityManager->remove($index);
+        }
+        $this->entityManager->flush();
+    }
+
+    public function createDictonnary($articleArray)
+    {
+        //Each article sets its own dictionnary
+        $dictionnary = [];
+
+        //Clean the index as much as possible :
+        foreach ($articleArray as $word) {
+
+            //UTF-8 Conversion
+            $word = $this->utf8Conv($word);
+
+            //Isolate reflecting verbs or articles with vowel ("l'ensemble", "s'affairer"...)
+            if (mb_substr($word, 1, 1) === "’") {
+                $word = mb_substr($word, 2);
+            }
+
+            //Word column limited to 30 char in the index
+            $word = $this->wordTruncate($word,29);
+
+            //Excluding numbers
+            if(is_numeric($word)){
+                continue;
+            }
+
+            //Excluding words equal to 0
+            if(mb_strlen($word) == 0 || strlen($word) == 0){
+                continue;
+            }
+
+            //excluding words begining with /
+            foreach (self::SYMBOLE_APPERTURES as $sign) {
+                if (mb_strpos($word, 0, 1) === $sign) {
+                    continue;
+                }
+            }
+
+            //triming words with symbols
+            foreach (self::SYMBOLES as $symbol) {
+                if (mb_strpos($word, $symbol)) {
+                    //extract the string until you find the first position of the symbol you're looking for
+                    $word = $this->wordTrim($word, $symbol);
+                }
+            }
+
+            //we keep only word >= 3 chars
+            if (mb_strlen($word) <= 2) {
+                continue;
+            }
+
+            //Here we exclude all words which are already belonging to our array or to our CONSTs
+            if (!in_array($word, $dictionnary) &&
+                !in_array($word, self::DETERMINANTS) &&
+                !in_array($word, self::PREPOSITIONS) &&
+                !in_array($word, self::EXCLUDED_STRING) &&
+                !in_array($word, self::CONJONCTIONS)) {
+
+                $dictionnary[] = $word;
+            }
+        }
+
+        return $dictionnary;
+    }
+
+    private function utf8Conv($word)
+    {
+        //UTF-8 conversion
+        $word = mb_convert_encoding($word, 'UTF-8');
+        //Decoding remainings HTML codes
+        $word = html_entity_decode($word);
+        //Uncapitalize word
+        $word = mb_strtolower($word);
+
+        return $word;
+    }
+
+    private function wordTruncate($string, $length)
+    {
+        return (strlen($string) > $length) ? substr($string, 0, $length) : $string;
+    }
+
+    private function wordTrim($word, $symbol)
+    {
+        //extract the string until you find the first position of the symbol you're looking for
+        return mb_substr($word, 0, mb_strpos($word, $symbol));
+    }
+
+    private function flushEntry($dictionnary, $article)
+    {
+        $i = 0;
+
+        foreach ($dictionnary as $entry) {
+
+            dump('sbeuh', $dictionnary);
+
+            //Here we check if each word has its entry already in the DB
+            $wordExist = $this->lexicalIndexRepo->findOneBy(['word' => $entry]);
+
+            //If not we generate this entry
+            if (!isset($wordExist)) {
+                $lexicalIndex = new LexicalIndex();
+
+                $lexicalIndex->addLinkedArticle($article);
+                $lexicalIndex->setWord($entry);
+                $lexicalIndex->setMetaphone(metaphone($entry));
+                $this->entityManager->persist($lexicalIndex);
+            } else {
+                //Else we simply add a new article linked to this entry
+                $wordExist->addLinkedArticle($article);
+                $this->entityManager->persist($wordExist);
+            }
+
+            //Flushing DB every $i element :
+            if ($i >= 50) {
+                $this->entityManager->flush();
+                $i = 0;
+            }
+            $i++;
+
         }
         $this->entityManager->flush();
     }

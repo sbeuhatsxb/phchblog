@@ -7,6 +7,7 @@ parameters:
     locale: 'fr'
     app.path.article_images: /uploads/images
 
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -31,6 +32,28 @@ services:
         class: App/Service/PaginationService
         arguments: ["@doctrine.orm.entity_manager", "knp_paginator","@request_stack"]
 
+    article_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - \App\Entity\Article
+
+    lexical_index_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ['@doctrine.orm.default_entity_manager', getRepository]
+        arguments:
+            - \App\Entity\LexicalIndex
+
+    indexArticleService:
+        class: \App\Service\IndexArticleService
+        public: true
+        arguments:
+            $entityManager: "@doctrine.orm.entity_manager"
+            $articleRepository: "@article_repository"
+            $lexicalIndexRepository: "@lexical_index_repository"
+
     App\EventListener\IndexLastSubmitedArticleEvent:
         tags:
             - { name: doctrine.event_listener, event: postPersist }
+
+
