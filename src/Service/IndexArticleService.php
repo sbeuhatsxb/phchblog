@@ -18,7 +18,7 @@ use Doctrine\ORM\EntityManagerInterface;
 class IndexArticleService
 {
 
-    const CODES = [ "&amp;", "&nbsp;", "/p&gt;", "/&gt;"];
+    const CODES = ["&amp;", "&nbsp;", "/p&gt;", "/&gt;"];
     const PREPOSITIONS = ["dans", "de", "en", "jusque", "jusqu'", "par", "sur"];
     const CONJONCTIONS = ["et"];
     const DETERMINANTS = ["le", "la", "les", "l'", "un", "une", "des", "du", "au", "aux", "son", "sa", "ses", "ce", "cet", "cette"];
@@ -100,11 +100,11 @@ class IndexArticleService
         //Clean the index as much as possible :
         foreach ($wordArray as $word) {
 
-            if(in_array($word, self::EXCLUDED_STRINGS) ||
+            if (in_array($word, self::EXCLUDED_STRINGS) ||
                 in_array($word, self::DETERMINANTS) ||
                 in_array($word, self::PREPOSITIONS) ||
-                in_array($word, self::CONJONCTIONS)){
-               continue;
+                in_array($word, self::CONJONCTIONS)) {
+                continue;
             }
 
             //UTF-8 Conversion
@@ -118,7 +118,7 @@ class IndexArticleService
             foreach (self::SIGNES as $sign) {
                 //Remove the potential signs at the beginning of a string
                 if (mb_substr($word, 0, 1) === $sign) {
-                $word = mb_substr($word, 1);
+                    $word = mb_substr($word, 1);
                 }
                 //triming words with symbols
                 if (mb_strpos($word, $sign)) {
@@ -128,7 +128,7 @@ class IndexArticleService
             }
 
             //Word column limited to 30 char in the index
-            $word = $this->wordTruncate($word,29);
+            $word = $this->wordTruncate($word, 29);
 
             //excluding words begining with /
             foreach (self::SYMBOLE_APPERTURES as $sign) {
@@ -139,7 +139,7 @@ class IndexArticleService
             }
 
             //Excluding words equal to 0
-            if(mb_strlen($word) == 0 || strlen($word) == 0){
+            if (mb_strlen($word) == 0 || strlen($word) == 0) {
                 continue;
             }
 
@@ -148,13 +148,14 @@ class IndexArticleService
                 continue;
             }
 
+            //Removing accents for UNIQ CONTRAIN problems since our search is not "accent" sensitive
             $word = $this->remove_accents($word);
+
             //Here we exclude all words which are already belonging to our array or to our CONSTs
             if ((!in_array($word, $dictionnary) &&
                 (!in_array($word, self::DETERMINANTS) ||
-                !in_array($word, self::PREPOSITIONS) ||
-                !in_array($word, self::CONJONCTIONS))))
-            {
+                    !in_array($word, self::PREPOSITIONS) ||
+                    !in_array($word, self::CONJONCTIONS)))) {
                 //Last step : adding word to our dictionnary
                 $dictionnary[] = $word;
             }
@@ -186,7 +187,7 @@ class IndexArticleService
         return mb_substr($word, 0, mb_strpos($word, $symbol));
     }
 
-    private function remove_accents($str, $encoding='utf-8')
+    private function remove_accents($str, $encoding = 'utf-8')
     {
         // transformer les caractères accentués en entités HTML
         $str = htmlentities($str, ENT_NOQUOTES, $encoding);
@@ -212,13 +213,8 @@ class IndexArticleService
 
             //Here we check if each word has its entry already in the DB
             $lexicalIndexRepo = $this->entityManager->getRepository(LexicalIndex::class);
-//            dump($lexicalIndexRepo->findOneBy(['word' => $entry]));
+
             $wordExist = $lexicalIndexRepo->findOneBy(['word' => $entry]);
-            if($entry == "demandé"){
-
-                dd($dictionnary, $lexicalIndexRepo->findOneBy(['word' => $entry]));
-
-            }
 
             //If not we generate this entry
             if (!isset($wordExist)) {
