@@ -22,7 +22,7 @@ class IndexArticleService
     const PREPOSITIONS = ["dans", "de", "en", "jusque", "jusqu'", "par", "sur"];
     const CONJONCTIONS = ["et"];
     const DETERMINANTS = ["le", "la", "les", "l'", "un", "une", "des", "du", "au", "aux", "son", "sa", "ses", "ce", "cet", "cette"];
-    const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p", "_"];
+    const SYMBOLES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p", "_", '"'];
     const SYMBOLE_APPERTURES = ["<", "<", "&", "/"];
     const EXCLUDED_STRING = ["href=\"https:", "www"];
 
@@ -70,10 +70,10 @@ class IndexArticleService
             $replacement = ' ';
             $cleanedArticle = preg_replace($pattern, $replacement, $articleStr);
 
-            $articleArray = explode(" ", $cleanedArticle);
+            $wordArray = explode(" ", $cleanedArticle);
 
             //Isolate words in the article and add them to an array
-            $dictionnary = $this->createDictonnary($articleArray);
+            $dictionnary = $this->createDictonnary($wordArray);
 
             $this->flushEntry($dictionnary, $article);
 
@@ -92,20 +92,25 @@ class IndexArticleService
         $this->entityManager->flush();
     }
 
-    public function createDictonnary($articleArray)
+    public function createDictonnary($wordArray)
     {
         //Each article sets its own dictionnary
         $dictionnary = [];
 
         //Clean the index as much as possible :
-        foreach ($articleArray as $word) {
+        foreach ($wordArray as $word) {
 
             //UTF-8 Conversion
             $word = $this->utf8Conv($word);
 
             //Isolate reflecting verbs or articles with vowel ("l'ensemble", "s'affairer"...)
-            if (mb_substr($word, 1, 1) === "’") {
+            if (mb_substr($word, 1, 1) === "’" || mb_substr($word, 1, 1) === "'") {
                 $word = mb_substr($word, 2);
+            }
+
+            //Isolate reflecting verbs or articles with vowel ("l'ensemble", "s'affairer"...)
+            if (mb_substr($word, 0, 1) === '"') {
+                $word = mb_substr($word, 1);
             }
 
             //Word column limited to 30 char in the index

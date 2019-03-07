@@ -8,40 +8,57 @@
 
 namespace App\Tests\Service;
 
+
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Service\IndexArticleService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
+use PHPUnit\Framework\TestCase;
 
 
 class IndexArticleServiceTest extends WebTestCase
 {
 
-//    public $indexArticleService;
-//
-//    public function __construct(IndexArticleService $indexArticleService)
-//    {
-//        $this->indexArticleService = $indexArticleService;
-//    }
-
     public function testDictionnary()
     {
-        $kernel = static::createKernel();
-        $kernel->boot();
 
-        //get the DI container
-        self::$container = $kernel->getContainer();
+        $indexArticleService = $this->getIndexArticleService();
 
-        //now we can instantiate our service (if you want a fresh one for
-        //each test method, do this in setUp() instead
+        $articleArrays = [
+            ['Test'],
+            ['test'],
+            ['test!'],
+            ['test!azoieuazouezao'],
+            ['l\'test'],
+            ['"test"'],
+            ['"test,test'],
+            ['"test,test"'],
+        ];
+
+        foreach ($articleArrays as $articleArray) {
+            /**
+             * @var IndexArticleService $indexArticleService
+             */
+            $result = $indexArticleService->createDictonnary($articleArray);
+
+            $this->assertEquals(["test"], $result);
+        }
+
+    }
+
+    public function getIndexArticleService()
+    {
+
+        self::bootKernel();
+
+        // returns the real and unchanged service container
+        $container = self::$kernel->getContainer();
+
+        // gets the special container that allows fetching private services
+        $container = self::$container;
+
         $indexArticleService = self::$container->get('indexArticleService');
-
-        $article = ['sebastien, sebastien'];
-
-
-        $result = $this->indexArticleService->createDictonnary($article);
-
-        $this->assertEquals("sebastien", $result);
+        return $indexArticleService;
     }
 }
