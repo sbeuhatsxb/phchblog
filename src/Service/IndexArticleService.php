@@ -8,6 +8,7 @@
 
 namespace App\Service;
 
+use App\Entity\Article;
 use App\Entity\LexicalIndex;
 use App\Repository\ArticleRepository;
 use App\Repository\LexicalIndexRepository;
@@ -30,22 +31,9 @@ class IndexArticleService
      */
     protected $entityManager;
 
-    /**
-     * @var ArticleRepository $articleRepository
-     */
-    protected $articleRepository;
-
-    /**
-     * @var LexicalIndexRepository $lexicalIndexRepo
-     */
-    protected $lexicalIndexRepo;
-
-
-    public function __construct(EntityManagerInterface $entityManager, ArticleRepository $articleRepository, LexicalIndexRepository $lexicalIndexRepository)
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
-        $this->articleRepository = $articleRepository;
-        $this->lexicalIndexRepo = $lexicalIndexRepository;
     }
 
     /**
@@ -61,7 +49,8 @@ class IndexArticleService
         //Clean the index
         $this->cleaningIndex();
 
-        $articles = $this->articleRepository->findAll();
+        $articleRepo = $this->entityManager->getRepository(Article::class);
+        $articles = $articleRepo->findAll();
 
         $this->lexicalIndexArticle($articles);
     }
@@ -195,10 +184,10 @@ class IndexArticleService
 
         foreach ($dictionnary as $entry) {
 
-            dump('sbeuh', $dictionnary);
 
             //Here we check if each word has its entry already in the DB
-            $wordExist = $this->lexicalIndexRepo->findOneBy(['word' => $entry]);
+            $lexicalIndexRepo = $this->entityManager->getRepository(LexicalIndex::class);
+            $wordExist = $lexicalIndexRepo->findOneBy(['word' => $entry]);
 
             //If not we generate this entry
             if (!isset($wordExist)) {
