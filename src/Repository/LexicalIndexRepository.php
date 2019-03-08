@@ -29,28 +29,70 @@ class LexicalIndexRepository extends ServiceEntityRepository
         return $qb;
     }
 
-    public function findFilteredArticlesByExactForm($filterArray)
+    public function findWithExactTerm($filter, $inWord = false)
     {
         $qb = $this->linkedPublishedArticleQuery();
 
-        foreach ($filterArray as $filter) {
-            $qb->andWhere('l.word LIKE :filter')
-                ->setParameter('filter', '%' . strtolower($filter) . '%');
+            $qb->andWhere('l.word LIKE :filter');
+
+            if(!$inWord){
+                $qb->setParameter('filter', strtolower($filter));
+            } else {
+                $qb->setParameter('filter', '%' . strtolower($filter) . '%');
+            }
+
+        return $qb;
+    }
+
+    public function findWithApproxTerm($filter, $inWord = false)
+    {
+        $qb = $this->linkedPublishedArticleQuery();
+
+        $qb->andWhere('l.metaphone LIKE :filter');
+
+        if(!$inWord){
+            $qb->setParameter('filter', metaphone($filter));
+        } else {
+            $qb->setParameter('filter', '%' . metaphone($filter) . '%');
         }
 
         return $qb;
     }
 
-    public function findFilteredArticlesByApproximalForm($filterArray)
-    {
-        $qb = $this->linkedPublishedArticleQuery();
 
-        foreach ($filterArray as $filter) {
-            $qb->andWhere('l.metaphone LIKE :filter')
-                ->setParameter('filter', '%' . metaphone($filter) . '%');
-        }
-
-        return $qb;
-    }
+//    public function findFilteredArticlesByExactForm($filterArray, $inWord = false)
+//    {
+//        $qb = $this->linkedPublishedArticleQuery();
+//
+//        foreach ($filterArray as $filter) {
+//            $qb->andWhere('l.word LIKE :filter');
+//
+//            if(!$inWord){
+//                $qb->setParameter('filter', strtolower($filter));
+//            } else {
+//                $qb->setParameter('filter', '%' . strtolower($filter) . '%');
+//            }
+//        }
+//
+//        return $qb;
+//    }
+//
+//    public function findFilteredArticlesByApproximalForm($filterArray, $inWord = false)
+//    {
+//        $qb = $this->linkedPublishedArticleQuery();
+//
+//        foreach ($filterArray as $filter) {
+//            $qb->andWhere('l.metaphone LIKE :filter');
+//
+//            if(!$inWord){
+//                $qb->setParameter('filter', metaphone($filter));
+//            } else {
+//                $qb->setParameter('filter', '%' . metaphone($filter) . '%');
+//            }
+//
+//        }
+//
+//        return $qb;
+//    }
 
 }
