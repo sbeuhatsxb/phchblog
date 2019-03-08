@@ -94,7 +94,6 @@ class SearchIndexedArticleService
             }
         }
         usort($articlesArray, array($this, "cmp"));
-        dd(array_reverse($articlesArray));
 
         return array_reverse($articlesArray);
 

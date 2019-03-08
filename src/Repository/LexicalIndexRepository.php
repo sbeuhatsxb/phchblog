@@ -59,5 +59,5 @@ class LexicalIndexRepository extends ServiceEntityRepository
 
         return $qb;
     }
-    
+
 }
