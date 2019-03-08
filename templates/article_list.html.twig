@@ -40,7 +40,9 @@
                             <div class="card-body">
                                 <h2>{{ article.title }}</h2>
                                 <h6 style="font-stretch: ultra-condensed; color: #aaa; padding-bottom: 8px;">
-                                    <small>De {{ article.writer }}</small>&nbsp;&nbsp;&nbsp;
+                                    {% if article.writer != null %}
+                                        <small>de {{ article.writer }}</small>&nbsp;&nbsp;&nbsp;
+                                    {% endif %}
                                     <small>le {{ article.createdAt|date("d/m/Y") }} </small>
                                 </h6>
                                 {% if article.linkedImage != null %}

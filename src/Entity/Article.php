@@ -74,8 +74,10 @@ class Article
      */
     private $linkedImage;
 
-    //not mapped property - needs to be public
+    //not mapped property - this one needs to be public
     public $score;
+
+    private $preview;
 
     public function __construct()
     {
@@ -285,4 +287,17 @@ class Article
     {
         return '/uploads/images/'.$this->getLinkedImage()->getImageFile();
     }
+
+    public function getPreview(): ?string
+    {
+        return $this->preview;
+    }
+
+    public function setPreview(?string $preview): self
+    {
+        $this->preview = $preview;
+
+        return $this;
+    }
+
 }
