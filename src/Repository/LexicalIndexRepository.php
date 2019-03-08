@@ -20,7 +20,8 @@ class LexicalIndexRepository extends ServiceEntityRepository
         parent::__construct($registry, LexicalIndex::class);
     }
 
-    private function linkedPublishedArticleQuery(){
+    private function linkedPublishedArticleQuery()
+    {
         $qb = $this->createQueryBuilder('l')
             ->join(Article::class, 'a')
             ->where('a.isPublished = true')
@@ -33,13 +34,13 @@ class LexicalIndexRepository extends ServiceEntityRepository
     {
         $qb = $this->linkedPublishedArticleQuery();
 
-            $qb->andWhere('l.word LIKE :filter');
+        $qb->andWhere('l.word LIKE :filter');
 
-            if(!$inWord){
-                $qb->setParameter('filter', strtolower($filter));
-            } else {
-                $qb->setParameter('filter', '%' . strtolower($filter) . '%');
-            }
+        if (!$inWord) {
+            $qb->setParameter('filter', strtolower($filter));
+        } else {
+            $qb->setParameter('filter', '%' . strtolower($filter) . '%');
+        }
 
         return $qb;
     }
@@ -50,7 +51,7 @@ class LexicalIndexRepository extends ServiceEntityRepository
 
         $qb->andWhere('l.metaphone LIKE :filter');
 
-        if(!$inWord){
+        if (!$inWord) {
             $qb->setParameter('filter', metaphone($filter));
         } else {
             $qb->setParameter('filter', '%' . metaphone($filter) . '%');
@@ -58,41 +59,5 @@ class LexicalIndexRepository extends ServiceEntityRepository
 
         return $qb;
     }
-
-
-//    public function findFilteredArticlesByExactForm($filterArray, $inWord = false)
-//    {
-//        $qb = $this->linkedPublishedArticleQuery();
-//
-//        foreach ($filterArray as $filter) {
-//            $qb->andWhere('l.word LIKE :filter');
-//
-//            if(!$inWord){
-//                $qb->setParameter('filter', strtolower($filter));
-//            } else {
-//                $qb->setParameter('filter', '%' . strtolower($filter) . '%');
-//            }
-//        }
-//
-//        return $qb;
-//    }
-//
-//    public function findFilteredArticlesByApproximalForm($filterArray, $inWord = false)
-//    {
-//        $qb = $this->linkedPublishedArticleQuery();
-//
-//        foreach ($filterArray as $filter) {
-//            $qb->andWhere('l.metaphone LIKE :filter');
-//
-//            if(!$inWord){
-//                $qb->setParameter('filter', metaphone($filter));
-//            } else {
-//                $qb->setParameter('filter', '%' . metaphone($filter) . '%');
-//            }
-//
-//        }
-//
-//        return $qb;
-//    }
-
+    
 }

@@ -105,7 +105,7 @@ class SearchIndexedArticleService
     {
 
         //Get Article score
-        if(!$approx){
+        if (!$approx) {
             $score = $article->getScore() + self::POLY_EXACT_MATCH;
         } else {
             $score = $article->getScore() + self::POLY_APPROX_MATCH;
@@ -180,101 +180,5 @@ class SearchIndexedArticleService
     {
         return strcmp($a->score, $b->score);
     }
-
-
-
-
-    //        $articlesArray = [];
-
-
-    //Each term is associated with its
-
-    //        //Comparing query to database index #word
-    //        $exactLexicalIndexesReturned = $this->lexicalIndexRepository->findFilteredArticlesByExactForm($filterArray)->getQuery()->getResult();
-    //        if (count($exactLexicalIndexesReturned) > 0) {
-    //            dd($exactLexicalIndexesReturned);
-    //
-    //            /**
-    //             * @var LexicalIndex $lexicalIndex
-    //             */
-    //            foreach ($exactLexicalIndexesReturned as $lexicalIndex) {
-    //                foreach ($lexicalIndex->getLinkedArticle() as $article) {
-    //                    if (!in_array($article, $articlesArray)) {
-    //                        $articlesArray[] = $article;
-    //                    }
-    //                };
-    //            }
-    //        } else {
-    //            //Comparing query to database index #metaphone
-    //            $approximateLexicalIndexesReturned = $this->lexicalIndexRepository->findFilteredArticlesByApproximalForm($filterArray)->getQuery()->getResult();
-    //            if (count($approximateLexicalIndexesReturned) > 0) {
-    //                dd($exactLexicalIndexesReturned);
-    //                /**
-    //                 * @var LexicalIndex $lexicalIndex
-    //                 */
-    //                foreach ($approximateLexicalIndexesReturned as $lexicalIndex) {
-    //                    foreach ($lexicalIndex->getLinkedArticle() as $article) {
-    //                        if (!in_array($article, $articlesArray)) {
-    //                            $articlesArray[] = $article;
-    //                        }
-    //                    };
-    //                }
-    //
-    //
-    //            } else {
-    //                //If no result we simply return null
-    //                return null;
-    //            }
-    //
-    //        }
-
-
-    //        /**
-    //         *[[[[[ SCORING ARTICLES ]]]]]
-    //         * @var Article $article
-    //         */
-    //        $unreasonnedValue = 100;
-    //        $unreasonnedValuePerArticle = intval($unreasonnedValue / count($filterArray));
-    //        foreach ($articlesArray as $article) {
-    //            foreach ($filterArray as $filter) {
-    //                //Count the occurrences of a term in the article
-    //                $occurrenceNb = substr_count($article->getContent(), $filter);
-    //                //score the article according to its occurrences
-    //                $score = $occurrenceNb * $unreasonnedValuePerArticle;
-    //                //adding score
-    //                $articleScore = $article->getScore();
-    //                $articleScore += $score;
-    //                $article->setScore($articleScore);
-    //            }
-    //        }
-    //
-    //        usort($articlesArray, array($this, "cmp"));
-    //
-    //        return array_reverse($articlesArray);
-    //    }
-
-
-
-
-    //    /**
-    //     * @param $lexicalIndexesReturned
-    //     */
-    //    private function getArticlesFromQuery($lexicalIndexesReturned){
-    //
-    //        $articlesArray = [];
-    //        /**
-    //         * @var LexicalIndex $lexicalIndex
-    //         */
-    //        foreach ($lexicalIndexesReturned as $lexicalIndex) {
-    //            foreach ($lexicalIndex->getLinkedArticle() as $article) {
-    //                if (!in_array($article, $articlesArray)) {
-    //                    $articlesArray[] = $article;
-    //                }
-    //            };
-    //        }
-    //
-    //        return $articlesArray;
-    //
-    //    }
 
 }
