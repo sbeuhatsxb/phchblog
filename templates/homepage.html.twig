@@ -89,9 +89,9 @@
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav mr-auto">
-                                    <li class="nav-item active">
-                                        <a class="nav-link" href="{{ path('index') }}">Accueil <span class="sr-only">(current)</span></a>
-                                    </li>
+                                <li class="nav-item active">
+                                    <a class="nav-link" href="{{ path('index') }}">Accueil <span class="sr-only">(current)</span></a>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('index') }}">Bibliographie </a>
                                 </li>
@@ -122,7 +122,9 @@
                                                 {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
                                             </div>
                                             <div class="col-xs-2 sb-container-inner">
-                                                <button class="btn btn-outline-secondary sb-container-inner" style="font-size: 16px;" type="save"><i class="fas fa-search"></i></button>
+                                                <button class="btn btn-outline-secondary sb-container-inner"
+                                                        style="font-size: 16px;" type="save"><i
+                                                            class="fas fa-search"></i></button>
                                             </div>
                                             {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
                                         </div>
@@ -132,8 +134,8 @@
                             </div>
                         </div>
                         {#Barre de recherche (search bar) fin#}
-                        </nav>
-                    </div>
+                    </nav>
+                </div>
                 {#NAVBAR END#}
 
             </div>
@@ -144,7 +146,6 @@
 {#MAIN CONTAINER END#}
 
 <div class='clear'></div>
-
 
 
 {% block body %}
@@ -164,19 +165,14 @@
 {#END STYLE FOR FOOTER#}
 
 {#FOOTER BEGIN#}
-<div id='footer'>
-    <div class='container'>
-        <div class='row'>
-            <div class='twelve columns wrapper'>
-                <nav id='social'>
-                    <a class='letter_email' href='{{ path('index') }}' target='_blank'><i class='fas fa-envelope'></i></a>
-                </nav>
-                <small>Créé par <a href='{{ path('index') }}' id='' title=''>Sébastien STELTZLEN</a></small>
-                <div class='rightf'></div>
-            </div>
-        </div>
-    </div>
-</div>
+<footer class="footer page-footer" id="footer">
+
+    <nav id='social'>
+        <a class='letter_email' href='{{ path('index') }}' target='_blank'><i class='fas fa-envelope'></i></a>
+    </nav>
+    <small>Créé par <a href='{{ path('index') }}' id='' title=''>Sébastien STELTZLEN</a></small>
+    <div class='rightf'></div>
+</footer>
 {#FOOTER END#}
 
 {% block javascripts %}

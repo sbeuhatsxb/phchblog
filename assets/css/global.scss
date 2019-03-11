@@ -126,17 +126,23 @@ navbar-dark .navbar-toggler {
   border-color: #dee2e6;
 }
 
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+}
 //BS OVERRIDE END
 
 
 body#layout #header-wrapper {
-  min-height: 0px;
+  height: 100vh;
   width: 100%;
   margin-top: 47px;
 }
 
 body#layout .ornament {
-  height: auto;
+  height: 100vh;
 }
 
 body#layout #main {
@@ -265,6 +271,7 @@ h5 {
   background-color: #434343;
   background-size: cover;
   background-position: center center;
+  padding-bottom: 100px;
 }
 
 .card {
