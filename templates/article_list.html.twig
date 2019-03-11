@@ -43,6 +43,12 @@
                                     {% if article.writer != null %}
                                         <small>de {{ article.writer }}</small>&nbsp;&nbsp;&nbsp;
                                     {% endif %}
+
+                                    {#debugscore#}
+                                    {#{% if article.score != null %}#}
+                                        {#<small>Score {{ article.score }} </small>#}
+                                    {#{% endif %}#}
+
                                     <small>le {{ article.createdAt|date("d/m/Y") }} </small>
                                 </h6>
                                 {% if article.linkedImage != null %}

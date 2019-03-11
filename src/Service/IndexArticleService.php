@@ -25,6 +25,8 @@ class IndexArticleService
     const SIGNES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p", "_", '"'];
     const SYMBOLE_APPERTURES = ["<", "<", "&", "/", "\\", "{"];
     const EXCLUDED_STRINGS = ['href="https:', "www"];
+    const PREG_MATCH_PATTERN = '/nbsp;|&amp;|&gt;|&lt;|p&gt;|&nbsp;|<p>|<p>|<br \/>|br \/|\/|\\r|\\n|<\/p>|<em>|href=|https/';
+
 
     /**
      * @var EntityManagerInterface $entityManager
@@ -66,9 +68,8 @@ class IndexArticleService
 
             $articleStr = $article->getContent();
 
-            $pattern = '/nbsp;|&amp;|&gt;|&lt;|p&gt;|&nbsp;|<p>|<p>|<br \/>|br \/|\/|\\r|\\n|<\/p>|<em>/';
             $replacement = ' ';
-            $cleanedArticle = preg_replace($pattern, $replacement, $articleStr);
+            $cleanedArticle = preg_replace(self::PREG_MATCH_PATTERN, $replacement, $articleStr);
 
             $wordArray = explode(" ", $cleanedArticle);
 
@@ -149,7 +150,7 @@ class IndexArticleService
             }
 
             //Removing accents for UNIQ CONTRAIN problems since our search is not "accent" sensitive
-            $word = $this->remove_accents($word);
+            $word = $this->removeAccents($word);
 
             //Here we exclude all words which are already belonging to our array or to our CONSTs
             if ((!in_array($word, $dictionnary) &&
@@ -187,7 +188,7 @@ class IndexArticleService
         return mb_substr($word, 0, mb_strpos($word, $symbol));
     }
 
-    private function remove_accents($str, $encoding = 'utf-8')
+    public function removeAccents($str, $encoding = 'utf-8')
     {
         // transformer les caractères accentués en entités HTML
         $str = htmlentities($str, ENT_NOQUOTES, $encoding);

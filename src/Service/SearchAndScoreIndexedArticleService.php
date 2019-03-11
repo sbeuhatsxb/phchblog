@@ -14,7 +14,7 @@ use App\Repository\LexicalIndexRepository;
 use phpDocumentor\Reflection\Types\Boolean;
 
 
-class SearchIndexedArticleService
+class SearchAndScoreIndexedArticleService
 {
 
     /**
@@ -50,11 +50,31 @@ class SearchIndexedArticleService
          * filter = term
          */
         $articlesArray = [];
-        $score = 0;
         $inWord = false;
-        $approx = false;
 
         foreach ($filterArray as $filter) {
+
+            /**
+             *Get result for an APPROXIMATIVE correspondance
+             * Begin with those to stakc them to the end of the pile
+             */
+            $approx = true;
+            $qb = $this->lexicalIndexRepository->findWithApproxTerm($filter, $inWord);
+            //Simple research where the term is a word and is correctly spelled
+            if ($this->getQbResult($qb)) {
+                $articlesArray = $this->parseAndScoreArticle($qb, $articlesArray, $filter, $inWord, $approx);
+            } else {
+                // if we don't find any result :
+                //    Simple research where the term is IN a word and correctly spelled
+                $inWord = true;
+                $qb = $this->lexicalIndexRepository->findWithExactTerm($filter, $inWord);
+
+                if ($this->getQbResult($qb)) {
+                    $articlesArray = $this->parseAndScoreArticle($qb, $articlesArray, $filter, $inWord, $approx);
+                }
+            }
+
+
             /**
              *Get result for an EXACT correspondance
              */
@@ -71,25 +91,6 @@ class SearchIndexedArticleService
 
                 if ($this->getQbResult($qb)) {
                     $articlesArray = $this->parseAndScoreArticle($qb, $articlesArray, $filter, $inWord);
-                }
-            }
-
-            /**
-             *Get result for an APPROXIMATIVE correspondance
-             */
-            $approx = true;
-            $qb = $this->lexicalIndexRepository->findWithApproxTerm($filter, $inWord);
-            //Simple research where the term is a word and is correctly spelled
-            if ($this->getQbResult($qb)) {
-                $articlesArray = $this->parseAndScoreArticle($qb, $articlesArray, $filter, $inWord, $approx);
-            } else {
-                // if we don't find any result :
-                //    Simple research where the term is IN a word and correctly spelled
-                $inWord = true;
-                $qb = $this->lexicalIndexRepository->findWithExactTerm($filter, $inWord);
-
-                if ($this->getQbResult($qb)) {
-                    $articlesArray = $this->parseAndScoreArticle($qb, $articlesArray, $filter, $inWord, $approx);
                 }
             }
         }
