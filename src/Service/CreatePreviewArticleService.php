@@ -106,7 +106,6 @@ class CreatePreviewArticleService extends IndexArticleService
                         return null;
                     }
                 }
-
             }
         }
     }

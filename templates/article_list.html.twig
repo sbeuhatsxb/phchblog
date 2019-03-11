@@ -4,18 +4,18 @@
 
 {% block body %}
 
-    <div class="container">
+    <div class="container" style="min-height: 450px">
         {#SUMMARY OF FILTERS SELECTED BEGIN#}
         {% if shortname is defined %}
             <div class="row">
                 <div style="padding: 0 15px 0 15px">
 
                     {% if shortname == 'Concept' %}
-                        <p>Liste des articles en rapport avec le concept de {{ filter }} :</p>
+                        <h2>Liste des articles en rapport avec le concept de {{ filter }} :</h2>
                     {% elseif shortname == 'Author' %}
-                        <p>Liste des articles en rapport avec {{ filter|capitalize }} :</p>
+                        <h2>Liste des articles en rapport avec {{ filter|capitalize }} :</h2>
                     {% elseif shortname == 'Category' %}
-                        <p>Liste des articles en rapport avec la catégorie : {{ filter }} </p>
+                        <h2>Liste des articles en rapport avec la catégorie : {{ filter }} </h2>
                     {% endif %}
 
                 </div>
