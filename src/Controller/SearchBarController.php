@@ -81,6 +81,7 @@ class SearchBarController extends Controller
 
             return $this->render('article_list.html.twig', [
                 'articles' => $articles,
+                'searchedTermArray' => $filterArray
             ]);
 
         }

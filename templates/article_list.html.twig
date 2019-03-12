@@ -23,6 +23,16 @@
         {% endif %}
         {#SUMMARY OF FILTERS SELECTED END#}
 
+        {#SUMMARY OF THE SEARCH#}
+        <div class="row">
+        {% if searchedTermArray is defined %}
+            <h2>Liste des articles en rapport votre recherche :&nbsp;&nbsp;</h2>
+            {% for term in searchedTermArray %}
+                <p>{{ term }} &nbsp;</p>
+            {% endfor %}
+        {% endif %}
+        </div>
+        {#SUMMARY OF FILTERS SELECTED END#}
 
         {#MAIN ARTICLE BEGIN#}
         <div class="row">
