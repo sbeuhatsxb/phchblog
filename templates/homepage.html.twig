@@ -146,7 +146,6 @@
 
 <div class='clear'></div>
 
-
 {% block body %}
 {% endblock %}
 
@@ -164,14 +163,18 @@
 {#END STYLE FOR FOOTER#}
 
 {#FOOTER BEGIN#}
-<footer class="footer page-footer" id="footer">
 
-    <nav id='social'>
-        <a class='letter_email' href='{{ path('index') }}' target='_blank'><i class='fas fa-envelope'></i></a>
-    </nav>
-    <small>Créé par <a href='{{ path('index') }}' id='' title=''>Sébastien STELTZLEN</a></small>
-    <div class='rightf'></div>
-</footer>
+
+<div class="jumbotron-fluid">
+    <footer class="footer page-footer" id="footer">
+
+        <nav id='social'>
+            <a class='letter_email' href='{{ path('index') }}' target='_blank'><i class='fas fa-envelope'></i></a>
+        </nav>
+        <small>Créé par <a href='{{ path('index') }}' id='' title=''>Sébastien STELTZLEN</a></small>
+        <div class='rightf'></div>
+    </footer>
+</div>
 {#FOOTER END#}
 
 {% block javascripts %}

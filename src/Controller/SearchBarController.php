@@ -68,14 +68,16 @@ class SearchBarController extends Controller
 
             //Get articles from the submit
             $articlesArray = $this->searchIndexedArticles->getArticlesFromSubmit($filterArray);
+
             if (empty($articlesArray)) {
-                throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
+                throw $this->createNotFoundException('Aucun résultat selon les critères sélectionnés...');
             }
 
             //Populate $content ($preview) with an extract of the paragraph in which the term is looked for.
             $this->createPreviewArticleService->feedPreview($articlesArray, $filterArray);
 
             $articles = $this->paginationService->paginate($articlesArray, 1, 12);
+
 
             return $this->render('article_list.html.twig', [
                 'articles' => $articles,
@@ -84,13 +86,8 @@ class SearchBarController extends Controller
 
         }
 
-        throw new NotFoundHttpException('Le requête n\'est pas valide : la soumission du formulaire ou sa validation ont échoué');
+        throw $this->createNotFoundException('La requête n\'est pas valide : la soumission du formulaire ou sa validation ont échoué');
     }
 
-
-    function cmp($a, $b)
-    {
-        return strcmp($a->score, $b->score);
-    }
 
 }

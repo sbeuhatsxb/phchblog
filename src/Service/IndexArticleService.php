@@ -25,7 +25,7 @@ class IndexArticleService
     const SIGNES = [".", ",", ";", ":", "?", "!", "(", ")", "[", "]", "§", "<", ">", "&", "<p", "_", '"'];
     const SYMBOLE_APPERTURES = ["<", "<", "&", "/", "\\", "{"];
     const EXCLUDED_STRINGS = ['href="https:', "www"];
-    const PREG_MATCH_PATTERN = '/nbsp;|&amp;|&gt;|&lt;|p&gt;|&nbsp;|<p>|<p>|<br \/>|br \/|\/|\\r|\\n|<\/p>|<em>|href=|https/';
+    const PREG_MATCH_PATTERN = '/nbsp;|&amp;|&gt;|&lt;|p&gt;|&nbsp;|<p>|<p>|<br \/>|br \/|\/|\\r|\\n|<\/p>|<em>|href=|https|< em>/';
 
 
     /**

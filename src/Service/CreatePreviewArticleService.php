@@ -40,7 +40,13 @@ class CreatePreviewArticleService extends IndexArticleService
             /**
              * @var Article $articleObject
              */
-            $article = $this->utf8Conv($articleObject->getContent());
+            $articleStr = $articleObject->getContent();
+
+            $replacement = ' ';
+            $cleanedArticle = preg_replace(self::PREG_MATCH_PATTERN, $replacement, $articleStr);
+
+            $article = $this->utf8Conv($cleanedArticle);
+
 
             $articleExploded = explode(" ", $article);
 
@@ -57,7 +63,8 @@ class CreatePreviewArticleService extends IndexArticleService
                     $wordAfterArray = $this->getWordsBeforeOrAfter($stringPos, $articleExploded, 50);
 
                     $strBefore = implode(" ", array_reverse($wordBeforeArray));
-                    $strMiddle = '<span style="background-color: ' . self::HIGHLIGHT . '">' . $articleExploded[$stringPos] . '</span>';
+                    $strMiddle = '<span style="background-color:' . self::HIGHLIGHT . '">' . $this->utf8Conv($articleExploded[$stringPos]) . '</span>';
+//                    dd($strMiddle);
                     $strAfter = implode(" ", $wordAfterArray);
 
                     $preview = $strBefore . " " . $strMiddle . " " . $strAfter;
@@ -66,7 +73,7 @@ class CreatePreviewArticleService extends IndexArticleService
                 } elseif ($firstOccurence == false) {
 
                     $strMiddle = '<span style="background-color: ' . self::HIGHLIGHT . '">' . $filter . '</span>';
-                    $preview = str_ireplace($filter, $strMiddle, $articleObject->getContent());
+                    $preview = str_ireplace($filter, $strMiddle, $article);
                 }
                 if (isset($preview)) {
                     $articleObject->setContent($preview);

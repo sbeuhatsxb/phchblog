@@ -98,7 +98,6 @@ class SearchAndScoreIndexedArticleService
 
         return array_reverse($articlesArray);
 
-
     }
 
     private function setCurrentScore(Article $article, string $filter, bool $inWord, bool $approx)

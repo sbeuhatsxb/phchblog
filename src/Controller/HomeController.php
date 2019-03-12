@@ -80,7 +80,7 @@ class HomeController extends Controller
             || !in_array($shortname, ['Concept', 'Category', "Author"])
             || empty($getFilter)
         ) {
-            throw new NotFoundHttpException('Désolé, ce filtre n\'existe pas...');
+            throw $this->createNotFoundException('Désolé, ce filtre n\'existe pas...');
         }
 
         $filterId = $getFilter[0]->getId();
@@ -90,7 +90,7 @@ class HomeController extends Controller
         $articles = $this->paginationService->paginate($lastArticles, 1, 12);
 
         if ($articles->getTotalItemCount() == 0) {
-            throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');
+            throw $this->createNotFoundException('Aucun résultat selon les critères sélectionnés...');
         };
 
         return $this->render('article_list.html.twig', [
