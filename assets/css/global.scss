@@ -40,6 +40,10 @@
   font-size: 12px;
 }
 
+.main-container{
+  padding-bottom: 100px;
+}
+
 //Searchbar
 ::placeholder {
   font-family: Roboto, Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -206,6 +210,8 @@ body#layout div.section {
   position: initial;
   border: 1px solid #CCC;
   overflow: visible;
+  padding-bottom: 100px;
+
 }
 
 a:hover {
@@ -271,7 +277,6 @@ h5 {
   background-color: #434343;
   background-size: cover;
   background-position: center center;
-  padding-bottom: 100px;
 }
 
 .card {
@@ -1361,7 +1366,7 @@ iframe {
   .row .row {
     width: auto;
     max-width: none;
-    min-width: 0;
+    min-width: 360px;
     margin: 0 -10px
   }
 
@@ -1448,6 +1453,15 @@ iframe {
 
   #header img {
     padding: 35px 0px 0px 5px;
+  }
+
+  #header-wrapper {
+    max-width: 360px;
+    min-width: 360px;
+  }
+
+  .sb-container-inner{
+    max-width: 240px;
   }
 }
 
