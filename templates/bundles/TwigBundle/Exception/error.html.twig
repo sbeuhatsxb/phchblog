@@ -1,7 +1,18 @@
-{% block body %}
-    <h1>Page introuvable</h1>
+{% extends 'homepage.html.twig' %}
 
-    <p>
-        Une erreur est survenue, veuillez <a href="{{ path('index') }}">retourner sur la page d'accueil</a>.
-    </p>
+{% block title %} Oups ! Erreur ! {% endblock %}
+
+{% block body %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Page introuvable</h1>
+
+            <p style="padding-bottom: 100px">
+                Une erreur est survenue, veuillez <a href="{{ path('index') }}">retourner sur la page d'accueil</a>.
+            </p>
+            <div style="padding-bottom: 100px">
+                <button class="btn btn-secondary btn-lg btn-block">Accueil</button>
+            </div>
+        </div>
+    </div>
 {% endblock %}
