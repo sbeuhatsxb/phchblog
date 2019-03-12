@@ -42,8 +42,6 @@ class LexicalIndex
         $this->linkedArticle = new ArrayCollection();
     }
 
-    
-
     public function getId(): ?int
     {
         return $this->id;

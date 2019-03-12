@@ -17,6 +17,4 @@ class SearchFormType extends AbstractType
             ])
             ->add('save', SubmitType::class, ['label' => 'Envoyer', 'attr' => array('class' => 'btn btn--primary type--uppercase')]);
     }
-
-
 }

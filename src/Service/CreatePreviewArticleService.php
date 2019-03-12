@@ -64,7 +64,6 @@ class CreatePreviewArticleService extends IndexArticleService
 
                     $strBefore = implode(" ", array_reverse($wordBeforeArray));
                     $strMiddle = '<span style="background-color:' . self::HIGHLIGHT . '">' . $this->utf8Conv($articleExploded[$stringPos]) . '</span>';
-//                    dd($strMiddle);
                     $strAfter = implode(" ", $wordAfterArray);
 
                     $preview = $strBefore . " " . $strMiddle . " " . $strAfter;

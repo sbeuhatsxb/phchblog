@@ -27,7 +27,6 @@ class IndexArticlesCommand extends Command
 
     protected function configure()
     {
-
         $this
             ->setName(self::$defaultName)
             ->setDescription('Generate articles index')
