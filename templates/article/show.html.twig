@@ -3,37 +3,32 @@
 {% block title %}Article{% endblock %}
 
 {% block body %}
-    <div class="container main-container">
+    <div class="container">
         <div class="row">
-            <div class="col-xs-1 col-lg-9 card post_item_article low-padding">
+            <div class="col-xs-1 col-lg-9 card post_item_article low-padding  min-height-site">
                 <h1>{{ article.title }}</h1>
-                <table class="table">
-                    <tbody>
-                    <tr>
-                        <h5 style="font-stretch: ultra-condensed; color: #aaa; padding-bottom: 8px;">
-                            De {{ article.writer }}&nbsp;&nbsp;
-                            le {{ article.createdAt|date("d/m/Y") }}
+                    <table class="table">
+                        <tbody>
+                        <h5 class="table-h5-style">
+                            De {{ article.writer }}&nbsp;&nbsp le {{ article.createdAt|date("d/m/Y") }}
                         </h5>
-                    </tr>
-                    <tr>
-                        <h5 style="font-stretch: ultra-condensed; color: #aaa; padding-bottom: 8px;">
+                        <h5 class="table-h5-style">
                             Première publication : {{ article.createdAt ? article.createdAt|date('Y-m-d') : '' }}&nbsp;&nbsp;
                             Mis à jour le : {{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i') : '' }}
                         </h5>
-                    </tr>
-                    {% if article.linkedImage != null %}
-                        <div align="center">
-                            <img class="articleimg " src="{{ asset('uploads/images/' ~ article.linkedImage ) }}"
-                                 alt="{{ article.title }}">
-                        </div>
-                    {% endif %}
-                    <div class="separator" style="clear: both; text-align: justify;">
-                        <br></div>
-                    <tr>
-                        <p class="text-justify">{{ article.content| raw }}</p>
-                    </tr>
-                    <div class="post-footer"></div>
-                    </tbody>
+                        {% if article.linkedImage != null %}
+                            <div align="center">
+                                <img class="articleimg " src="{{ asset('uploads/images/' ~ article.linkedImage ) }}"
+                                     alt="{{ article.title }}">
+                            </div>
+                        {% endif %}
+                        <div class="separator" style="clear: both; text-align: justify;">
+                            <br></div>
+                        <tr>
+                            <p class="text-justify">{{ article.content| raw }}</p>
+                        </tr>
+                        <div class="post-footer"></div>
+                        </tbody>
                 </table>
             </div>
             <div class="col-xs-1 col-lg-3" style="padding-left: 0;">

@@ -22,6 +22,8 @@ use App\Entity\Author;
 
 class HomeController extends Controller
 {
+    const PAGE_LIMIT = 9;
+    const PAGE_NUMBER = 1;
 
     /**
      * @var LastArticlesService
@@ -50,7 +52,7 @@ class HomeController extends Controller
 
         $lastArticles = $this->lastArticlesService->getLastArticles();
 
-        $articles = $this->paginationService->paginate($lastArticles, 1, 12);
+        $articles = $this->paginationService->paginate($lastArticles, self::PAGE_NUMBER, self::PAGE_LIMIT);
 
         if ($articles->getTotalItemCount() == 0) {
             throw new NotFoundHttpException('Aucun résultat selon les critères sélectionnés...');

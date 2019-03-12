@@ -25,12 +25,12 @@
 
         {#SUMMARY OF THE SEARCH#}
         <div class="row">
-        {% if searchedTermArray is defined %}
-            <h2>Liste des articles en rapport votre recherche :&nbsp;&nbsp;</h2>
-            {% for term in searchedTermArray %}
-                <p>{{ term }} &nbsp;</p>
-            {% endfor %}
-        {% endif %}
+            {% if searchedTermArray is defined %}
+                <h2>Liste des articles en rapport votre recherche :&nbsp;&nbsp;</h2>
+                {% for term in searchedTermArray %}
+                    <p class="researched-term">{{ term }} &nbsp;</p>
+                {% endfor %}
+            {% endif %}
         </div>
         {#SUMMARY OF FILTERS SELECTED END#}
 
@@ -57,7 +57,7 @@
 
                                     {#debugscore#}
                                     {#{% if article.score != null %}#}
-                                        {#<small>Score {{ article.score }} </small>#}
+                                    {#<small>Score {{ article.score }} </small>#}
                                     {#{% endif %}#}
 
                                     <small>le {{ article.createdAt|date("d/m/Y") }} </small>
@@ -90,6 +90,6 @@
         {{ encore_entry_script_tags('matchHeight') }}
     {% endblock %}
 
-{#END BLOCK BODY#}
+    {#END BLOCK BODY#}
 {% endblock %}
 

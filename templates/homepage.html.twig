@@ -1,14 +1,7 @@
 <!DOCTYPE html>
-<html lang="fr"
-      dir='ltr' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b'
-      xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<html lang="fr" dir='ltr'>
 <head>
-    <meta charset="UTF-8">
-
-    <title>
-        {% block title %}Welcome!{% endblock %}
-    </title>
-
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1' name='viewport'/>
     {# Description and Keywords (start) #}
     <meta content='Textes de Philippe Choulet' name='description'/>
@@ -16,9 +9,25 @@
     {# Description and Keywords (end) #}
     <meta content='Philippe Choulet' property='og:site_name'/>
     {# Social Media meta tag need customer customization #}
-    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type'/>
     <meta content='Philippe Choulet' property='og:title'/>
     <meta content='Site de Philippe Choulet' property='og:description'/>
+
+    <title>
+        {% block title %}Welcome!{% endblock %}
+    </title>
+
+    {#STYLE FOR FOOTER#}
+    <style>
+        nav#social i {
+            padding: 15px 14px 25px;
+            font-size: 20px;
+        }
+
+        .rightf {
+            padding-top: 10px;
+        }
+    </style>
+    {#END STYLE FOR FOOTER#}
 
 
     {% block stylesheets %}
@@ -51,7 +60,7 @@
         <div id='header-wrapper' itemscope='itemscope' itemtype='http://schema.org/WPHeader'>
             <div class='ornament'>
                 <div class='container'>
-                    <div class='row' align="center">
+                    <div class='row center-block'>
                         <div class='header section' id='header'>
                             <div class='widget Header' data-version='1' id='Header1'>
                                 <div id='header-inner'>
@@ -122,26 +131,27 @@
                                                 {{ form_row(searchbar.search, {'attr':{'placeholder':'Recherche d\'un terme...' }}) }}
                                             </div>
                                             <div class="col-xs-2 sb-container-inner">
-                                                <button class="btn btn-outline-secondary sb-container-inner" style="font-size: 16px;" type="save">
+                                                <button class="btn btn-outline-secondary sb-container-inner"
+                                                        style="font-size: 16px;" value="search">
                                                     <i class="fas fa-search"></i>
                                                 </button>
                                             </div>
                                             {{ form_row(searchbar.save, { 'attr': {'class': 'd-none'} }) }}
                                         </div>
+                                        {{ form_end(searchbar) }}
                                     </div>
-                                    {{ form_end(searchbar) }}
                                 </div>
                             </div>
                         </div>
                         {#Barre de recherche (search bar) fin#}
                     </nav>
-                </div>
-                {#NAVBAR END#}
+                    {#NAVBAR END#}
 
+                </div>
             </div>
         </div>
+        {#HEADER END#}
     </div>
-    {#HEADER END#}
 </div>
 {#MAIN CONTAINER END#}
 
@@ -150,29 +160,15 @@
 {% block body %}
 {% endblock %}
 
-{#STYLE FOR FOOTER#}
-<style>
-    nav#social i {
-        padding: 15px 14px 25px;
-        font-size: 20px;
-    }
-
-    .rightf {
-        padding-top: 10px;
-    }
-</style>
-{#END STYLE FOR FOOTER#}
 
 {#FOOTER BEGIN#}
-
-
 <div class="jumbotron-fluid">
     <footer class="footer page-footer" id="footer">
 
         <nav id='social'>
             <a class='letter_email' href='{{ path('index') }}' target='_blank'><i class='fas fa-envelope'></i></a>
         </nav>
-        <small>Créé par <a href='{{ path('index') }}' id='' title=''>Sébastien STELTZLEN</a></small>
+        <small>Créé par <a href='{{ path('index') }}' title=''>Sébastien STELTZLEN</a></small>
         <div class='rightf'></div>
     </footer>
 </div>
@@ -181,6 +177,7 @@
 {% block javascripts %}
     {{ encore_entry_script_tags('navBar') }}
 {% endblock %}
+
 
 </body>
 
