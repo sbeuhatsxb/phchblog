@@ -77,7 +77,7 @@
                             {% set hrHtml = 1 %}
 
                             {% for category in article.getLinkedCategory() %}
-                                <a href="{{ path('filtered_list', { 'classname' : categoryClass , 'filter': category.name|lower, 'shortname': categoryShortname }) }}">{{ category }}</a>
+                                <a href="{{ path('filtered_list', { 'filter': category.name|lower, 'shortname': categoryShortname }) }}">{{ category }}</a>
                                 <br>
                                 {% if hrHtml <= (article.getLinkedCategory()|length) - 1 %}
                                     <hr>

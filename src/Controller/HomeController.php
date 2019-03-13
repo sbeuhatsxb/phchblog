@@ -64,15 +64,16 @@ class HomeController extends Controller
     }
 
     /**
-     * @Route("/filtres/{classname}/{shortname}/{filter}",  name="filtered_list")
-     * @param $classname
+     * @Route("/filtres/{shortname}/{filter}",  name="filtered_list")
      * @param $filter
      * @param $shortname
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function filteredList($classname = null, $filter = null, $shortname = null, Request $request)
+    public function filteredList($filter = null, $shortname = null, Request $request)
     {
+
+        $classname = 'App\Entity\\'.$request->attributes->get('shortname');
 
         $em = $this->getDoctrine()->getManager();
 

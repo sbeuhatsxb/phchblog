@@ -14,6 +14,9 @@
 #        - { name: "styles", items: ['Bold', 'Italic', 'BulletedList', 'Link'] }
 
 easy_admin:
+  list:
+    max_results: 30
+
   design:
     form_theme:
       - 'form_div_layout.html.twig'
@@ -23,7 +26,6 @@ easy_admin:
       js:
         - '/bundles/cksourceckfinder/ckfinder/ckfinder.js'
         - '/js/setup-ckfinder.js'
-        # ...
   entities:
     ####################################################################################################
     Articles:
@@ -40,17 +42,18 @@ easy_admin:
           - { property: 'linkedImage', label: 'Image associée', type: 'image', base_path: '/uploads/images/' }
 
       show:
+        templates:
+          show: 'admin/article/show.html.twig'
         actions:
           - { name: 'indexArticles', label: 'Indexation de TOUS les articles', icon: 'list' }
         fields:
-          #          - { type: 'tab' , label: 'Basic Information' }
           - { property: 'title', label: 'Titre' }
-          - { property: 'content', label: 'Article', type: 'fos_ckeditor' }
+          - { property: 'content', label: 'Article', type: 'raw' }
           - { property: 'linkedCategory', label: 'Catégorie(s)' }
           - { property: 'linkedAuthor', label: 'Auteur(s) en relation' }
           - { property: 'linkedConcept', label: 'Concept(s) en relation' }
           - { property: 'writer', label: 'Auteur de l`article' }
-          - { property: 'isPublished', label: 'Article en publication' }
+          - { property: 'isPublished', label: 'Article en publication', type: boolean}
           - { property: 'linkedImage', label: 'Image associée', type: 'image', base_path: '/uploads/images/' }
       form:
         fields:
@@ -63,6 +66,7 @@ easy_admin:
           - { property: 'writer', label: 'Auteur de l`article' }
           - { property: 'linkedImage', label: 'Image associée' }
           - { property: 'isPublished', label: 'Article en publication' }
+
     ####################################################################################################
     Categories:
       class: App\Entity\Category
