@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cmd="bin/console $@"
+
+. $(dirname $0)/sf-bash

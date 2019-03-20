@@ -1,0 +1,24 @@
+#!/bin/bash
+
+program=$(basename $0)
+
+if [ -z "$cmd" ]; then
+    if [ "$program" = "node-bash" ] ; then
+        cmd="bash $@"
+    else
+        cmd="$program $@"
+    fi
+fi
+
+# we go to the projectDir so .env can be read by docker-compose
+projectDir=$(readlink -f $(dirname $0)/../..)
+cd $projectDir
+
+# correct options so we can pipe with this script
+if [ -p /dev/stdin ]; then
+    OPTS="-T"
+else
+    OPTS=""
+fi
+
+exec docker-compose exec ${OPTS} node $cmd

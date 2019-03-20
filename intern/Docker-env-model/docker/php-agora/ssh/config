@@ -1,0 +1,5 @@
+Host gitlab.netapsys.fr
+    RSAAuthentication yes
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+    IdentityFile ~/.ssh/id_rsa_gitlab

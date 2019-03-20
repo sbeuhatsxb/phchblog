@@ -1,0 +1,3 @@
+[mysqld]
+innodb_file_per_table
+max_allowed_packet = 67108864

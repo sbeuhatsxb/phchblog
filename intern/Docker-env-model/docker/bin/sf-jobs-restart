@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kill $(ps ax |egrep "php ./bin/console (enqueue:consume|jms-job-queue:run|jms-job-queue:schedule|app:tick)" | awk '{print $1}')

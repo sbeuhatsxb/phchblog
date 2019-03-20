@@ -1,0 +1,108 @@
+Installation
+============
+
+Sources
++++++++
+
+#. Clone the project `cyano <https://gitlab.netapsys.fr/netapsys/cyano>`_
+#. Initialize submodule folder for cyano-data: ``git submodule init && git submodule update``
+#. Ignore new changes of submodule: ``git update-index --assume-unchanged cyano-data``
+
+Configuration
++++++++++++++
+
+#. Create ``.env`` copying and adjusting ``.env.dist``
+#. Add the value of the following variables to your ``/etc/hosts`` file with a local ip (127.0.0.1):
+
+    * ``SYMFONY_VIRTUAL_HOST``: the main website of the application; default `cyano.local <http://cyano.local>`_
+    * ``SYMFONYTEST_VIRTUAL_HOST``: the same as above, for tests; default `cyano-test.local <http://cyano-test.local>`_
+    * ``MAIL_VIRTUAL_HOST``: access to `mailhog <https://github.com/mailhog/MailHog>`_; default `cyano-mail.local <http://cyano-mail.local>`_
+    * ``SPHINX_DOC_VIRTUAL_HOST``; access to this documentation; default `cyano-doc.local <http://cyano-doc.local>`_
+    * ``WEBGRIND_VIRTUAL_HOST``; access to `webgrind <https://github.com/jokkedk/webgrind>`_, a tool for quick profiling; default `cyano-webgrind.local <http://cyano-webgrind.local>`_
+
+    .. note::
+        Webgrind is optional and probably deprecated. Use https://blackfire.io instead, configuring your ``blackfire.env`` file.
+
+#. Build the docker images and run the services:
+
+    * ``docker-compose build`` (can be long: take a break... !)
+    * ``mkdir -p var/data ${HOME}/.cache/composer ftp solr logs/solr zookeeper/data zookeeper/datalog logs/zookeeper logs/fpm``
+    * ``docker-compose up -d``
+
+    .. note::
+        Because ``.env`` is used as ``env_file`` in ``docker-compose.yml``, you have to restart your application when changing ``.env`` (ie. ``docker-compose up -d``).
+
+#. If you do not have a running proxy (jwilder/nginx-proxy):
+
+    * ``docker network create proxy -d bridge``
+    * ``docker-compose -f docker-compose.proxy.yml up -d``
+
+#. Issue with Elasticsearch : 
+
+       elk_1 | max virtual memory areas vm.max_map_count [65530] likely too low, increase to at least [262144]
+
+   * ``sudo sysctl -w vm.max_map_count=262144``
+
+Accessing MySQL and others tools
+++++++++++++++++++++++++++++++++
+
+Just once per shell:
+``. docker/set-env.sh``
+
+You then have access (through your modified PATH) to the following:
+
+* ``mysql``: opens the MySQL client (no need for password)
+* ``sf-bash``: opens a shell script running in the symfony container as the symfony user
+* ``sf-bash-root``: opens a shell script running in the symfony container as root
+* ``php``: the PHP engine running in the symfony container
+* ``console``: runs the symfony console in the symfony container
+* ``codecept``: runs codecept in the symfonytest container
+* ``composer``: runs composer in the symfony container
+* ``sf-jobs-restart``: restarts jobs-runner & jobs-scheduler
+* ``xdebug-enable``: enables xdebug extension (for debugging purpose essentially)
+* ``xdebug-disable``: enables xdebug extension (for debugging purpose essentially)
+
+N.B. : symlinking ``sf-bash`` creates a new "executable" runned in the symfony container "as is". Cf. ``docker/bin/composer``
+
+Init
+++++
+
+#. Run ``composer install``
+
+#. Database creation and initialization:
+
+    * ``console doctrine:database:create``
+    * ``console doctrine:schema:update --force``
+    * ``console doctrine:fixtures:load``
+
+#. Load translations into the DB so they are editable:
+
+    * ``console lexik:translations:import -fc -p translations/`` (optionnal for dev?)
+    * ``console cache:clear --no-warmup``
+
+#. Generate CSS & JS resources needed by the application (you can use either npm or yarn):
+
+    * ``yarn install``
+    * ``yarn run dev``
+
+#. CKEditor and others external assets:
+
+    * ``console ckeditor:install``
+    * ``console assets:install public``
+
+Database migration
+==================
+
+#. Database dump import:
+
+    * ``zcat dump_xxx_xxx.sql.gz | mysql cyano``
+
+#. After importing the database, the hostname should be updated:
+
+    * In MySQL console, launch: ``UPDATE page__site SET host="cyano.local"``
+
+Routes generation
+=================
+
+#. ``console sonata:page:update-core-routes --site=all``
+#. ``console sonata:page:create-snapshots --site=all``

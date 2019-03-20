@@ -1,0 +1,9 @@
+#!/usr/bin/with-contenv sh
+
+if [ "${SF_UID-1000}" != "$(id -u symfony)" ]; then
+    usermod -u ${SF_UID-1000} symfony
+fi
+
+if [ "${SF_GID-1000}" != "$(id -g symfony)" ]; then
+    groupmod -g ${SF_GID-1000} symfony
+fi

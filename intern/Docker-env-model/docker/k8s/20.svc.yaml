@@ -1,0 +1,20 @@
+# Netapsys ne peux pas creer de service 
+# Ceci peux impacter le border routing
+# que nous realisons sur le firewall
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-front
+  namespace: rossignol-dev
+  labels:
+    app: webapp-front
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: webapp-front
+

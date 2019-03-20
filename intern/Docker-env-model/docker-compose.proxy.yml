@@ -1,0 +1,21 @@
+version: '2.3'
+
+services:
+    proxy:
+        # alpine is lighter and supports bcrypt https://github.com/jwilder/nginx-proxy/issues/643
+        image: jwilder/nginx-proxy:alpine
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./docker/proxy/upload.conf:/etc/nginx/conf.d/upload.conf:ro
+            - /var/run/docker.sock:/tmp/docker.sock:ro
+        labels:
+            - "com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy"
+        networks:
+            - proxy
+
+networks:
+    # You have to create this network: "docker network create proxy -d bridge"
+    proxy:
+        external: true

@@ -1,0 +1,188 @@
+version: '2.3'
+
+services:
+    symfony:
+        build: docker/php
+        volumes:
+            - ./:/var/www/symfony
+            - ${HOME}/.composer:/composer
+            - ./rossignolb2b-data:/var/www/symfony/var/data/fixtures
+            - ./ftp:/ftp
+            - ./logs/fpm:/var/log/fpm
+        networks:
+            default:
+                aliases:
+                    - "symfony.php"
+        depends_on:
+            - db
+            - redis
+            - solr
+        environment:
+            - DATABASE_URL=mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/${SYMFONY_DB-rossignol}
+            - ENQUEUE_DSN=redis://redis?vendor=phpredis&database=${ENQUEUE_REDIS_DB-1}
+        env_file: .env
+        working_dir: /var/www/symfony
+        hostname: symfony
+
+    symfonytest:
+        build: docker/phptest
+        volumes:
+            - ./:/var/www/symfony
+            - ${HOME}/.composer:/composer
+            - ./rossignolb2b-data:/var/www/symfony/var/data/fixtures
+            - ./ftp:/ftp
+            - ./logs/fpm-test:/var/log/fpm
+        networks:
+            default:
+                aliases:
+                    - "symfonytest.php"
+        depends_on:
+            - db
+            - symfony
+        environment:
+            - DATABASE_URL=mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/${SYMFONY_DB-rossignol}_test
+            - ENQUEUE_DSN=redis://redis?vendor=phpredis&database=${ENQUEUE_REDIS_TEST_DB-2}
+            - APP_ENV=test
+            - SYMFONY_DEPRECATIONS_HELPER=weak
+        env_file: .env
+        working_dir: /var/www/symfony
+        hostname: symfonytest
+
+    db:
+        build: docker/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ./db:/var/lib/mysql
+
+    nginx:
+        build: docker/nginx
+        volumes_from:
+            - symfony
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        environment:
+            - VIRTUAL_HOST=${SYMFONY_VIRTUAL_HOST}
+        networks:
+            default:
+                # Alias so selenium can access website with a valid domain (tests/acceptance.suite.yml)
+                aliases:
+                    - ${SYMFONY_VIRTUAL_HOST}
+            proxy:
+
+    nginxtest:
+        build: docker/nginxtest
+        volumes_from:
+            - symfonytest
+        volumes:
+            - ./logs/nginxtest/:/var/log/nginx
+        environment:
+            - VIRTUAL_HOST=${SYMFONYTEST_VIRTUAL_HOST}
+        networks:
+            default:
+                # Alias so selenium can access website with a valid domain (tests/acceptance.suite.yml)
+                aliases:
+                    - ${SYMFONYTEST_VIRTUAL_HOST}
+            proxy:
+
+    zoo1:
+        image: zookeeper
+        hostname: zoo1
+        expose:
+            - "2181"
+            - "2888"
+            - "3888"
+        environment:
+            - ZOO_MY_ID=1
+            - ZOO_SERVERS=server.1=0.0.0.0:2888:3888
+            - ZOO_STANDALONE_ENABLED=true
+            - ZOO_LOG4J_PROP=INFO,ROLLINGFILE
+        volumes:
+            - ./zookeeper/data:/data
+            - ./zookeeper/datalog:/datalog
+            - ./logs/zookeeper:/logs
+        user: "${ZOO_UID-1000}:${ZOO_GID-1000}"
+
+    solr:
+        image: solr:7
+        hostname: solr1
+        networks:
+            default:
+                aliases:
+                    - solr1
+            proxy:
+        depends_on:
+            - zoo1
+        expose:
+            - "8983"
+        environment:
+            - VIRTUAL_HOST=${SOLR_VIRTUAL_HOST}
+            - ZK_HOST=zoo1:2181
+            - SOLR_HOST=solr1
+            - SOLR_HOME=/solr-home
+            - INIT_SOLR_HOME=yes
+            # increase the default jetty from 8192
+            # for requests like 2018-11-06 16:28:17.180 INFO  (qtp1107530534-1249) [   ] o.a.s.s.HttpSolrCall [admin] webapp=null path=/admin/metrics params={wt=javabin&version=2&key=solr.core.catalog-RAID-BK-proshop.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-DLLK-PL-retail.shard1.replica_n1:UPDATE./update.requests&key=solr.core.catalog-RAID-OU-spareparts.shard1.replica_n1:UPDATE./update.requests&key=solr.core.catalog-RAID-FW-specificpro.shard1.replica_n1:UPDATE./update.requests&key=solr.core.catalog-DLLK-HG-retail.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-ROSS-IN-fashion.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-FELT-SG-proshop.shard1.replica_n1:INDEX.sizeInBytes&key=solr.core.catalog-DLLK-HG-retail.shard1.replica_n1:UPDATE./update.requests&key=solr.core.catalog-TIME-HG-oldmodels.shard1.replica_n1:UPDATE./update.requests&key=solr.core.catalog-DLLK-OU-spareparts.shard1.replica_n1:UPDATE./update.requests&key=solr.core.catalog-FELT-FW-proshop.shard1.replica_n1:INDEX.sizeInBytes&key=solr.core.catalog-DLLK-PL-retail.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-RAID-FW-proshop.shard1.replica_n1:INDEX.sizeInBytes&key=solr.core.catalog-RAID-SG-proshop.shard1.replica_n1:INDEX.sizeInBytes&key=solr.core.catalog-ROSS-SG-proshop.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-TIME-IN-oldmodels.shard1.replica_n1:INDEX.sizeInBytes&key=solr.core.catalog-FELT-FW-specificpro.shard1.replica_n1:INDEX.sizeInBytes&key=solr.core.catalog-FELT-IN-spareparts.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-TIME-SG-preorder.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-TIME-BK-fashion.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-FELT-BK-retail.shard1.replica_n1:QUERY./select.requests&key=solr.core.catalog-TIME-IN-spareparts.shard1.replica_n1:UPDATE./update.requests&key=solr.core.catalog-FELT...
+            # TODO: find who is reponsible for that and try to convert it to a POST request
+            - SOLR_OPTS=-Dsolr.jetty.request.header.size=163840
+        env_file: .env
+        volumes:
+            - ./solr:/solr-home
+            - ./logs/solr:/opt/solr/server/logs
+            - ./interns/solr/configsets:/solr-configsets
+        user: "${SOLR_UID-1000}:${SOLR_GID-1000}"
+
+    node:
+        build: docker/node
+        volumes_from:
+            - symfony
+        volumes:
+            - ./docker/infinity.sh:/infinity.sh
+        user: "${SF_UID-1000}:${SF_GID-1000}"
+        working_dir: /var/www/symfony
+        command: /infinity.sh "sleep 1" "/dev/null"
+
+    mail:
+        image: mailhog/mailhog
+        environment:
+            - VIRTUAL_HOST=${MAIL_VIRTUAL_HOST}
+            - VIRTUAL_PORT=8025
+        networks:
+            default:
+            proxy:
+
+    redis:
+        image: redis
+        command: --save "" --appendonly no
+        networks:
+            default:
+                aliases:
+                    - redis-cache
+                    - redis-session
+
+    selenium:
+        image: selenium/standalone-chrome-debug
+        environment:
+            - VNC_NO_PASSWORD=1
+        #ports:
+        #    - "4444:4444"
+        #    - "5900:5900"
+        networks:
+            default:
+
+    sphinx-doc:
+        build: docker/sphinx-doc
+        environment:
+            - VIRTUAL_HOST=${SPHINX_DOC_VIRTUAL_HOST}
+        user: "${SF_UID-1000}:${SF_GID-1000}"
+        volumes:
+            - ./interns/doc:/docs
+        working_dir: /docs
+        networks:
+            proxy:
+        command: livehtml
+        hostname: sphinxdoc
+
+networks:
+    proxy:
+        external: true

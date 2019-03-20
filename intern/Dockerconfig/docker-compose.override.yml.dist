@@ -1,0 +1,22 @@
+version: '2.3'
+
+services:
+#    adminer:
+#        image: clue/adminer
+#        expose:
+#            - "80"
+#        environment:
+#            VIRTUAL_HOST: cyano-adminer.local
+#        networks:
+#            - default
+#            - proxy
+
+#    webgrind:
+#        build: docker/webgrind
+#        volumes_from:
+#            - symfony:ro
+#        environment:
+#            - VIRTUAL_HOST=${WEBGRIND_VIRTUAL_HOST}
+#            - VIRTUAL_PORT=8080
+#        networks:
+#            proxy:

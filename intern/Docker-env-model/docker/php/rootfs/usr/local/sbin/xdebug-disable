@@ -1,0 +1,5 @@
+#!/bin/bash
+
+ENABLE_XDEBUG=false ENABLE_XDEBUG_REMOTE_DEBUGGING=false do-xdebug-conf
+
+kill -USR2 $(cat /usr/local/var/run/php-fpm.pid)

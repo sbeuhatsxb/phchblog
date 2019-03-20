@@ -1,0 +1,2 @@
+# mainly used to simplify the Jenkinsfile writing
+eval "$(sed 's/^\([^=]\+\)=\(.\+\)$/\1="\2"/' .env)"

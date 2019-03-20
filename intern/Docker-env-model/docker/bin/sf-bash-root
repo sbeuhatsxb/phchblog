@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export SF_AS_ROOT=true
+. $(dirname $0)/sf-bash

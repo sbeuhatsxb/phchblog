@@ -1,0 +1,87 @@
+version: '2.3'
+
+services:
+    symfony:
+        build: docker/php
+        volumes:
+            - ./:/var/www/symfony
+            - ${HOME}/.composer:/composer
+            - ./logs/fpm:/var/log/fpm
+        networks:
+            default:
+                aliases:
+                    - "symfony.php"
+        depends_on:
+            - db
+            - redis
+        environment:
+            - DATABASE_URL=mysql://root:${MYSQL_ROOT_PASSWORD}@db:3306/${SYMFONY_DB-cyano}
+            - ENQUEUE_DSN=redis://redis?vendor=phpredis&database=${ENQUEUE_REDIS_DB-1}
+        env_file: .env
+        working_dir: /var/www/symfony
+        hostname: symfony
+
+    db:
+        build: docker/mysql
+        environment:
+            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        volumes:
+            - ./db:/var/lib/mysql
+
+    elasticsearch:
+        image: docker.elastic.co/elasticsearch/elasticsearch:6.6.2
+        container_name: elasticsearch
+        environment:
+            - cluster.name=docker-cluster
+            - bootstrap.memory_lock=true
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        ulimits:
+            memlock:
+                soft: -1
+                hard: -1
+        ports:
+            - 9200:9200
+
+    kibana:
+        image: docker.elastic.co/kibana/kibana:6.0.1
+        links:
+            - elasticsearch
+        ports:
+            - 5601:5601
+
+    nginx:
+        build: docker/nginx
+        volumes_from:
+            - symfony
+        volumes:
+            - ./logs/nginx/:/var/log/nginx
+        environment:
+            - VIRTUAL_HOST=${SYMFONY_VIRTUAL_HOST}
+        networks:
+            default:
+                # Alias so selenium can access website with a valid domain (tests/acceptance.suite.yml)
+                aliases:
+                    - ${SYMFONY_VIRTUAL_HOST}
+            proxy:
+
+    node:
+        build: docker/node
+        volumes_from:
+            - symfony
+        volumes:
+            - ./docker/infinity.sh:/infinity.sh
+        user: "${SF_UID-1000}:${SF_GID-1000}"
+        working_dir: /var/www/symfony
+        command: /infinity.sh "sleep 1" "/dev/null"
+
+    redis:
+        image: redis
+        command: --save "" --appendonly no
+        networks:
+            default:
+                aliases:
+                    - redis-cache
+                    - redis-session
+networks:
+    proxy:
+        external: true

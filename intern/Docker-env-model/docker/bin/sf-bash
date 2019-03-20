@@ -1,0 +1,19 @@
+#!/bin/bash
+
+program=$(basename $0)
+
+if [ -z "$cmd" ]; then
+    if [ "$program" = "sf-bash" ] || [ "$program" = "sf-bash-root" ] ; then
+        cmd=bash
+    else
+        cmd="$program $@"
+    fi
+fi
+
+. $(dirname $0)/.common
+
+if [ -z "$SF_AS_ROOT" ]; then
+    USER_OPTS="--user=${SF_UID-1000}:${SF_GID-1000}"
+fi
+
+exec docker-compose exec $USER_OPTS ${COMPOSE_OPTS} symfony $cmd

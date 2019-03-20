@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+cd /var/www/symfony
+exec s6-setuidgid ${SF_UID-1000}:${SF_GID-1000} /infinity.sh "./bin/console app:tick" "/var/www/symfony/var/log/messages-ticker.log"

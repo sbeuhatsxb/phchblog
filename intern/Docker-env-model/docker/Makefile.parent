@@ -1,0 +1,60 @@
+REPOSITORY  = regis.myagora.fr/rossignol-dev
+LATEST     ?= true
+NAME       ?= $(error NAME variable not defined)
+
+# Use branch and last hast commit as imgae tag
+BRANCH  = $(shell git rev-parse --abbrev-ref HEAD)
+VERSION = $(shell git log -1 --pretty=%h)
+TAG     = ${BRANCH}-${VERSION}
+
+image:
+	docker build $(BUILD_OPTS) -t "netapsys/$(NAME):$(TAG)" .
+	@for tag in $(EXTRA_TAGS); do \
+		echo "Tag netapsys/$(NAME):$(TAG) as $$tag"; \
+		docker tag netapsys/$(NAME):$(TAG) netapsys/$(NAME):$$tag; \
+	done
+	@if [ "${LATEST}" = "true" ]; then \
+		echo "Tag netapsys/$(NAME):$(TAG) as latest"; \
+		docker tag netapsys/$(NAME):$(TAG) netapsys/$(NAME):latest; \
+	else \
+		echo "No latest tagging for netapsys/$(NAME):$(TAG)"; \
+	fi
+
+push:
+	@for repository in $(REPOSITORY) $(EXTRA_REPOSITORIES); \
+	do \
+		docker tag netapsys/$(NAME):$(TAG) $$repository/$(NAME):$(TAG); \
+		for tag in $(EXTRA_TAGS); do \
+			docker tag netapsys/$(NAME):$$tag $$repository/$(NAME):$$tag; \
+			docker push $$repository/$(NAME):$$tag; \
+		done; \
+		if [ "${LATEST}" = "true" ]; then \
+			docker tag netapsys/$(NAME):latest $$repository/$(NAME):latest; \
+			docker push $$repository/$(NAME):latest; \
+		fi; \
+		docker push $$repository/$(NAME):$(TAG); \
+	done
+
+gcloudpush:
+	@for repository in $(GCLOUD_REPOSITORIES); \
+	do \
+		read -p "$(shell echo -e '\e[33mPushing to $$repository? [Y/n] \e[0m')" -r; REPLY=$${REPLY:-Y}; if [[ ! $$REPLY =~ ^[Yy]$$ ]]; then continue; fi; \
+		docker tag $(REPOSITORY)/$(NAME):$(TAG) $$repository/$(NAME):$(TAG); \
+		gcloud docker -- push $$repository/$(NAME):$(TAG); \
+		if [ "${LATEST}" = "true" ]; then \
+			docker tag $$repository/$(NAME):$(TAG) $$repository/$(NAME):latest; \
+			gcloud docker -- push $$repository/$(NAME):latest; \
+		fi; \
+		for tag in $(EXTRA_TAGS); do \
+			docker tag $(REPOSITORY)/$(NAME):$$tag $$repository/$(NAME):$$tag; \
+			gcloud docker -- push $$repository/$(NAME):$$tag; \
+		done; \
+	done
+
+imagenocache: BUILD_OPTS += --no-cache=true
+imagenocache: image
+
+all: image push
+
+
+.PHONY: image push gcloudpush imagenocache all

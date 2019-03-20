@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cmd="php -d memory_limit=256M vendor/bin/phpstan $@"
+
+. $(dirname $0)/sf-bash

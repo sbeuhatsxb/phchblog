@@ -1,0 +1,230 @@
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: webapp-front
+  namespace: rossignol-dev
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        # Declaratif AGC
+        app: webapp-front
+        agc-size: l
+        agc-tenant: rossignol-dev
+    spec:
+      imagePullSecrets:
+      - name: agc-regis-credential
+
+      #      securityContext:
+      #        runAsUser: 1000
+      #        fsGroup: 1000
+
+      # Affinite pour que les pods demarrent sur les nodes rossignol
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: schedule.agc.io/tier
+                operator: In
+                values:
+                - rossignol
+      tolerations:
+      - key: schedule.agc.io/dedicated
+        operator: Equal
+        value: rossignol
+        effect: NoSchedule
+
+      containers:
+      - name: webapp-nginx
+        image: regis.myagora.fr/rossignol-dev/nginx:master-6bbd626
+        resources:
+          limits:
+            memory: "256Mi"
+            cpu: "1"
+          requests:
+            memory: "128Mi"
+            cpu: "125m"
+          # Il faut un test de liveness et readyness
+        volumeMounts:
+        - mountPath: /var/www/symfony/public/uploads
+          name: app-volume
+          subPath: var+www+symfony+public+uploads
+        - mountPath: /tmp
+          name: app-volume
+          subPath: nginx+tmp
+        - mountPath: /var/www/symfony/public/build/css/generated
+          name: app-volume
+          subPath: var+www+symfony+public+build+css+generated
+
+
+      - name: webapp-phpfpm
+        image: regis.myagora.fr/rossignol-dev/rossignolb2b:master-6bbd626
+        env:
+        # DB
+        - name: DATABASE_USR
+          valueFrom:
+            secretKeyRef:
+              name: rossignol-mysql
+              key: username
+        - name: DATABASE_PWD
+          valueFrom:
+            secretKeyRef:
+              name: rossignol-mysql
+              key: password
+        - name: DATABASE_DB
+          valueFrom:
+            secretKeyRef:
+              name: rossignol-mysql
+              key: database
+        - name: DATABASE_URL
+          value: "mysql://$(DATABASE_USR):$(DATABASE_PWD)@master-0.mysql-master:3306/$(DATABASE_DB)"
+        # REDIS
+        - name: ENQUEUE_DSN
+          value: "redis://redis-cache?vendor=phpredis"
+        # SF
+        - name: SYMFONY_DB
+          value: "$(DATABASE_DB)"
+        - name: SYMFONY_VIRTUAL_HOST
+          value: webapp.dev.rossignol.dpk-agc-cl01.agoracalyce.net
+        # SOLR
+        - name: SOLR_HOST
+          value: solr-0.solr.rossignol-dev.svc.cluster.local
+        # MAIL
+        - name: MAILER_URL
+          value: smtp://$(MAILHOG_SERVICE_HOST):$(MAILHOG_SERVICE_PORT_SMPTP)
+        # JMS JOBS
+        - name: JOBS_IMPORT_QUEUE_SIZE
+          value: "3"
+        # BDM
+        - name: BDM_URL
+          value: http://bdmrct.grouperossignol.com/scripts/json.php
+        - name: BDM_MEDIA_URL
+          value: http://bdm.grouperossignol.com
+        - name: BDM_LOGIN
+          value: netapsys
+        - name: BDM_PASSWORD
+          value: I86FeTEgUPEJe
+        - name: BDM_CONNECTION_TIME_OUT
+          value: "10200"
+        # Il faut mettre des limites sinon celle par defaut s'applique
+        # FYI :
+        #             limits:
+        #               memory: "256Mi"
+        #               cpu: "500m"
+        #             requests:
+        #               memory: "128Mi"
+        #               cpu: "125m"
+        resources:
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+          requests:
+            memory: "4Gi"
+            cpu: "2"
+          # Il faut un test de liveness et readyness
+        volumeMounts:
+        - name: corum
+          mountPath: /ftp
+          subPath: sftp/rossignol
+        #- mountPath: /ftp
+        #  name: app-volume
+        #  subPath: ftp
+        - mountPath: /var/www/symfony/public/uploads
+          name: app-volume
+          subPath: var+www+symfony+public+uploads
+        - mountPath: /tmp
+          name: app-volume
+          subPath: phpfpm+tmp
+        - mountPath: /var/www/symfony/public/build/css/generated
+          name: app-volume
+          subPath: var+www+symfony+public+build+css+generated
+
+
+      - name: jobs-phpfpm
+        image: regis.myagora.fr/rossignol-dev/rossignolb2b-jobs:master-6bbd626
+        env:
+        # DB
+        - name: DATABASE_USR
+          valueFrom:
+            secretKeyRef:
+              name: rossignol-mysql
+              key: username
+        - name: DATABASE_PWD
+          valueFrom:
+            secretKeyRef:
+              name: rossignol-mysql
+              key: password
+        - name: DATABASE_DB
+          valueFrom:
+            secretKeyRef:
+              name: rossignol-mysql
+              key: database
+        - name: DATABASE_URL
+          value: "mysql://$(DATABASE_USR):$(DATABASE_PWD)@master-0.mysql-master:3306/$(DATABASE_DB)"
+        # REDIS
+        - name: ENQUEUE_DSN
+          value: "redis://redis-cache?vendor=phpredis"
+        # SF
+        - name: SYMFONY_DB
+          value: "$(DATABASE_DB)"
+        # SOLR
+        - name: SOLR_HOST
+          value: solr-0.solr.rossignol-dev.svc.cluster.local
+        # MAIL
+        - name: MAILER_URL
+          value: smtp://$(MAILHOG_SERVICE_HOST):$(MAILHOG_SERVICE_PORT_SMPTP)
+        # JMS JOBS
+        - name: JOBS_IMPORT_QUEUE_SIZE
+          value: "3"
+        # BDM
+        - name: BDM_URL
+          value: http://bdmrct.grouperossignol.com/scripts/json.php
+        - name: BDM_MEDIA_URL
+          value: http://bdm.grouperossignol.com
+        - name: BDM_LOGIN
+          value: netapsys
+        - name: BDM_PASSWORD
+          value: I86FeTEgUPEJe
+        - name: BDM_CONNECTION_TIME_OUT
+          value: "10200"
+        # Il faut mettre des limites sinon celle par defaut s'applique
+        # FYI :
+        #             limits:
+        #               memory: "256Mi"
+        #               cpu: "500m"
+        #             requests:
+        #               memory: "128Mi"
+        #               cpu: "125m"
+        resources:
+          limits:
+            memory: "4Gi"
+            cpu: "2"
+          requests:
+            memory: "4Gi"
+            cpu: "2"
+          # Il faut un test de liveness et readyness
+        volumeMounts:
+        - name: corum
+          mountPath: /ftp
+          subPath: sftp/rossignol
+        #- mountPath: /ftp
+        #  name: app-volume
+        #  subPath: ftp
+        - mountPath: /var/www/symfony/public/uploads
+          name: app-volume
+          subPath: var+www+symfony+public+uploads
+        - mountPath: /tmp
+          name: app-volume
+          subPath: phpfpm+tmp
+
+      volumes:
+      - name: app-volume
+        persistentVolumeClaim:
+          claimName: rossignol-dev-webapp-front
+      - name: corum
+        persistentVolumeClaim:
+          claimName: rossignol-dev-corum-fast

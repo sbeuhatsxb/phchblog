@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+
+cd /var/www/symfony
+exec s6-setuidgid ${SF_UID-1000}:${SF_GID-1000} /infinity.sh "./bin/console jms-job-queue:run --verbose --no-debug --max-concurrent-jobs=${JOBS_IMPORT_QUEUE_SIZE-4} --queue=IMPORT" "/var/www/symfony/var/log/jobs-runner.log"

@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Global xdebug activation
+if [ "$ENABLE_XDEBUG" != "true" ]; then
+    echo "Disabling xdebug"
+    sed -i "s/^zend_extension/;zend_extension/" $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
+else
+    echo "Enabling xdebug_extension"
+    sed -i "s/^;zend_extension/zend_extension/" $PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini
+
+    # XDEBUG REMOTE DEBUGGING
+    if [ "$ENABLE_XDEBUG_REMOTE_DEBUGGING" = "true" ]; then
+        echo "Enabling xdebug remote debugging"
+
+        if [ -z "$XDEBUG_REMOTE_HOST" ]; then
+            XDEBUG_REMOTE_HOST=$(ip route show |grep default |cut -d " " -f 3)
+        fi
+
+        echo "xdebug.remote_autostart = 0
+xdebug.remote_connect_back = 0
+xdebug.remote_enable = 1
+xdebug.remote_handler = \"dbgp\"
+xdebug.remote_host = \"${XDEBUG_REMOTE_HOST}\"
+xdebug.idekey = \"${XDEBUG_IDEKEY-PHPSTORM}\"
+xdebug.remote_port = ${XDEBUG_REMOTE_PORT-9000}
+" > $PHP_INI_DIR/conf.d/xdebug-remote.ini
+    fi
+
+    # XDEBUG PROFILING
+    if [ "$ENABLE_XDEBUG_PROFILING" = "true" ]; then
+        echo "Enabling xdebug profiling"
+        echo "xdebug.max_nesting_level = 1000
+xdebug.profiler_enable_trigger=1
+xdebug.profiler_output_dir=/var/www/hdeuxoffice/app/cache
+" > $PHP_INI_DIR/conf.d/xdebug-profiling.ini
+    fi
+fi

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+cmd="vendor/bin/codecept $@"
+
+. $(dirname $0)/test-bash

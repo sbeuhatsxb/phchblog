@@ -1,0 +1,11 @@
+#!/bin/bash
+
+program=$(basename $0)
+
+if [ -z "$cmd" ]; then
+    cmd="redis-cli $@"
+fi
+
+. $(dirname $0)/.common
+
+exec docker-compose exec ${COMPOSE_OPTS} redis $cmd

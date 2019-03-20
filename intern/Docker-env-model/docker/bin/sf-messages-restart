@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#kill $(ps ax |egrep "php -d xdebug.profiler_enable=1 ./bin/console (enqueue:consume|app:tick)" | awk '{print $1}')
+kill $(ps ax |egrep "php ./bin/console (enqueue:transport:consume|app:tick)" | awk '{print $1}')

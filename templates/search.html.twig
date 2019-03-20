@@ -1,0 +1,56 @@
+{% extends 'homepage.html.twig' %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('matchHeight') }}
+{#{{ parent() }}#}
+    {% block stylesheets %}
+        <script src="http://code.jquery.com/jquery-3.3.1.min.js"
+                integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+                crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+                integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+                crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+              integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+              crossorigin="anonymous">
+        {# Google Webfont #}
+        <link href="https://fonts.googleapis.com/css?family=Oswald:300" rel="stylesheet" type="text/css">
+        <link href='https://fonts.googleapis.com/css?family=Merriweather:400,700' rel='stylesheet' type='text/css'/>
+        <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,700,400italic,700italic' rel='stylesheet'
+              type='text/css'/>
+
+        <link rel="stylesheet" href="{{ asset('build/app.css') }}" type="text/css">
+        <link rel="shortcut icon" href="../public/favicon.ico">
+    {% endblock %}
+    {{ encore_entry_script_tags('js/search') }}
+{% endblock %}
+
+{% block body %}
+    <div class="container" style="min-height: 500px">
+
+        <div class="container">
+            <div class="row">
+                <form action="{{ path('searchbar') }}" method="get">
+                    <div class="container" style="margin-bottom: 20px">
+                        <div class="row">
+                            <input name="q"
+                                   class="form-control search-field"
+                                   placeholder="Recherche"
+                                   autocomplete="off"
+                                   autofocus
+                                   data-no-results-message="Pas de résultat"
+                            >
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div id="results"></div>
+        {#MAIN ARTICLE END#}
+
+    </div>
+    {#SECOND CONTAINER END#}
+
+
+    {#END BLOCK BODY#}
+{% endblock %}

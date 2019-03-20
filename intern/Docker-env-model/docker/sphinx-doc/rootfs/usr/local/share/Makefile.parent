@@ -1,0 +1,13 @@
+CONTAINER_IP := $(shell /usr/local/bin/get-self-ip.sh)
+
+.DEFAULT_GOAL := help
+
+livehtml:
+	authbind --deep sphinx-autobuild --ignore "*.swp" --ignore "*~" --ignore="*.swpx" --ignore="*.swx" --ignore "*.out" \
+        --ignore "*.toc" \
+        --ignore "*.aux" \
+        --ignore "*.idx" \
+        --ignore "*.ind" \
+        --ignore "*.ilg" \
+        --ignore "4913" \
+        --ignore "*.tex" -H $(CONTAINER_IP) -b html -p 80 $(ALLSPHINXOPTS) $(BUILDDIR)/html

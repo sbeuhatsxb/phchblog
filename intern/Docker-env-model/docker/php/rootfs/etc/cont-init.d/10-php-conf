@@ -1,0 +1,13 @@
+#!/usr/bin/with-contenv sh
+
+# XDEBUG
+do-xdebug-conf
+
+# GLOBAL OPERATING MODE ; by default we do production
+if [ "${PHP_DEV_MODE-false}" = "false" ]; then
+    echo "Enabling php production settings"
+    ln -sf "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+else
+    echo "Enabling php development settings"
+    ln -sf "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+fi

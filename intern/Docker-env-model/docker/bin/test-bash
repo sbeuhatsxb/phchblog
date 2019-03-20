@@ -1,0 +1,15 @@
+#!/bin/bash
+
+program=$(basename $0)
+
+if [ -z "$cmd" ]; then
+    if [ "$program" = "test-bash" ] ; then
+        cmd=bash
+    else
+        cmd="$program $@"
+    fi
+fi
+
+. $(dirname $0)/.common
+
+exec docker-compose exec --user=${SF_UID-1000}:${SF_GID-1000} ${COMPOSE_OPTS} symfonytest $cmd

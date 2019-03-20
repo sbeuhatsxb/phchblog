@@ -1,0 +1,15 @@
+# correct options so we can pipe with this script
+if [ -p /dev/stdin ]; then
+    COMPOSE_OPTS="-T"
+else
+    COMPOSE_OPTS=""
+fi
+
+# Source .env
+if [ -z "$projectDir" ]; then
+    projectDir=$(readlink -f $(dirname $0)/../..)
+    cd $projectDir
+fi
+
+#. .env # This can be a source of error with special characters (& or ? for instance)
+eval "$(sed 's/^\([^=]\+\)=\(.\+\)$/\1="\2"/' .env)"

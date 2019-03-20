@@ -1,0 +1,61 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rossignol-dev-webapp-front-https
+  namespace: rossignol-dev
+  annotations:
+    kubernetes.io/ingress.class: "nginx-agc"
+    # Conf nginx 
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    # Ceci pour éviter de forcer la redirection http > https
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+    # Conf letsencrypt
+    certmanager.k8s.io/cluster-issuer: letsencrypt
+  labels:
+    app: webapp-front
+spec:
+  rules:
+  - host: webapp.dev.rossignol.dpk-agc-cl01.agoracalyce.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: webapp-front
+          servicePort: 80
+  tls:
+  - hosts: 
+    - webapp.dev.rossignol.dpk-agc-cl01.agoracalyce.net
+    secretName: cert-letsencrypt-webapp-front
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: rossignol-dev-solr-http
+  namespace: rossignol-dev
+  annotations:
+    kubernetes.io/ingress.class: "nginx-agc"
+    # Conf nginx 
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+    # Ceci pour éviter de forcer la redirection http > https
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+
+    # Conf letsencrypt
+    certmanager.k8s.io/cluster-issuer: letsencrypt
+
+
+    # Conf htaccess
+    nginx.ingress.kubernetes.io/auth-type: basic
+    nginx.ingress.kubernetes.io/auth-secret: solr-auth
+    nginx.ingress.kubernetes.io/auth-realm: "Authentication Required"
+  labels:
+    app: rossignol-solr
+spec:
+  rules:
+  - host: solr.dev.rossignol.dpk-agc-cl01.agoracalyce.net
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: solr
+          servicePort: 8983

@@ -1,0 +1,5 @@
+#!/usr/bin/with-contenv sh
+
+cd /var/www/symfony
+
+exec s6-setuidgid ${SF_UID-1000}:${SF_GID-1000} /infinity.sh "php ./bin/console enqueue:transport:consume App\\Processor\\ImportMessageProcessor --queue=enqueue.app.default --no-debug --time-limit=1day --memory-limit=1024 --message-limit=10000 --idle-timeout=1 --receive-timeout=1000" "/var/www/symfony/var/log/messages-runner.log" "0.1"

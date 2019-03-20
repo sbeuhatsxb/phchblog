@@ -1,0 +1,13 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: rossignol-dev-webapp-front
+  namespace: rossignol-dev
+  annotations:
+    volume.beta.kubernetes.io/storage-class: "rossignol-dev-fast01"
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi
