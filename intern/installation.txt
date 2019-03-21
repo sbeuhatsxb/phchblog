@@ -4,7 +4,6 @@ Installation
 Sources
 +++++++
 
-#. Clone the project `cyano <https://gitlab.netapsys.fr/netapsys/cyano>`_
 #. Initialize submodule folder for cyano-data: ``git submodule init && git submodule update``
 #. Ignore new changes of submodule: ``git update-index --assume-unchanged cyano-data``
 
